@@ -1,9 +1,9 @@
-﻿
+
 
 import { usePathname } from "@/lib/hooks/useAppLocation";
 import { useCallback, useState, useEffect, useMemo } from "react";
 import { usePageStore } from "@/lib/store/pageStore";
-import { listenForPopupMessages } from "@/lib${import.meta.env.BASE_URL}popup-bus";
+import { listenForPopupMessages } from "@/lib/popup-bus";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -48,35 +48,35 @@ type PaymentHistoryData = {
 const mockTableData: PersonalRehabilitationData[] = Array.from({ length: 5 }, (_, i) => ({
   id: i + 1,
   accountNumber: `ACC100${i}`,
-  applicantName: `?좎껌??{i}`,
-  accountStatus: i % 2 === 0 ? "?뺤긽" : "?곗껜",
-  productName: "?щ쭩濡?,
+  applicantName: `신청인${i}`,
+  accountStatus: i % 2 === 0 ? "정상" : "연체",
+  productName: "희망론",
   loanStartDate: "20230115",
   loanEndDate: "20280114",
   loanAmount: 25000000 * (i + 1),
   customerNumber: `CUST200${i}`,
-  debtorName: `梨꾨Т??{i}`,
+  debtorName: `채무자${i}`,
   residentRegistrationNumber: `900101-123456${i}`,
 }));
 
 // Column definitions for the main table
 const columns: ColumnDef<PersonalRehabilitationData>[] = [
-  { accessorKey: "id", header: "?쒕쾲" },
-  { accessorKey: "accountNumber", header: "怨꾩쥖踰덊샇" },
-  { accessorKey: "applicantName", header: "?좎껌?몃챸" },
-  { accessorKey: "accountStatus", header: "怨꾩쥖?곹깭" },
-  { accessorKey: "productName", header: "?곹뭹紐? },
-  { accessorKey: "loanStartDate", header: "?異쒖떊洹쒖씪?? },
-  { accessorKey: "loanEndDate", header: "?異쒕쭔湲곗씪?? },
-  { accessorKey: "loanAmount", header: "?異쒓툑?? },
+  { accessorKey: "id", header: "순번" },
+  { accessorKey: "accountNumber", header: "계좌번호" },
+  { accessorKey: "applicantName", header: "신청인명" },
+  { accessorKey: "accountStatus", header: "계좌상태" },
+  { accessorKey: "productName", header: "상품명" },
+  { accessorKey: "loanStartDate", header: "대출신규일자" },
+  { accessorKey: "loanEndDate", header: "대출만기일자" },
+  { accessorKey: "loanAmount", header: "대출금액" },
 ];
 
 // Column definitions for the Payment History table
 const paymentHistoryColumns: ColumnDef<PaymentHistoryData>[] = [
-  { accessorKey: "installmentNumber", header: "?⑹엯?뚯감" },
-  { accessorKey: "paymentAmount", header: "?⑹엯湲덉븸" },
-  { accessorKey: "actualPaymentAmount", header: "?ㅼ젣?⑹엯湲덉븸" },
-  { accessorKey: "startDate", header: "湲곗궛?쇱옄" },
+  { accessorKey: "installmentNumber", header: "납입회차" },
+  { accessorKey: "paymentAmount", header: "납입금액" },
+  { accessorKey: "actualPaymentAmount", header: "실제납입금액" },
+  { accessorKey: "startDate", header: "기산일자" },
 ];
 
 // DSL for the top filter section
@@ -85,13 +85,13 @@ const topFilterLayout: FilterLayout = [
     type: "grid",
     columns: 3,
     filters: [
-      { name: "targetCustomerNumber", type: "text", label: "??곸옄怨좉컼踰덊샇", readonly: true },
-      { name: "accountNumberSearch", type: "text", label: "怨꾩쥖踰덊샇", readonly: true },
+      { name: "targetCustomerNumber", type: "text", label: "대상자고객번호", readonly: true },
+      { name: "accountNumberSearch", type: "text", label: "계좌번호", readonly: true },
       {
         name: "bondAdjustmentType",
         type: "select",
-        label: "梨꾧텒議곗젙援щ텇",
-        options: [{ value: "personal-rehabilitation", label: "媛쒖씤?뚯깮" }],
+        label: "채권조정구분",
+        options: [{ value: "personal-rehabilitation", label: "개인회생" }],
         defaultValue: "personal-rehabilitation",
         readonly: true,
       },
@@ -99,7 +99,7 @@ const topFilterLayout: FilterLayout = [
   },
 ];
 
-// DSL for the "媛쒖씤?뚯깮 ?먯옣?뺣낫" tab - Moved inside component
+// DSL for the "개인회생 원장정보" tab - Moved inside component
 
 
 export default function PersonalRehabilitationPage() {
@@ -128,78 +128,90 @@ export default function PersonalRehabilitationPage() {
     return cleanup;
   }, [tabId, updateFilters]);
 
-  // DSL for the "媛쒖씤?뚯깮 ?먯옣?뺣낫" tab
+  // DSL for the "개인회생 원장정보" tab
   const personalRehabilitationFilterLayout: FilterLayout = useMemo(() => [
     {
       type: "grid",
       columns: 4,
       filters: [
-        // 1??        { 
+        // 1행
+        { 
           name: "customerNumber", 
           type: "long-search", 
-          label: "怨좉컼踰덊샇",
+          label: "고객번호",
           onButtonClick: (value?: any, e?: React.MouseEvent<HTMLElement>) => {
             e?.preventDefault();
             const customerNumber = value || '';
-            window.open(`${import.meta.env.BASE_URL}popup/customer-search?customerNumber=${customerNumber}&openerTabId=${tabId}`, 'CustomerSearch', 'width=1600,height=800');
+            window.open(`/popup/customer-search?customerNumber=${customerNumber}&openerTabId=${tabId}`, 'CustomerSearch', 'width=1600,height=800');
           }
         },
-        { name: "debtorName", type: "text", label: "梨꾨Т?먮챸", readonly: true },
+        { name: "debtorName", type: "text", label: "채무자명", readonly: true },
         { 
           name: "applicantName", 
           type: "long-search", 
-          label: "?좎껌?먮챸", 
+          label: "신청자명", 
           readonly: true,
           onButtonClick: (value?: any, e?: React.MouseEvent<HTMLElement>) => {
             e?.preventDefault();
             const name = value || '';
-            window.open(`${import.meta.env.BASE_URL}popup/customer-search?customerName=${name}&openerTabId=${tabId}&sourceFilter=applicantName`, 'CustomerSearch', 'width=1600,height=800');
+            window.open(`/popup/customer-search?customerName=${name}&openerTabId=${tabId}&sourceFilter=applicantName`, 'CustomerSearch', 'width=1600,height=800');
           }
         },
-        { name: "residentRegistrationNumber", type: "text", label: "二쇰??깅줉踰덊샇", readonly: true },
-        // 2??        { name: "accountNumber", type: "text", label: "怨꾩쥖踰덊샇", readonly: true },
-        { name: "virtualAccount", type: "text", label: "媛?곴퀎醫?, readonly: true },
-        { name: "loanBalance", type: "number", label: "?異쒖옍??, readonly: true },
-        { name: "provisionalPayment", type: "number", label: "媛吏湲됯툑" },
-        // 3??        { name: "jurisdictionCourt", type: "select", label: "愿?좊쾿??, options: [] },
-        { name: "caseNumber", type: "text", label: "?ш굔踰덊샇" },
-        { name: "progressStatus", type: "select", label: "吏꾪뻾?곹깭", options: [] },
-        { name: "serviceDate", type: "date", label: "?〓떖?쇱옄" },
-        // 4??        { name: "receiptDate", type: "date", label: "?묒닔?쇱옄" },
-        { name: "prohibitionOrderDate", type: "date", label: "湲덉?紐낅졊?쇱옄" },
-        { name: "suspensionOrderDate", type: "date", label: "以묒?紐낅졊?쇱옄" },
-        { name: "commencementDate", type: "date", label: "媛쒖떆?쇱옄" },
-        // 5??        { name: "dismissalDate", type: "date", label: "湲곌컖?쇱옄" },
-        { name: "withdrawalDate", type: "date", label: "痍⑦븯?쇱옄" },
-        { name: "abolitionDate", type: "date", label: "?먯??쇱옄" },
-        { name: "authorizationDate", type: "date", label: "?멸??쇱옄" },
-        // 6??        { name: "reportedPrincipal", type: "number", label: "?좉퀬?먭툑" },
-        { name: "reportedAmount", type: "number", label: "?좉퀬湲덉븸" },
-        { name: "confirmedAmount", type: "number", label: "?뺤젙湲덉븸" },
-        { name: "reportExclusionDate", type: "date", label: "蹂닿퀬?쒖쇅泥섎━?쇱옄" },
-        // 7??        { name: "repaymentSum", type: "number", label: "蹂?쒓툑?⑷퀎" },
-        { name: "difference", type: "number", label: "李⑥븸" },
-        { name: "bondNumber", type: "text", label: "梨꾧텒踰덊샇" },
-        { name: "successionStatus", type: "select", label: "?밴퀎?щ?", options: [] },
-        // 8??        { name: "totalPaymentInstallments", type: "number", label: "珥앸궔?낇쉶李? },
-        { name: "repaymentStartDate", type: "date", label: "蹂?쒖떆?묒씪", popoverSide: 'top' },
-        { name: "repaymentEndDate", type: "date", label: "蹂?쒖쥌猷뚯씪??, popoverSide: 'top' },
-        { name: "accountReportStatus", type: "select", label: "怨꾩쥖?좉퀬?쒖쑀臾?, options: [] },
-        // 9??        { name: "selfEmployedStatus", type: "select", label: "?먯쁺?낆옄?좊Т", options: [] },
-        { name: "workplace", type: "text", label: "洹쇰Т泥? },
-        { name: "monthlyAverageIncome", type: "number", label: "?뷀룊洹좎냼?? },
-        { name: "judicialDepartment", type: "text", label: "?ы뙋遺", readonly: true },
-        // 10??        { name: "paymentRate", type: "number", label: "?⑹엯?? },
-        { name: "cumulativeRepayment", type: "number", label: "蹂?쒕늻怨? },
-        { name: "repaymentRatio", type: "number", label: "蹂?쒕퉬?? },
-        { name: "priorityRepaymentInstallment", type: "number", label: "?곗꽑蹂?쒗쉶李? },
-        // 11??        { name: "specialNotes", type: "text", label: "?뱀씠?ы빆", colSpan: 3 },
-        { name: "objection", type: "checkbox", label: "?댁쓽?좎껌" },
-        // 12??        { 
+        { name: "residentRegistrationNumber", type: "text", label: "주민등록번호", readonly: true },
+        // 2행
+        { name: "accountNumber", type: "text", label: "계좌번호", readonly: true },
+        { name: "virtualAccount", type: "text", label: "가상계좌", readonly: true },
+        { name: "loanBalance", type: "number", label: "대출잔액", readonly: true },
+        { name: "provisionalPayment", type: "number", label: "가지급금" },
+        // 3행
+        { name: "jurisdictionCourt", type: "select", label: "관할법원", options: [] },
+        { name: "caseNumber", type: "text", label: "사건번호" },
+        { name: "progressStatus", type: "select", label: "진행상태", options: [] },
+        { name: "serviceDate", type: "date", label: "송달일자" },
+        // 4행
+        { name: "receiptDate", type: "date", label: "접수일자" },
+        { name: "prohibitionOrderDate", type: "date", label: "금지명령일자" },
+        { name: "suspensionOrderDate", type: "date", label: "중지명령일자" },
+        { name: "commencementDate", type: "date", label: "개시일자" },
+        // 5행
+        { name: "dismissalDate", type: "date", label: "기각일자" },
+        { name: "withdrawalDate", type: "date", label: "취하일자" },
+        { name: "abolitionDate", type: "date", label: "폐지일자" },
+        { name: "authorizationDate", type: "date", label: "인가일자" },
+        // 6행
+        { name: "reportedPrincipal", type: "number", label: "신고원금" },
+        { name: "reportedAmount", type: "number", label: "신고금액" },
+        { name: "confirmedAmount", type: "number", label: "확정금액" },
+        { name: "reportExclusionDate", type: "date", label: "보고제외처리일자" },
+        // 7행
+        { name: "repaymentSum", type: "number", label: "변제금합계" },
+        { name: "difference", type: "number", label: "차액" },
+        { name: "bondNumber", type: "text", label: "채권번호" },
+        { name: "successionStatus", type: "select", label: "승계여부", options: [] },
+        // 8행
+        { name: "totalPaymentInstallments", type: "number", label: "총납입회차" },
+        { name: "repaymentStartDate", type: "date", label: "변제시작일", popoverSide: 'top' },
+        { name: "repaymentEndDate", type: "date", label: "변제종료일자", popoverSide: 'top' },
+        { name: "accountReportStatus", type: "select", label: "계좌신고서유무", options: [] },
+        // 9행
+        { name: "selfEmployedStatus", type: "select", label: "자영업자유무", options: [] },
+        { name: "workplace", type: "text", label: "근무처" },
+        { name: "monthlyAverageIncome", type: "number", label: "월평균소득" },
+        { name: "judicialDepartment", type: "text", label: "재판부", readonly: true },
+        // 10행
+        { name: "paymentRate", type: "number", label: "납입율" },
+        { name: "cumulativeRepayment", type: "number", label: "변제누계" },
+        { name: "repaymentRatio", type: "number", label: "변제비율" },
+        { name: "priorityRepaymentInstallment", type: "number", label: "우선변제회차" },
+        // 11행
+        { name: "specialNotes", type: "text", label: "특이사항", colSpan: 3 },
+        { name: "objection", type: "checkbox", label: "이의신청" },
+        // 12행
+        { 
           name: "unprocessedAmount", 
           type: "input-button", 
-          label: "誘몄쿂由ш툑??, 
-          buttonText: "泥섎━",
+          label: "미처리금액", 
+          buttonText: "처리",
           onButtonClick: (value: any) => {
             const popupWidth = 1000;
             const popupHeight = 800;
@@ -209,14 +221,14 @@ export default function PersonalRehabilitationPage() {
             const amountParam = value ? `?unprocessedAmount=${value}` : '';
 
             window.open(
-              `${import.meta.env.BASE_URL}popup/unprocessed-amount-processing${amountParam}`,
+              `/popup/unprocessed-amount-processing${amountParam}`,
               'UnprocessedAmountProcessing',
               `width=${popupWidth},height=${popupHeight},top=${top},left=${left}`
             );
           }
         },
-        { name: "finalProcessingDate", type: "date", label: "理쒖쥌泥섎━?쇱옄", readonly: true },
-        { name: "confirmationStatus", type: "select", label: "?뺤젙?щ?", options: [] },
+        { name: "finalProcessingDate", type: "date", label: "최종처리일자", readonly: true },
+        { name: "confirmationStatus", type: "select", label: "확정여부", options: [] },
       ],
     },
   ], [tabId]);
@@ -238,9 +250,9 @@ export default function PersonalRehabilitationPage() {
       virtualAccount: `V-ACC-${row.accountNumber.slice(-4)}`,
       loanBalance: row.loanAmount,
       provisionalPayment: 120000,
-      jurisdictionCourt: "?쒖슱?뚯깮踰뺤썝",
-      caseNumber: `2023媛쒗쉶${Math.floor(Math.random() * 90000) + 10000}`,
-      progressStatus: "?멸?",
+      jurisdictionCourt: "서울회생법원",
+      caseNumber: `2023개회${Math.floor(Math.random() * 90000) + 10000}`,
+      progressStatus: "인가",
       serviceDate: new Date().toISOString(),
       receiptDate: new Date("2023-01-10").toISOString(),
       prohibitionOrderDate: new Date("2023-01-15").toISOString(),
@@ -257,24 +269,24 @@ export default function PersonalRehabilitationPage() {
       repaymentSum: 15000000,
       difference: (row.loanAmount + 450000) - 15000000,
       bondNumber: `BOND-${row.accountNumber.slice(-6)}`,
-      successionStatus: "?꾨땲??,
+      successionStatus: "아니오",
       totalPaymentInstallments: 60,
       repaymentStartDate: new Date("2023-09-01").toISOString(),
       repaymentEndDate: new Date("2028-08-31").toISOString(),
-      accountReportStatus: "??,
-      selfEmployedStatus: "?꾨땲??,
-      workplace: "(二?媛?섎떎??,
+      accountReportStatus: "유",
+      selfEmployedStatus: "아니오",
+      workplace: "(주)가나다라",
       monthlyAverageIncome: 3500000,
-      judicialDepartment: "???뚯궛遺",
+      judicialDepartment: "제3파산부",
       paymentRate: 80,
       cumulativeRepayment: 12000000,
       repaymentRatio: 40,
       priorityRepaymentInstallment: 3,
-      specialNotes: "?밸퀎???ы빆 ?놁쓬.",
+      specialNotes: "특별한 사항 없음.",
       objection: true,
       unprocessedAmount: 150000,
       finalProcessingDate: new Date().toISOString(),
-      confirmationStatus: "??,
+      confirmationStatus: "예",
     };
     updateFilters(tabId, mockLedgerData);
 
@@ -298,19 +310,19 @@ export default function PersonalRehabilitationPage() {
     <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <img src={TitleIcon} alt="??댄? ?꾩씠肄? width={40} height={40} />
-          <h2 className="text-lg font-semibold">媛쒖씤?뚯깮愿由?/h2>
+          <img src={TitleIcon} alt="타이틀 아이콘" width={40} height={40} />
+          <h2 className="text-lg font-semibold">개인회생관리</h2>
         </div>
         <Breadcrumb>
           <BreadcrumbList>
-            <BreadcrumbItem>??/BreadcrumbItem>
+            <BreadcrumbItem>홈</BreadcrumbItem>
             <BreadcrumbSeparator />
-            <BreadcrumbItem>?ъ떊?ы썑</BreadcrumbItem>
+            <BreadcrumbItem>여신사후</BreadcrumbItem>
             <BreadcrumbSeparator />
-            <BreadcrumbItem>梨꾧텒議곗젙</BreadcrumbItem>
+            <BreadcrumbItem>채권조정</BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>媛쒖씤?뚯깮愿由?/BreadcrumbPage>
+              <BreadcrumbPage>개인회생관리</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
@@ -329,10 +341,10 @@ export default function PersonalRehabilitationPage() {
                 console.log("[PersonalRehabilitation] Opening DocumentSearch popup with customerNumber:", customerNumberToPass);
 
                 if (customerNumberToPass) {
-                  window.open(`${import.meta.env.BASE_URL}popup/document-search?customerNumber=${customerNumberToPass}&openerTabId=${tabId}`, 'DocumentSearch', 'width=1600,height=800');
+                  window.open(`/popup/document-search?customerNumber=${customerNumberToPass}&openerTabId=${tabId}`, 'DocumentSearch', 'width=1600,height=800');
                 } else {
-                  toast.warning("議고쉶??怨좉컼???놁뒿?덈떎.", {
-                    description: "癒쇱? 議고쉶寃곌낵 ?뚯씠釉붿뿉???됱쓣 ?좏깮?섍굅???먯옣?뺣낫??怨좉컼踰덊샇瑜??낅젰??二쇱떗?쒖삤.",
+                  toast.warning("조회된 고객이 없습니다.", {
+                    description: "먼저 조회결과 테이블에서 행을 선택하거나 원장정보에 고객번호를 입력해 주십시오.",
                     duration: 3000,
                   });
                 }
@@ -343,10 +355,10 @@ export default function PersonalRehabilitationPage() {
               onClick: () => {
                 const customerNumber = currentState.filters.customerNumber;
                 if (customerNumber) {
-                  window.open(`${import.meta.env.BASE_URL}popup/document-scan?customerNumber=${customerNumber}`, 'DocumentScan', 'width=1600,height=800');
+                  window.open(`/popup/document-scan?customerNumber=${customerNumber}`, 'DocumentScan', 'width=1600,height=800');
                 } else {
-                  toast.warning("議고쉶??怨좉컼???놁뒿?덈떎.", {
-                    description: "癒쇱? 議고쉶寃곌낵 ?뚯씠釉붿뿉???됱쓣 ?좏깮?섏뿬 ?먯옣?뺣낫瑜?議고쉶??二쇱떗?쒖삤.",
+                  toast.warning("조회된 고객이 없습니다.", {
+                    description: "먼저 조회결과 테이블에서 행을 선택하여 원장정보를 조회해 주십시오.",
                     duration: 3000,
                   });
                 }
@@ -366,7 +378,7 @@ export default function PersonalRehabilitationPage() {
         onChange={handleFilterChange}
       />
       <DataTable
-        title="議고쉶寃곌낵"
+        title="조회결과"
         columns={columns}
         data={currentState.tables?.['personalRehabilitationTable'] || []}
         amountColumns={["loanAmount"]}
@@ -382,7 +394,7 @@ export default function PersonalRehabilitationPage() {
           rightContent={
             activeTab === "payment-history" && (
               <div className="flex justify-end gap-2">
-                <Button variant="secondary" className="h-[35px] w-28 cursor-pointer rounded-[18px] bg-[#e5e5e5] text-black hover:bg-gray-300">?됱텛媛</Button>
+                <Button variant="secondary" className="h-[35px] w-28 cursor-pointer rounded-[18px] bg-[#e5e5e5] text-black hover:bg-gray-300">행추가</Button>
                 <Button 
                   variant="secondary" 
                   className="h-[35px] w-28 cursor-pointer rounded-[18px] bg-[#e5e5e5] text-black hover:bg-gray-300"
@@ -390,44 +402,44 @@ export default function PersonalRehabilitationPage() {
                     const { accountNumber, customerNumber } = currentState?.filters || {};
                     if (accountNumber) {
                       window.open(
-                        `${import.meta.env.BASE_URL}popup/modification-history?customerNumber=${customerNumber || ''}&accountNumber=${accountNumber}&openerTabId=${tabId}`,
+                        `/popup/modification-history?customerNumber=${customerNumber || ''}&accountNumber=${accountNumber}&openerTabId=${tabId}`,
                         'ModificationHistory',
                         'width=1600,height=800'
                       );
                     } else {
-                      toast.warning("議고쉶??怨꾩쥖媛 ?놁뒿?덈떎.", {
-                        description: "癒쇱? 議고쉶寃곌낵 ?뚯씠釉붿뿉???됱쓣 ?좏깮?섏뿬 二쇱떗?쒖삤.",
+                      toast.warning("조회된 계좌가 없습니다.", {
+                        description: "먼저 조회결과 테이블에서 행을 선택하여 주십시오.",
                         duration: 3000,
                       });
                     }
                   }}
                 >
-                  ?섏젙?댁뿭
+                  수정내역
                 </Button>
-                <Button variant="secondary" className="h-[35px] w-28 cursor-pointer rounded-[18px] bg-[#e5e5e5] text-black hover:bg-gray-300">?곸꽭議고쉶</Button>
+                <Button variant="secondary" className="h-[35px] w-28 cursor-pointer rounded-[18px] bg-[#e5e5e5] text-black hover:bg-gray-300">상세조회</Button>
                 <Button 
                   variant="secondary" 
                   className="h-[35px] w-28 cursor-pointer rounded-[18px] bg-[#e5e5e5] text-black hover:bg-gray-300"
                   onClick={() => {
                     const accountNumber = currentState.filters.accountNumber;
                     if (accountNumber) {
-                      window.open(`${import.meta.env.BASE_URL}popup/transaction-history?accountNumber=${accountNumber}`, 'TransactionHistory', 'width=1600,height=800');
+                      window.open(`/popup/transaction-history?accountNumber=${accountNumber}`, 'TransactionHistory', 'width=1600,height=800');
                     } else {
-                      toast.warning("議고쉶??怨꾩쥖媛 ?놁뒿?덈떎.", {
-                        description: "癒쇱? 議고쉶寃곌낵 ?뚯씠釉붿뿉???됱쓣 ?좏깮?섏뿬 二쇱떗?쒖삤.",
+                      toast.warning("조회된 계좌가 없습니다.", {
+                        description: "먼저 조회결과 테이블에서 행을 선택하여 주십시오.",
                         duration: 3000,
                       });
                     }
                   }}
                 >
-                  嫄곕옒?댁뿭
+                  거래내역
                 </Button>
               </div>
             )
           }
         >
-          <TabsTrigger value="ledger-info">媛쒖씤?뚯깮 ?먯옣?뺣낫</TabsTrigger>
-          <TabsTrigger value="payment-history">?⑹엯?댁뿭</TabsTrigger>
+          <TabsTrigger value="ledger-info">개인회생 원장정보</TabsTrigger>
+          <TabsTrigger value="payment-history">납입내역</TabsTrigger>
         </TabsList>
         <TabsContent value="ledger-info">
           <FilterContainer

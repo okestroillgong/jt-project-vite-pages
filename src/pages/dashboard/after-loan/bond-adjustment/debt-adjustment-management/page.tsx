@@ -1,9 +1,9 @@
-﻿
+
 
 import { usePathname } from "@/lib/hooks/useAppLocation";
 import { useCallback, useState, useEffect } from "react";
 import { usePageStore } from "@/lib/store/pageStore";
-import { listenForPopupMessages } from "@/lib${import.meta.env.BASE_URL}popup-bus";
+import { listenForPopupMessages } from "@/lib/popup-bus";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -37,9 +37,9 @@ const mockMainData: DebtAdjustmentData[] = [
   {
     id: 1,
     accountNo: "123-456-7890",
-    applicantName: "?띻만??,
+    applicantName: "홍길동",
     bondAmount: 50000000,
-    productName: "?좎슜?異?,
+    productName: "신용대출",
     loanNewDate: "20230101",
     loanMaturityDate: "20250101",
     loanAmount: 50000000,
@@ -47,9 +47,9 @@ const mockMainData: DebtAdjustmentData[] = [
   {
     id: 2,
     accountNo: "987-654-3210",
-    applicantName: "?댁닚??,
+    applicantName: "이순신",
     bondAmount: 30000000,
-    productName: "二쇳깮?대낫?異?,
+    productName: "주택담보대출",
     loanNewDate: "20220515",
     loanMaturityDate: "20320515",
     loanAmount: 150000000,
@@ -58,14 +58,14 @@ const mockMainData: DebtAdjustmentData[] = [
 
 // Column definitions for the main grid
 const mainColumns: ColumnDef<DebtAdjustmentData>[] = [
-  { accessorKey: "id", header: "?쒕쾲" },
-  { accessorKey: "accountNo", header: "怨꾩쥖踰덊샇" },
-  { accessorKey: "applicantName", header: "?좎껌?몃챸" },
-  { accessorKey: "bondAmount", header: "梨꾧텒湲덉븸" },
-  { accessorKey: "productName", header: "?곹뭹紐? },
-  { accessorKey: "loanNewDate", header: "?異쒖떊洹쒖씪?? },
-  { accessorKey: "loanMaturityDate", header: "?異쒕쭔湲곗씪?? },
-  { accessorKey: "loanAmount", header: "?異쒓툑?? },
+  { accessorKey: "id", header: "순번" },
+  { accessorKey: "accountNo", header: "계좌번호" },
+  { accessorKey: "applicantName", header: "신청인명" },
+  { accessorKey: "bondAmount", header: "채권금액" },
+  { accessorKey: "productName", header: "상품명" },
+  { accessorKey: "loanNewDate", header: "대출신규일자" },
+  { accessorKey: "loanMaturityDate", header: "대출만기일자" },
+  { accessorKey: "loanAmount", header: "대출금액" },
 ];
 
 // Data type for the payment history grid
@@ -116,10 +116,10 @@ const paymentColumns: ColumnDef<PaymentHistoryData>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-  { accessorKey: "paymentRound", header: "?⑹엯?뚯감" },
-  { accessorKey: "paymentAmount", header: "?⑹엯湲덉븸" },
-  { accessorKey: "actualPaymentAmount", header: "?ㅼ젣?⑹엯湲덉븸" },
-  { accessorKey: "transactionDate", header: "嫄곕옒?쇱옄" },
+  { accessorKey: "paymentRound", header: "납입회차" },
+  { accessorKey: "paymentAmount", header: "납입금액" },
+  { accessorKey: "actualPaymentAmount", header: "실제납입금액" },
+  { accessorKey: "transactionDate", header: "거래일자" },
 ];
 
 export default function DebtAdjustmentManagementPage() {
@@ -155,19 +155,19 @@ export default function DebtAdjustmentManagementPage() {
         {
           name: "targetCustomerNumber",
           type: "text",
-          label: "??곸옄怨좉컼踰덊샇",
+          label: "대상자고객번호",
           placeholder: "06800____",
         },
         {
           name: "accountNumber",
           type: "text",
-          label: "怨꾩쥖踰덊샇",
+          label: "계좌번호",
         },
         {
           name: "bondAdjustmentType",
           type: "select",
-          label: "梨꾧텒議곗젙援щ텇",
-          options: [{ value: "debt-adjustment", label: "梨꾨Т議곗젙" }, { value: "other", label: "湲고?" }],
+          label: "채권조정구분",
+          options: [{ value: "debt-adjustment", label: "채무조정" }, { value: "other", label: "기타" }],
           defaultValue: "debt-adjustment",
         },
       ],
@@ -184,65 +184,65 @@ export default function DebtAdjustmentManagementPage() {
         { 
           name: "customerNumber", 
           type: "long-search", 
-          label: "怨좉컼踰덊샇",
+          label: "고객번호",
           onButtonClick: (value?: any, e?: React.MouseEvent<HTMLElement>) => {
              e?.preventDefault();
              e?.stopPropagation();
              const customerNumber = value || '';
-             window.open(`${import.meta.env.BASE_URL}popup/customer-search?customerNumber=${customerNumber}&openerTabId=${tabId}&sourceFilter=customerNumber`, 'CustomerSearch', 'width=1600,height=800');
+             window.open(`/popup/customer-search?customerNumber=${customerNumber}&openerTabId=${tabId}&sourceFilter=customerNumber`, 'CustomerSearch', 'width=1600,height=800');
           }
         },
-          { name: "debtorName", type: "text", label: "梨꾨Т?먮챸", readonly: true },
+          { name: "debtorName", type: "text", label: "채무자명", readonly: true },
           { 
             name: "applicantName_ledger", 
             type: "long-search", 
-            label: "?좎껌?먮챸",
+            label: "신청자명",
             readonly: true,
              onButtonClick: (value?: any, e?: React.MouseEvent<HTMLElement>) => {
                  e?.preventDefault();
                  console.log("Applicant Search Clicked");
              }
           },
-          { name: "rrn", type: "text", label: "二쇰??깅줉踰덊샇", readonly: true },
+          { name: "rrn", type: "text", label: "주민등록번호", readonly: true },
   
           // Row 2
-          { name: "accountNo_ledger", type: "text", label: "怨꾩쥖踰덊샇", readonly: true },
-          { name: "loanBalance", type: "number", label: "?異쒖옍??, readonly: true },
+          { name: "accountNo_ledger", type: "text", label: "계좌번호", readonly: true },
+          { name: "loanBalance", type: "number", label: "대출잔액", readonly: true },
           { name: "spacer_2_1", type: "spacer" },
           { name: "spacer_2_2", type: "spacer" },
   
           // Row 3
-          { name: "repaymentCapabilityScore", type: "text", label: "?곹솚?λ젰?됯??먯닔" },
-          { name: "debtAdjustmentType_ledger", type: "text", label: "梨꾨Т議곗젙?좏삎" },
-          { name: "debtAdjExecutionDate", type: "date", label: "梨꾨Т議곗젙?ㅽ뻾?쇱옄", popoverSide: "top" },
+          { name: "repaymentCapabilityScore", type: "text", label: "상환능력평가점수" },
+          { name: "debtAdjustmentType_ledger", type: "text", label: "채무조정유형" },
+          { name: "debtAdjExecutionDate", type: "date", label: "채무조정실행일자", popoverSide: "top" },
           { name: "spacer_3_1", type: "spacer" },
   
           // Row 4
-          { name: "basicReductionRate", type: "text", label: "湲곕낯 媛먮㈃?? },
-          { name: "specialReductionRate", type: "text", label: "?밸퀎 媛먮㈃?? },
-          { name: "sincereRepaymentReductionRate", type: "text", label: "?깆떎?곹솚 媛먮㈃?? },
-          { name: "finalReductionRate", type: "text", label: "理쒖쥌 媛먮㈃?? },
+          { name: "basicReductionRate", type: "text", label: "기본 감면율" },
+          { name: "specialReductionRate", type: "text", label: "특별 감면율" },
+          { name: "sincereRepaymentReductionRate", type: "text", label: "성실상환 감면율" },
+          { name: "finalReductionRate", type: "text", label: "최종 감면율" },
   
           // Row 5
-          { name: "monthlyPaymentDate", type: "text", label: "???⑹엯?쇱옄" },
-          { name: "repaymentPeriodMonths", type: "number", label: "?곹솚湲곌컙(??" },
-          { name: "initialPaymentAmount", type: "number", label: "理쒖큹 遺덉엯湲덉븸" },
-          { name: "monthlyPaymentAmount", type: "number", label: "??遺덉엯湲덉븸" },
+          { name: "monthlyPaymentDate", type: "text", label: "월 납입일자" },
+          { name: "repaymentPeriodMonths", type: "number", label: "상환기간(월)" },
+          { name: "initialPaymentAmount", type: "number", label: "최초 불입금액" },
+          { name: "monthlyPaymentAmount", type: "number", label: "월 불입금액" },
   
           // Row 6
-          { name: "repaymentStartDate", type: "date", label: "蹂?쒖떆?묒씪", popoverSide: "top" },
-          { name: "repaymentEndDate", type: "date", label: "蹂?쒖쥌猷뚯씪", popoverSide: "top" },
-          { name: "cancellationDate", type: "date", label: "痍⑥냼?쇱옄", popoverSide: "top" },
-          { name: "nextPaymentDate", type: "date", label: "李④린?⑹엯??, popoverSide: "top" },
+          { name: "repaymentStartDate", type: "date", label: "변제시작일", popoverSide: "top" },
+          { name: "repaymentEndDate", type: "date", label: "변제종료일", popoverSide: "top" },
+          { name: "cancellationDate", type: "date", label: "취소일자", popoverSide: "top" },
+          { name: "nextPaymentDate", type: "date", label: "차기납입일", popoverSide: "top" },
   
           // Row 7
-          { name: "receivingBank", type: "text", label: "?섎궔??? },
-          { name: "receivingAccount", type: "text", label: "?섎궔怨꾩쥖" },
-          { name: "paymentRate", type: "text", label: "?⑹엯?? },
-          { name: "paymentTotal", type: "number", label: "?⑹엯?⑷퀎" },
+          { name: "receivingBank", type: "text", label: "수납은행" },
+          { name: "receivingAccount", type: "text", label: "수납계좌" },
+          { name: "paymentRate", type: "text", label: "납입율" },
+          { name: "paymentTotal", type: "number", label: "납입합계" },
   
           // Row 8
-          { name: "specialNotes", type: "text", label: "?뱀씠?ы빆", colSpan: 3 },
+          { name: "specialNotes", type: "text", label: "특이사항", colSpan: 3 },
           { name: "spacer_8_1", type: "spacer" },
         ],
       },
@@ -269,13 +269,13 @@ export default function DebtAdjustmentManagementPage() {
           accountNo_ledger: row.accountNo,
           loanBalance: row.loanAmount, // Using loan amount as balance for demo
           repaymentCapabilityScore: "850",
-          debtAdjustmentType_ledger: "媛쒖씤?뚯깮",
+          debtAdjustmentType_ledger: "개인회생",
           debtAdjExecutionDate: "2024-03-15",
           basicReductionRate: "30%",
           specialReductionRate: "10%",
           sincereRepaymentReductionRate: "5%",
           finalReductionRate: "45%",
-          monthlyPaymentDate: "留ㅼ썡 15??,
+          monthlyPaymentDate: "매월 15일",
           repaymentPeriodMonths: 60,
           initialPaymentAmount: 500000,
           monthlyPaymentAmount: 450000,
@@ -283,11 +283,11 @@ export default function DebtAdjustmentManagementPage() {
           repaymentEndDate: "2029-03-15",
           cancellationDate: "",
           nextPaymentDate: "2024-05-15",
-          receivingBank: "?좏븳???,
+          receivingBank: "신한은행",
           receivingAccount: "110-123-456789",
           paymentRate: "98%",
           paymentTotal: 27000000,
-          specialNotes: "?깆떎 ?곹솚 以?,
+          specialNotes: "성실 상환 중",
       };
       updateFilters(tabId, mockLedgerData);
   
@@ -318,19 +318,19 @@ export default function DebtAdjustmentManagementPage() {
       <div className="flex flex-col gap-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <img src={TitleIcon} alt="??댄? ?꾩씠肄? width={40} height={40} />
-            <h2 className="text-lg font-semibold">梨꾨Т議곗젙愿由?/h2>
+            <img src={TitleIcon} alt="타이틀 아이콘" width={40} height={40} />
+            <h2 className="text-lg font-semibold">채무조정관리</h2>
           </div>
           <Breadcrumb>
             <BreadcrumbList>
-              <BreadcrumbItem>??/BreadcrumbItem>
+              <BreadcrumbItem>홈</BreadcrumbItem>
               <BreadcrumbSeparator />
-              <BreadcrumbItem>?ъ떊?ы썑</BreadcrumbItem>
+              <BreadcrumbItem>여신사후</BreadcrumbItem>
               <BreadcrumbSeparator />
-              <BreadcrumbItem>梨꾧텒議곗젙</BreadcrumbItem>
+              <BreadcrumbItem>채권조정</BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage>梨꾨Т議곗젙愿由?/BreadcrumbPage>
+                <BreadcrumbPage>채무조정관리</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -360,7 +360,7 @@ export default function DebtAdjustmentManagementPage() {
   
         {/* Main Grid */}
         <DataTable
-          title="?뱁뻾"
+          title="당행"
           columns={mainColumns}
           data={mockMainData}
           amountColumns={["bondAmount", "loanAmount"]}
@@ -371,7 +371,7 @@ export default function DebtAdjustmentManagementPage() {
   
         {/* Ledger Info Form */}
         <div className="flex flex-col gap-4">
-          <h3 className="font-semibold">梨꾨Т議곗젙 ?먯옣?뺣낫</h3>
+          <h3 className="font-semibold">채무조정 원장정보</h3>
           <FilterContainer 
             filterLayout={ledgerFilterLayout} 
             values={currentState.filters}
@@ -384,13 +384,13 @@ export default function DebtAdjustmentManagementPage() {
           <div className="flex items-center justify-between">
                <div/>
                <div className="flex gap-2">
-                   <Button variant="outline" size="sm" onClick={handleActionClick("AddRow")}>?됱텛媛</Button>
-                   <Button variant="outline" size="sm" onClick={handleActionClick("ModificationHistory")}>?섏젙?댁뿭</Button>
-                   <Button variant="outline" size="sm" onClick={handleActionClick("TransactionHistory")}>嫄곕옒?댁뿭</Button>
+                   <Button variant="outline" size="sm" onClick={handleActionClick("AddRow")}>행추가</Button>
+                   <Button variant="outline" size="sm" onClick={handleActionClick("ModificationHistory")}>수정내역</Button>
+                   <Button variant="outline" size="sm" onClick={handleActionClick("TransactionHistory")}>거래내역</Button>
                </div>
           </div>
           <DataTable
-              title="?⑹엯?댁뿭"
+              title="납입내역"
               columns={paymentColumns}
               data={paymentHistory}
               amountColumns={["paymentAmount", "actualPaymentAmount"]}
@@ -400,4 +400,3 @@ export default function DebtAdjustmentManagementPage() {
       </div>
     );
   }
-

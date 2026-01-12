@@ -1,4 +1,6 @@
-﻿import { Button } from "@/components/ui/button";
+
+
+import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
@@ -15,19 +17,7 @@ import IconScan from "@/assets/icons/js/오른쪽버튼아이콘07문서스캔�
 import IconAttach from "@/assets/icons/js/오른쪽버튼아이콘08파일첨부흰색";
 import IconSearchDoc from "@/assets/icons/js/오른쪽버튼아이콘09문서검색흰색";
 import IconDataReset from "@/assets/icons/js/오른쪽버튼아이콘10데이터초기화흰색";
-import {
-  X,
-  CheckCircle,
-  FilePenLine,
-  FileText,
-  ShieldCheck,
-  Percent,
-  Play,
-  Pause,
-  XSquare,
-  ExternalLink,
-  Star,
-} from "lucide-react";
+import { X, CheckCircle, FilePenLine, FileText, ShieldCheck, Percent, Hourglass, History, Printer, Gavel, Play, Pause, XSquare, ExternalLink, Star } from "lucide-react";
 import type { ComponentType, SVGProps } from "react";
 import { usePathname } from "@/lib/hooks/useAppLocation";
 import { useFavoritesStore } from "@/lib/store/favoritesStore";
@@ -38,31 +28,86 @@ import { getPageNameOrFallback } from "@/lib/utils/pageNames";
 type ActionConfig = {
   icon: ComponentType<SVGProps<SVGSVGElement>>;
   text: string;
-  tooltip: string;
-  onClick: () => void;
-  visible?: boolean;
+  handler?: () => void; // handler는 선택적 프로퍼티입니다.
 };
 
-// 각 페이지에서 사용할 액션 버튼 구성을 정의합니다.
-// pathKey는 URL path의 key로 사용되며, 각 키에 해당하는 버튼들이 렌더링됩니다.
-type ActionsConfig = {
-  [pathKey: string]: ActionConfig[];
+const iconMap: Record<string, ActionConfig> = {
+  reset: {
+    icon: IconReset,
+    text: "페이지 새로고침",
+    handler: () => window.location.reload(),
+  },
+  excel: { icon: IconExcel, text: "엑셀다운로드" },
+  "excel-generate": { icon: IconSave, text: "엑셀생성" },
+  delete: { icon: IconDelete, text: "삭제" },
+  search: { icon: IconSearch, text: "조회" },
+  register: { icon: IconRegister, text: "등록" },
+  new: { icon: IconRegister, text: "신규" },
+  save: { icon: IconSave, text: "저장" },
+  process: { icon: IconSave, text: "처리" },
+  scan: { icon: IconScan, text: "문서 스캔" },
+  attach: { icon: IconAttach, text: "파일첨부" },
+  "file-upload": { icon: IconAttach, text: "파일 업로드" },
+  "excel-upload": { icon: IconAttach, text: "엑셀업로드" },
+  "court-search": { icon: Gavel, text: "법원사건조회" },
+  edit: { icon: FilePenLine, text: "수정" },
+    searchDoc: { 
+      icon: IconSearchDoc, 
+      text: "문서검색",
+    },  "data-reset": { icon: IconDataReset, text: "데이터 초기화" },
+  close: { icon: X, text: "닫기", handler: () => window.close() },
+  assignConfirm: { icon: CheckCircle, text: "지정확인" },
+  modify: { icon: FilePenLine, text: "수정" },
+  auditOpinion: { icon: FileText, text: "감리미의견" },
+  auditConfirm: { icon: ShieldCheck, text: "감리확인" },
+  surcharge: { icon: Percent, text: "할증차금" },
+  progressStatus: { icon: Hourglass, text: "진행상태" },
+  history: { icon: History, text: "수정내역" },
+  print: { icon: Printer, text: "인쇄" },
+  "loss-confirmation": { icon: CheckCircle, text: "로스확정" },
+  "doc-reception": { icon: FileText, text: "문서접수" },
+  execute: { icon: Play, text: "실행" },
+  stop: { icon: Pause, text: "중지" },
+  terminate: { icon: XSquare, text: "종료" },
+  "open-popup": { icon: ExternalLink, text: "새 창으로 열기" },
+  favorite: { icon: Star, text: "즐겨찾기" },
 };
 
-export default function RightActions() {
-  const pathname = usePathname();
-  const { currentTabId, getTabById } = useTabStore();
-  const { isFavorite, toggleFavorite } = useFavoritesStore();
+export type ActionType = keyof typeof iconMap;
 
-  // 현재 탭 정보
-  const currentTab = currentTabId ? getTabById(currentTabId) : null;
-  const tabId = currentTab?.id ?? pathname;
-  const label = currentTab?.label ?? getPageNameOrFallback(tabId);
+interface RightActionsProps {
+  actions: {
+    id: ActionType;
+    onClick?: () => void; // 'reset'과 같이 고정된 동작이 있는 버튼은 onClick이 필요 없습니다.
+  }[];
+}
 
-  // Favorites 팝업 열기
-  const openFavoritesPopup = () => {
-    const popupWidth = 1200;
-    const popupHeight = 800;
+const getButtonColors = (id: ActionType) => {
+  switch (id) {
+    case "register":
+    case "save":
+      return "bg-[#ababab] hover:bg-[#ababab]/90";
+    case "search":
+      return "bg-[#45de85] hover:bg-[#45de85]/90";
+    default:
+      return "bg-[#25292e] hover:bg-[#25292e]/90";
+  }
+};
+
+export function RightActions({ actions }: RightActionsProps) {
+  const tabId = usePathname();
+  const { isFavorite } = useFavoritesStore();
+  const activeTab = useTabStore((state) => state.tabs.find(t => t.id === tabId));
+  const isCurrentFavorite = isFavorite(tabId);
+
+  // Filter out 'favorite' from actions array (it will be rendered first automatically)
+  const filteredActions = actions.filter(action => action.id !== 'favorite');
+
+  // Favorite button handler - opens favorites management popup
+  const handleFavoriteClick = () => {
+    const label = activeTab?.label || getPageNameOrFallback(tabId);
+    const popupWidth = 800;
+    const popupHeight = 600;
     const left = (window.screen.width / 2) - (popupWidth / 2);
     const top = (window.screen.height / 2) - (popupHeight / 2);
 
@@ -73,74 +118,90 @@ export default function RightActions() {
     );
   };
 
-  // 경로 매칭용 키(기본적으로 pathname)
-  const pathKey = pathname;
-
-  // 버튼 동작(샘플/placeholder)
-  const handleReset = () => console.log("초기화 클릭", tabId);
-  const handleExcel = () => console.log("엑셀 다운로드 클릭", tabId);
-  const handleDelete = () => console.log("삭제 클릭", tabId);
-  const handleSearch = () => console.log("조회 클릭", tabId);
-  const handleRegister = () => console.log("등록 클릭", tabId);
-  const handleSave = () => console.log("저장 클릭", tabId);
-  const handleScan = () => console.log("문서 스캔 클릭", tabId);
-  const handleAttach = () => console.log("파일 첨부 클릭", tabId);
-  const handleDataReset = () => console.log("데이터 초기화 클릭", tabId);
-
-  const actionsConfig: ActionsConfig = {
-    // 예시: 특정 경로별 버튼 구성
-    "/after-loan/bond-adjustment/bond-inquiry/": [
-      { icon: IconReset, text: "초기화", tooltip: "초기화", onClick: handleReset },
-      { icon: IconSearch, text: "조회", tooltip: "조회", onClick: handleSearch },
-      { icon: IconExcel, text: "엑셀", tooltip: "엑셀 다운로드", onClick: handleExcel },
-      { icon: Star as any, text: "즐겨찾기", tooltip: "즐겨찾기 관리", onClick: openFavoritesPopup },
-    ],
-  };
-
-  // 기본 버튼(경로별 구성 없을 때)
-  const defaultActions: ActionConfig[] = [
-    { icon: IconReset, text: "초기화", tooltip: "초기화", onClick: handleReset },
-    { icon: IconSearch, text: "조회", tooltip: "조회", onClick: handleSearch },
-  ];
-
-  const actions = actionsConfig[pathKey] ?? defaultActions;
-
   return (
-    <div className="flex items-center gap-2">
-      <TooltipProvider>
-        {actions.map((action, idx) => {
-          const visible = action.visible ?? true;
-          if (!visible) return null;
+    <TooltipProvider>
+      <div className="flex items-center gap-2">
+        {/* Favorite button - always rendered first */}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="secondary"
+              className={`flex items-center justify-center text-white p-0 cursor-pointer ${
+                isCurrentFavorite
+                  ? "bg-[#f5a623] hover:bg-[#f5a623]/90"
+                  : "bg-[#25292e] hover:bg-[#25292e]/90"
+              }`}
+              style={{ width: "35px", height: "35px", borderRadius: "8px" }}
+              onClick={handleFavoriteClick}
+            >
+              <Star className={isCurrentFavorite ? "size-5 fill-current" : "size-5"} />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>{isCurrentFavorite ? '즐겨찾기 해제' : '즐겨찾기 추가'}</p>
+          </TooltipContent>
+        </Tooltip>
+
+        {/* Other action buttons */}
+        {filteredActions.map(({ id, onClick }) => {
+          const actionConfig = iconMap[id];
+          if (!actionConfig) return null;
+
+          const { icon: Icon, text, handler } = actionConfig;
+          const colors = getButtonColors(id);
+
+          // Allow overriding the default handler if an onClick is provided
+          let finalOnClick = onClick || handler;
+
+          if (id === 'searchDoc' && !onClick) {
+            finalOnClick = () => {
+              const popupWidth = 1600;
+              const popupHeight = 800;
+              const left = (window.screen.width / 2) - (popupWidth / 2);
+              const top = (window.screen.height / 2) - (popupHeight / 2);
+              window.open(
+                `/popup/document-search?openerTabId=${tabId}`,
+                'DocumentSearch',
+                `width=${popupWidth},height=${popupHeight},top=${top},left=${left}`
+              );
+            }
+          }
+
+          if (id === 'open-popup' && !onClick) {
+            finalOnClick = () => {
+              const popupWidth = 1600;
+              const popupHeight = 800;
+              const left = (window.screen.width / 2) - (popupWidth / 2);
+              const top = (window.screen.height / 2) - (popupHeight / 2);
+              // 현재 페이지를 팝업으로 열기 (popup 경로로 변환)
+              const popupPath = `/popup${tabId}`;
+              window.open(
+                popupPath,
+                'PagePopup',
+                `width=${popupWidth},height=${popupHeight},top=${top},left=${left}`
+              );
+            }
+          }
 
           return (
-            <Tooltip key={`${action.text}-${idx}`}>
+            <Tooltip key={id}>
               <TooltipTrigger asChild>
                 <Button
-                  variant="default"
-                  className="h-9 px-3 gap-2"
-                  onClick={action.onClick}
+                  variant="secondary"
+                  className={`flex items-center justify-center text-white p-0 cursor-pointer ${colors}`}
+                  style={{ width: "35px", height: "35px", borderRadius: "8px" }}
+                  onClick={finalOnClick}
                 >
-                  <action.icon className="h-4 w-4" />
-                  <span className="text-sm">{action.text}</span>
+                  <Icon className="size-5" />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent>{action.tooltip}</TooltipContent>
+              <TooltipContent>
+                <p>{text}</p>
+              </TooltipContent>
             </Tooltip>
           );
         })}
-      </TooltipProvider>
-
-      {/* 현재 탭 즐겨찾기 토글(예: 별 아이콘) */}
-      <Button
-        variant="outline"
-        className="h-9 px-3 gap-2"
-        onClick={() => toggleFavorite({ id: tabId, label })}
-      >
-        <Star className="h-4 w-4" />
-        <span className="text-sm">
-          {isFavorite(tabId) ? "해제" : "추가"}
-        </span>
-      </Button>
-    </div>
+      </div>
+    </TooltipProvider>
   );
 }

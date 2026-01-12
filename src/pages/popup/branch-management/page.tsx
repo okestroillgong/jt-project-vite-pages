@@ -1,4 +1,4 @@
-﻿
+
 
 import { useState, useEffect, useCallback, Suspense } from "react";
 import { useSearchParams } from "@/lib/hooks/useAppLocation";
@@ -21,18 +21,18 @@ type BranchData = {
 const mockData: BranchData[] = Array.from({ length: 8 }, (_, i) => ({
   id: i + 1,
   branchCode: `B${100 + i}`,
-  branchName: `媛뺣궓${i + 1}吏??,
-  parentBranch: "媛뺣궓蹂몄젏",
+  branchName: `강남${i + 1}지점`,
+  parentBranch: "강남본점",
   commonCode: `C${2000 + i}`,
 }));
 
 // Column definitions for the table
 const columns: ColumnDef<BranchData>[] = [
-  { accessorKey: "id", header: "?쒕쾲" },
-  { accessorKey: "branchCode", header: "遺?먯퐫?? },
-  { accessorKey: "branchName", header: "遺?먮챸" },
-  { accessorKey: "parentBranch", header: "?곸쐞遺?? },
-  { accessorKey: "commonCode", header: "湲덉쑖湲곌?怨듯넻肄붾뱶" },
+  { accessorKey: "id", header: "순번" },
+  { accessorKey: "branchCode", header: "부점코드" },
+  { accessorKey: "branchName", header: "부점명" },
+  { accessorKey: "parentBranch", header: "상위부점" },
+  { accessorKey: "commonCode", header: "금융기관공통코드" },
 ];
 
 // DSL for the filter section
@@ -41,8 +41,8 @@ const filterLayout: FilterLayout = [
         type: "grid",
         columns: 2,
         filters: [
-            { name: "branchCode", type: "text", label: "遺?먯퐫?? },
-            { name: "branchName", type: "text", label: "遺?먮챸" },
+            { name: "branchCode", type: "text", label: "부점코드" },
+            { name: "branchName", type: "text", label: "부점명" },
         ],
     },
     {
@@ -52,10 +52,10 @@ const filterLayout: FilterLayout = [
             { 
               name: "includeClosed", 
               type: "select", 
-              label: "?먯젏寃??, 
+              label: "폐점검색", 
               options: [
-                { value: "include", label: "?ы븿" },
-                { value: "exclude", label: "誘명룷?? },
+                { value: "include", label: "포함" },
+                { value: "exclude", label: "미포함" },
               ],
               defaultValue: "exclude",
             },
@@ -63,7 +63,7 @@ const filterLayout: FilterLayout = [
     },
 ];
 
-import { postPopupMessage } from "@/lib${import.meta.env.BASE_URL}popup-bus";
+import { postPopupMessage } from "@/lib/popup-bus";
 
 // ... (imports)
 
@@ -97,15 +97,15 @@ function BranchManagementPopupContent() {
     if (selectedRow) {
       handleRowDoubleClick(selectedRow);
     } else {
-      alert("泥섎━???됱쓣 ?좏깮?댁＜?몄슂.");
+      alert("처리할 행을 선택해주세요.");
     }
   };
 
   const popupActions: PopupAction[] = [
-    { id: "search", text: "議고쉶" },
-    { id: "process", text: "泥섎━", onClick: handleProcess },
-    { id: "reset", text: "珥덇린??, onClick: handleReset },
-    { id: "close", text: "?リ린", onClick: () => window.close() },
+    { id: "search", text: "조회" },
+    { id: "process", text: "처리", onClick: handleProcess },
+    { id: "reset", text: "초기화", onClick: handleReset },
+    { id: "close", text: "닫기", onClick: () => window.close() },
   ];
 
   const handleRowDoubleClick = (row: BranchData) => {
@@ -124,7 +124,7 @@ function BranchManagementPopupContent() {
   return (
     <div className="flex flex-col gap-4 p-4 bg-gray-50 min-h-screen">
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-bold">遺?먭???/h2>
+        <h2 className="text-xl font-bold">부점검색</h2>
         <PopupRightActions actions={popupActions} />
       </div>
 
@@ -138,7 +138,7 @@ function BranchManagementPopupContent() {
 
       <div className="flex-grow">
         <DataTable 
-          title="寃?됰궡??
+          title="검색내용"
           columns={columns} 
           data={mockData} 
           onRowClick={setSelectedRow}
@@ -152,4 +152,3 @@ function BranchManagementPopupContent() {
 export default function BranchManagementPopupPage() {
   return <BranchManagementPopupContent />;
 }
-

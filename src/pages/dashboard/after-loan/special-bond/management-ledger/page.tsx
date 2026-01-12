@@ -1,9 +1,9 @@
-﻿
+
 
 import { usePathname } from "@/lib/hooks/useAppLocation";
 import { useCallback, useEffect, useState } from "react";
 import { usePageStore } from "@/lib/store/pageStore";
-import { listenForPopupMessages } from "@/lib${import.meta.env.BASE_URL}popup-bus";
+import { listenForPopupMessages } from "@/lib/popup-bus";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -43,7 +43,7 @@ const mockData: SpecialBondData[] = [
   {
     id: 1,
     inclusionDate: "20240101",
-    inclusionReason: "?곗껜",
+    inclusionReason: "연체",
     accountNumber: "123-456-7890",
     inclusionPrincipal: 10000000,
     inclusionInterest: 500000,
@@ -55,7 +55,7 @@ const mockData: SpecialBondData[] = [
   {
     id: 2,
     inclusionDate: "20240201",
-    inclusionReason: "遺??,
+    inclusionReason: "부실",
     accountNumber: "987-654-3210",
     inclusionPrincipal: 20000000,
     inclusionInterest: 1000000,
@@ -70,47 +70,47 @@ const mockData: SpecialBondData[] = [
 const columns: ColumnDef<SpecialBondData>[] = [
   {
     accessorKey: "inclusionDate",
-    header: "?몄엯?쇱옄",
+    header: "편입일자",
   },
   {
     accessorKey: "inclusionReason",
-    header: "?몄엯?ъ쑀",
+    header: "편입사유",
   },
   {
     accessorKey: "accountNumber",
-    header: "怨꾩쥖踰덊샇",
+    header: "계좌번호",
   },
   {
-    header: "?몄엯?뱀떆 梨꾧텒?댁슜",
+    header: "편입당시 채권내용",
     columns: [
       {
         accessorKey: "inclusionPrincipal",
-        header: "?먭툑",
+        header: "원금",
       },
       {
         accessorKey: "inclusionInterest",
-        header: "?댁옄",
+        header: "이자",
       },
       {
         accessorKey: "inclusionTotal",
-        header: "怨?,
+        header: "계",
       },
     ],
   },
   {
-    header: "梨꾧텒?뚯닔?댁슜",
+    header: "채권회수내용",
     columns: [
       {
         accessorKey: "recoveryPrincipal",
-        header: "?먭툑",
+        header: "원금",
       },
       {
         accessorKey: "recoveryInterest",
-        header: "?댁옄",
+        header: "이자",
       },
       {
         accessorKey: "recoveryTotal",
-        header: "怨?,
+        header: "계",
       },
     ],
   },
@@ -146,19 +146,19 @@ export default function SpecialBondLedgerPage() {
         { 
           name: "customerNumber", 
           type: "long-search", 
-          label: "怨좉컼踰덊샇",
+          label: "고객번호",
           onButtonClick: (value?: any, e?: React.MouseEvent<HTMLElement>) => {
             e?.preventDefault();
             e?.stopPropagation();
             const customerNumber = value || '';
             const customerName = currentState?.filters.customerName || '';
-            window.open(`${import.meta.env.BASE_URL}popup/customer-search?customerNumber=${customerNumber}&customerName=${customerName}&openerTabId=${tabId}&sourceFilter=customerNumber`, 'CustomerSearch', 'width=1600,height=800');
+            window.open(`/popup/customer-search?customerNumber=${customerNumber}&customerName=${customerName}&openerTabId=${tabId}&sourceFilter=customerNumber`, 'CustomerSearch', 'width=1600,height=800');
           }
         },
         { 
           name: "customerName", 
           type: "text", 
-          label: "怨좉컼紐?,
+          label: "고객명",
           readonly: true 
         },
       ],
@@ -184,19 +184,19 @@ export default function SpecialBondLedgerPage() {
     <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <img src={TitleIcon} alt="??댄? ?꾩씠肄? width={40} height={40} />
-          <h2 className="text-lg font-semibold">?뱀닔梨꾧텒 愿由щ???/h2>
+          <img src={TitleIcon} alt="타이틀 아이콘" width={40} height={40} />
+          <h2 className="text-lg font-semibold">특수채권 관리대장</h2>
         </div>
         <Breadcrumb>
           <BreadcrumbList>
-            <BreadcrumbItem>??/BreadcrumbItem>
+            <BreadcrumbItem>홈</BreadcrumbItem>
             <BreadcrumbSeparator />
-            <BreadcrumbItem>?ъ떊?ы썑</BreadcrumbItem>
+            <BreadcrumbItem>여신사후</BreadcrumbItem>
             <BreadcrumbSeparator />
-            <BreadcrumbItem>?뱀닔梨꾧텒</BreadcrumbItem>
+            <BreadcrumbItem>특수채권</BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>?뱀닔梨꾧텒 愿由щ???/BreadcrumbPage>
+              <BreadcrumbPage>특수채권 관리대장</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
@@ -223,22 +223,22 @@ export default function SpecialBondLedgerPage() {
         />
       </div>
 
-      {/* ??낵 ?뚯씠釉붿쓣 媛먯떥???곸뿭 */}
+      {/* 탭과 테이블을 감싸는 영역 */}
       <div className="flex flex-col">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="justify-start bg-transparent p-0">
-            <TabsTrigger value="bond-details">梨꾧텒?댁슜</TabsTrigger>
-            <TabsTrigger value="address-change">梨꾨Т愿?⑥옄 二쇱냼 蹂寃?/TabsTrigger>
-            <TabsTrigger value="statute-limit">?쒗슚 愿由??댁슜</TabsTrigger>
-            <TabsTrigger value="counseling">?곷떞愿由?/TabsTrigger>
-            <TabsTrigger value="legal-procedure">諛쒓껄?ъ궛 諛?踰뺤쟻 ?덉감</TabsTrigger>
-            <TabsTrigger value="provisional-payment">媛吏湲됯툑 吏湲??댁슜</TabsTrigger>
+            <TabsTrigger value="bond-details">채권내용</TabsTrigger>
+            <TabsTrigger value="address-change">채무관련자 주소 변경</TabsTrigger>
+            <TabsTrigger value="statute-limit">시효 관리 내용</TabsTrigger>
+            <TabsTrigger value="counseling">상담관리</TabsTrigger>
+            <TabsTrigger value="legal-procedure">발견재산 및 법적 절차</TabsTrigger>
+            <TabsTrigger value="provisional-payment">가지급금 지급 내용</TabsTrigger>
           </TabsList>
         </Tabs>
 
-        {/* ?뚯씠釉??곸뿭 - ???꾨옒??諛붾줈 遺숈쓬 */}
+        {/* 테이블 영역 - 탭 아래에 바로 붙음 */}
         <div className="p-0">
-            {/* ?뚯씠釉붿쓽 ?먯껜 border瑜??놁븷嫄곕굹 議곗젙?댁빞 源붾걫?????덉쓬 */}
+            {/* 테이블의 자체 border를 없애거나 조정해야 깔끔할 수 있음 */}
             <div className="[&_div.rounded-md.border]:border-0">
               <DataTable
                 columns={columns}

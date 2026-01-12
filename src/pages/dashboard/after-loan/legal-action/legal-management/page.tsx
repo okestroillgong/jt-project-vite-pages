@@ -1,9 +1,9 @@
-﻿
+
 
 import { usePathname } from "@/lib/hooks/useAppLocation";
 import { useCallback, useState, useEffect } from "react";
 import { usePageStore } from "@/lib/store/pageStore";
-import { listenForPopupMessages } from "@/lib${import.meta.env.BASE_URL}popup-bus";
+import { listenForPopupMessages } from "@/lib/popup-bus";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -47,40 +47,40 @@ const createColumn = (accessorKey: string, header: string): ColumnDef<LegalManag
 });
 
 const listColumns: ColumnDef<LegalManagementListItem>[] = [
-  createColumn("seq", "?쒕쾲"),
-  createColumn("legalType", "踰뺣Т援щ텇"),
-  createColumn("customerNo", "怨좉컼踰덊샇"),
-  createColumn("customerName", "怨좉컼紐?),
-  createColumn("realNameNo", "?ㅻ챸踰덊샇"),
-  createColumn("competentCourt", "愿?좊쾿??),
-  createColumn("caseNumber", "?ш굔踰덊샇"),
-  createColumn("caseName", "?ш굔紐?),
-  createColumn("claimAmount", "泥?뎄湲덉븸"),
-  createColumn("status", "踰뺣Т吏꾪뻾"),
+  createColumn("seq", "순번"),
+  createColumn("legalType", "법무구분"),
+  createColumn("customerNo", "고객번호"),
+  createColumn("customerName", "고객명"),
+  createColumn("realNameNo", "실명번호"),
+  createColumn("competentCourt", "관할법원"),
+  createColumn("caseNumber", "사건번호"),
+  createColumn("caseName", "사건명"),
+  createColumn("claimAmount", "청구금액"),
+  createColumn("status", "법무진행"),
 ];
 
 const historyColumns: ColumnDef<CaseHistoryItem>[] = [
-  { accessorKey: "date", header: "?쇱옄" },
-  { accessorKey: "content", header: "?댁슜" },
-  { accessorKey: "result", header: "寃곌낵" },
+  { accessorKey: "date", header: "일자" },
+  { accessorKey: "content", header: "내용" },
+  { accessorKey: "result", header: "결과" },
 ];
 
 const mockListData: LegalManagementListItem[] = Array.from({ length: 5 }, (_, i) => ({
   seq: i + 1,
-  legalType: "吏湲됰챸??,
+  legalType: "지급명령",
   customerNo: `CUST${1000 + i}`,
-  customerName: `怨좉컼${i + 1}`,
+  customerName: `고객${i + 1}`,
   realNameNo: `800101-123456${i}`,
-  competentCourt: "?쒖슱以묒븰吏諛⑸쾿??,
-  caseNumber: `2024李?23${i}`,
-  caseName: "??ш툑 諛섑솚 泥?뎄",
+  competentCourt: "서울중앙지방법원",
+  caseNumber: `2024차123${i}`,
+  caseName: "대여금 반환 청구",
   claimAmount: 15000000,
-  status: "?묒닔",
+  status: "접수",
 }));
 
 const mockHistoryData: CaseHistoryItem[] = [
-  { date: "2024-01-15", content: "吏湲됰챸???좎껌???묒닔", result: "?묒닔?꾨즺" },
-  { date: "2024-01-20", content: "蹂댁젙紐낅졊 ?깅낯 ?〓떖", result: "?꾨떖" },
+  { date: "2024-01-15", content: "지급명령 신청서 접수", result: "접수완료" },
+  { date: "2024-01-20", content: "보정명령 등본 송달", result: "도달" },
 ];
 
 export default function LegalManagementPage() {
@@ -130,11 +130,11 @@ export default function LegalManagementPage() {
         { 
           name: "customerSearch", 
           type: "search", 
-          label: "怨좉컼寃??,
+          label: "고객검색",
           onButtonClick: (val, e) => {
             e?.preventDefault();
             window.open(
-              `${import.meta.env.BASE_URL}popup/customer-search?openerTabId=${tabId}`,
+              `/popup/customer-search?openerTabId=${tabId}`,
               "CustomerSearch",
               "width=1600,height=800"
             );
@@ -143,12 +143,12 @@ export default function LegalManagementPage() {
         { 
           name: "caseNumber", 
           type: "search", 
-          label: "?ш굔踰덊샇",
+          label: "사건번호",
           onButtonClick: (val, e) => {
              e?.preventDefault();
              const caseNumber = val?.code || '';
              window.open(
-               `${import.meta.env.BASE_URL}popup/case-inquiry?caseNumber=${caseNumber}&openerTabId=${tabId}`,
+               `/popup/case-inquiry?caseNumber=${caseNumber}&openerTabId=${tabId}`,
                "CaseInquiry",
                "width=1600,height=800"
              );
@@ -161,74 +161,74 @@ export default function LegalManagementPage() {
   const createDetailLayout = (type: string): FilterLayout => {
     const handleCustSearch = (val: any, e: any) => {
         e?.preventDefault();
-        window.open(`${import.meta.env.BASE_URL}popup/customer-search?openerTabId=${tabId}`, "CustomerSearch", "width=1600,height=800");
+        window.open(`/popup/customer-search?openerTabId=${tabId}`, "CustomerSearch", "width=1600,height=800");
     };
     const handleCaseSearch = (val: any, e: any) => {
         e?.preventDefault();
         const caseNumber = val?.code || '';
-        window.open(`${import.meta.env.BASE_URL}popup/case-inquiry?caseNumber=${caseNumber}&openerTabId=${tabId}`, "CaseInquiry", "width=1600,height=800");
+        window.open(`/popup/case-inquiry?caseNumber=${caseNumber}&openerTabId=${tabId}`, "CaseInquiry", "width=1600,height=800");
     };
     const handleDeptSearch = (val: any, e: any) => {
         e?.preventDefault();
-        window.open(`${import.meta.env.BASE_URL}popup/branch-management?openerTabId=${tabId}`, "BranchManagement", "width=1600,height=800");
+        window.open(`/popup/branch-management?openerTabId=${tabId}`, "BranchManagement", "width=1600,height=800");
     };
 
     let row1_2 = [
-        { name: "detailCustomerNo", type: "search", label: "怨좉컼踰덊샇", onButtonClick: handleCustSearch },
-        { name: "detailCustomerName", type: "text", label: "怨좉컼紐? },
-        { name: "detailRealNameNo", type: "text", label: "?ㅻ챸踰덊샇" },
-        { name: "detailCourt", type: "select", label: "愿?좊쾿??, options: [] },
-        { name: "detailCaseNo", type: "search", label: "?ш굔踰덊샇", onButtonClick: handleCaseSearch },
-        { name: "detailCaseName", type: "text", label: "?ш굔紐? },
+        { name: "detailCustomerNo", type: "search", label: "고객번호", onButtonClick: handleCustSearch },
+        { name: "detailCustomerName", type: "text", label: "고객명" },
+        { name: "detailRealNameNo", type: "text", label: "실명번호" },
+        { name: "detailCourt", type: "select", label: "관할법원", options: [] },
+        { name: "detailCaseNo", type: "search", label: "사건번호", onButtonClick: handleCaseSearch },
+        { name: "detailCaseName", type: "text", label: "사건명" },
     ];
 
     if (type === 'public-sale') {
         const courtIndex = row1_2.findIndex(f => f.name === "detailCourt");
-        if (courtIndex !== -1) row1_2[courtIndex] = { ...row1_2[courtIndex], label: "怨듬ℓ二쇨??? };
+        if (courtIndex !== -1) row1_2[courtIndex] = { ...row1_2[courtIndex], label: "공매주관사" };
     }
 
     let row3 = [
-        { name: "detailClaimAmount", type: "number", label: "泥?뎄湲덉븸" },
-        { name: "detailCreditor", type: "text", label: "梨꾧텒?? },
-        { name: "detailDebtor", type: "text", label: "梨꾨Т?? },
+        { name: "detailClaimAmount", type: "number", label: "청구금액" },
+        { name: "detailCreditor", type: "text", label: "채권자" },
+        { name: "detailDebtor", type: "text", label: "채무자" },
     ];
 
     if (type === 'lawsuit') {
-        row3[0] = { ...row3[0], label: "?먭퀬?뚭?" };
-        row3[1] = { ...row3[1], label: "?먭퀬(?뚯넚??" };
-        row3[2] = { ...row3[2], label: "?쇨퀬(?쇱떊泥?씤)" };
+        row3[0] = { ...row3[0], label: "원고소가" };
+        row3[1] = { ...row3[1], label: "원고(소송인)" };
+        row3[2] = { ...row3[2], label: "피고(피신청인)" };
     }
 
     let row4 = [
-        { name: "detailReceiptDate", type: "date", label: "?묒닔?쇱옄" },
-        { name: "detailDecisionDate", type: "date", label: "寃곗젙?쇱옄" },
-        { name: "detailCloseDate", type: "date", label: "醫낃껐/痍⑦븯?쇱옄" },
+        { name: "detailReceiptDate", type: "date", label: "접수일자" },
+        { name: "detailDecisionDate", type: "date", label: "결정일자" },
+        { name: "detailCloseDate", type: "date", label: "종결/취하일자" },
     ];
 
     if (type === 'auction') {
-        row4[1] = { ...row4[1], label: "?숈같?쇱옄" };
-        row4[2] = { ...row4[2], label: "痍⑦븯?쇱옄" };
-        row4.splice(2, 0, { name: "detailPaymentDate", type: "date", label: "?湲덈궔遺?쇱옄" } as any);
+        row4[1] = { ...row4[1], label: "낙찰일자" };
+        row4[2] = { ...row4[2], label: "취하일자" };
+        row4.splice(2, 0, { name: "detailPaymentDate", type: "date", label: "대금납부일자" } as any);
     } else if (type === 'public-sale') {
-        row4[2] = { ...row4[2], label: "痍⑦븯?쇱옄" };
+        row4[2] = { ...row4[2], label: "취하일자" };
     }
 
     const row5 = [
-        { name: "detailStatus", type: "select", label: "?ш굔?곹깭", options: [] },
-        { name: "detailRelCaseNo", type: "text", label: "愿?⑥궗嫄대쾲?? },
-        { name: "detailResult", type: "text", label: "醫낃뎅寃곌낵" },
+        { name: "detailStatus", type: "select", label: "사건상태", options: [] },
+        { name: "detailRelCaseNo", type: "text", label: "관련사건번호" },
+        { name: "detailResult", type: "text", label: "종국결과" },
     ];
 
     const row6 = [
-        { name: "detailLoanAmount", type: "number", label: "怨좉컼蹂꾨?異쒓툑" },
-        { name: "detailAccountNo", type: "text", label: "怨꾩쥖踰덊샇" },
-        { name: "detailAdvanceAmount", type: "number", label: "怨좉컼蹂꾧?吏湲됯툑" },
+        { name: "detailLoanAmount", type: "number", label: "고객별대출금" },
+        { name: "detailAccountNo", type: "text", label: "계좌번호" },
+        { name: "detailAdvanceAmount", type: "number", label: "고객별가지급금" },
     ];
 
     const rowLast = [
-        { name: "detailDept", type: "search", label: "踰뺣Т愿由щ???, onButtonClick: handleDeptSearch },
-        { name: "isParentCase", type: "checkbox", label: "紐⑥궗嫄? },
-        { name: "isBankSued", type: "checkbox", label: "?뱁뻾?쇱냼" },
+        { name: "detailDept", type: "search", label: "법무관리부점", onButtonClick: handleDeptSearch },
+        { name: "isParentCase", type: "checkbox", label: "모사건" },
+        { name: "isBankSued", type: "checkbox", label: "당행피소" },
     ];
 
     const layout: FilterLayout = [
@@ -250,8 +250,8 @@ export default function LegalManagementPage() {
       type: "grid",
       columns: 1,
       filters: [
-        { name: "caseContent", type: "text", label: "?ш굔?댁슜", readonly: true, width: "long" },
-        { name: "summary", type: "text", label: "?곸슂", width: "long" }
+        { name: "caseContent", type: "text", label: "사건내용", readonly: true, width: "long" },
+        { name: "summary", type: "text", label: "적요", width: "long" }
       ]
     }
   ];
@@ -281,17 +281,17 @@ export default function LegalManagementPage() {
   const handleDetailSearch = () => {
     setShowDetailHistory(true);
     updateTableData(tabId, 'historyTable', mockHistoryData);
-    updateFilters(tabId, { caseContent: "?닿납???좏깮???ш굔 ?댁슜???쒖떆?⑸땲??" });
+    updateFilters(tabId, { caseContent: "이곳에 선택된 사건 내용이 표시됩니다." });
   };
 
   const pageActions = [
-    { id: 'file-upload', label: "?뚯씪泥⑤?" },
-    { id: 'court-search', label: "踰뺤썝?ш굔議고쉶" },
-    { id: 'register', label: "?깅줉" },
-    { id: 'edit', label: "?섏젙" },
-    { id: 'delete', label: "??젣" },
-    { id: 'search', label: "議고쉶", onClick: () => handleActionClick('search') },
-    { id: 'reset', label: "珥덇린?? },
+    { id: 'file-upload', label: "파일첨부" },
+    { id: 'court-search', label: "법원사건조회" },
+    { id: 'register', label: "등록" },
+    { id: 'edit', label: "수정" },
+    { id: 'delete', label: "삭제" },
+    { id: 'search', label: "조회", onClick: () => handleActionClick('search') },
+    { id: 'reset', label: "초기화" },
   ] as { id: ActionType; label: string; onClick?: () => void }[];
 
   if (!currentState) return null;
@@ -300,19 +300,19 @@ export default function LegalManagementPage() {
     <div className="flex flex-col gap-6 pb-10">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <img src={TitleIcon} alt="??댄? ?꾩씠肄? width={40} height={40} />
-          <h2 className="text-lg font-semibold">踰뺣Т愿由?/h2>
+          <img src={TitleIcon} alt="타이틀 아이콘" width={40} height={40} />
+          <h2 className="text-lg font-semibold">법무관리</h2>
         </div>
         <Breadcrumb>
           <BreadcrumbList>
-            <BreadcrumbItem>??/BreadcrumbItem>
+            <BreadcrumbItem>홈</BreadcrumbItem>
             <BreadcrumbSeparator />
-            <BreadcrumbItem>?ъ떊?ы썑</BreadcrumbItem>
+            <BreadcrumbItem>여신사후</BreadcrumbItem>
             <BreadcrumbSeparator />
-            <BreadcrumbItem>踰뺤쟻議고쉶</BreadcrumbItem>
+            <BreadcrumbItem>법적조회</BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>踰뺣Т愿由?/BreadcrumbPage>
+              <BreadcrumbPage>법무관리</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
@@ -323,7 +323,7 @@ export default function LegalManagementPage() {
       </div>
 
       <div className="flex flex-col gap-2">
-        <h3 className="font-semibold">踰뺣Т議고쉶</h3>
+        <h3 className="font-semibold">법무조회</h3>
         <FilterContainer
             filterLayout={legalInquiryFilterLayout}
             values={currentState.filters}
@@ -332,7 +332,7 @@ export default function LegalManagementPage() {
       </div>
 
       <DataTable 
-          title="踰뺣Т吏꾪뻾 紐⑸줉"
+          title="법무진행 목록"
           columns={listColumns}
           data={currentState.tables?.['legalListTable'] || []}
           amountColumns={['claimAmount']}
@@ -340,11 +340,11 @@ export default function LegalManagementPage() {
       />
 
       <div className="flex flex-col gap-2">
-        <h3 className="font-semibold">踰뺣Т吏꾪뻾 ?곸꽭</h3>
+        <h3 className="font-semibold">법무진행 상세</h3>
         
         <Tabs defaultValue="payment-order" className="w-full" onValueChange={setActiveDetailTab}>
             <TabsList>
-                {["吏湲됰챸??, "蹂댁쟾議곗튂(媛?뺣쪟)", "?뺣쪟 諛??꾨?異붿떖", "?뚯넚", "寃쎈ℓ", "怨듬ℓ"].map((tabName, idx) => {
+                {["지급명령", "보전조치(가압류)", "압류 및 전부추심", "소송", "경매", "공매"].map((tabName, idx) => {
                     const value = ["payment-order", "preservation", "seizure", "lawsuit", "auction", "public-sale"][idx];
                     return (
                         <TabsTrigger key={value} value={value}>
@@ -367,7 +367,7 @@ export default function LegalManagementPage() {
                             className="bg-gray-600 hover:bg-gray-700 text-white"
                             onClick={handleDetailSearch}
                         >
-                            ?곸꽭議고쉶
+                            상세조회
                         </Button>
                     </div>
 

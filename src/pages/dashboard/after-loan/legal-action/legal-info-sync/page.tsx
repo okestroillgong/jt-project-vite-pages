@@ -1,4 +1,4 @@
-﻿
+
 
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { usePathname } from "@/lib/hooks/useAppLocation";
@@ -17,25 +17,26 @@ import { RightActions } from "@/components/app/RightActions";
 import { LeftActions } from "@/components/app/LeftActions";
 import type { FilterLayout } from "@/components/filters/types";
 import { usePageStore } from "@/lib/store/pageStore";
-import { listenForPopupMessages, postPopupMessage } from "@/lib${import.meta.env.BASE_URL}popup-bus"; // Assuming popup-bus is used for consistency
+import { listenForPopupMessages, postPopupMessage } from "@/lib/popup-bus"; // Assuming popup-bus is used for consistency
 
 // --- Types for Data and Filters ---
 
 // Data type for the legal information table
 interface LegalInfoData {
-  id: number; // ?쒕쾲
-  accountNumber: string; // 怨꾩쥖踰덊샇
-  applicantName: string; // ?좎껌?몃챸
-  caseNumber: string; // ?ш굔踰덊샇
-  status: string; // ?곹깭
-  courtName: string; // 踰뺤썝紐?  receiptDate: string; // ?묒닔?쇱옄
-  startDate: string; // 媛쒖떆?쇱옄
-  approvalDate: string; // ?멸??쇱옄
-  withdrawalDate: string; // 痍⑦븯?쇱옄
-  customerNumber: string; // 怨좉컼踰덊샇 (for popup)
-  residentNumber: string; // 二쇰?踰덊샇 (for popup)
-  legalManagementNumber: string; // 踰뺣Т愿由щ쾲??(for popup)
-  legalManagementClassificationCode: string; // 踰뺣Т愿由ш뎄遺꾩퐫??(for popup)
+  id: number; // 순번
+  accountNumber: string; // 계좌번호
+  applicantName: string; // 신청인명
+  caseNumber: string; // 사건번호
+  status: string; // 상태
+  courtName: string; // 법원명
+  receiptDate: string; // 접수일자
+  startDate: string; // 개시일자
+  approvalDate: string; // 인가일자
+  withdrawalDate: string; // 취하일자
+  customerNumber: string; // 고객번호 (for popup)
+  residentNumber: string; // 주민번호 (for popup)
+  legalManagementNumber: string; // 법무관리번호 (for popup)
+  legalManagementClassificationCode: string; // 법무관리구분코드 (for popup)
 }
 
 // --- Mock Data (for demonstration) ---
@@ -43,10 +44,10 @@ const mockData: LegalInfoData[] = [
   {
     id: 1,
     accountNumber: "1234567890",
-    applicantName: "源踰뺣Т",
-    caseNumber: "2023媛??2345",
-    status: "?묒닔",
-    courtName: "?쒖슱以묒븰吏諛⑸쾿??,
+    applicantName: "김법무",
+    caseNumber: "2023가단12345",
+    status: "접수",
+    courtName: "서울중앙지방법원",
     receiptDate: "2023-01-15",
     startDate: "2023-02-01",
     approvalDate: "2023-03-01",
@@ -59,10 +60,10 @@ const mockData: LegalInfoData[] = [
   {
     id: 2,
     accountNumber: "0987654321",
-    applicantName: "?대쾿臾?,
-    caseNumber: "2023??3456",
-    status: "吏꾪뻾以?,
-    courtName: "?섏썝吏諛⑸쾿??,
+    applicantName: "이법무",
+    caseNumber: "2023나23456",
+    status: "진행중",
+    courtName: "수원지방법원",
     receiptDate: "2023-02-20",
     startDate: "2023-03-10",
     approvalDate: "",
@@ -75,10 +76,10 @@ const mockData: LegalInfoData[] = [
   {
     id: 3,
     accountNumber: "1122334455",
-    applicantName: "諛뺣쾿臾?,
-    caseNumber: "2023??4567",
-    status: "?멸?",
-    courtName: "遺?곗?諛⑸쾿??,
+    applicantName: "박법무",
+    caseNumber: "2023다34567",
+    status: "인가",
+    courtName: "부산지방법원",
     receiptDate: "2023-03-01",
     startDate: "2023-04-01",
     approvalDate: "2023-05-01",
@@ -91,10 +92,10 @@ const mockData: LegalInfoData[] = [
   {
     id: 4,
     accountNumber: "5566778899",
-    applicantName: "理쒕쾿臾?,
-    caseNumber: "2023??5678",
-    status: "痍⑦븯",
-    courtName: "?援ъ?諛⑸쾿??,
+    applicantName: "최법무",
+    caseNumber: "2023라45678",
+    status: "취하",
+    courtName: "대구지방법원",
     receiptDate: "2023-04-05",
     startDate: "2023-05-01",
     approvalDate: "",
@@ -108,16 +109,16 @@ const mockData: LegalInfoData[] = [
 
 // --- Column Definitions for DataTable ---
 const columns: ColumnDef<LegalInfoData>[] = [
-  { accessorKey: "id", header: "?쒕쾲" },
-  { accessorKey: "accountNumber", header: "怨꾩쥖踰덊샇" },
-  { accessorKey: "applicantName", header: "?좎껌?몃챸" },
-  { accessorKey: "caseNumber", header: "?ш굔踰덊샇" },
-  { accessorKey: "status", header: "?곹깭" },
-  { accessorKey: "courtName", header: "踰뺤썝紐? },
-  { accessorKey: "receiptDate", header: "?묒닔?쇱옄" },
-  { accessorKey: "startDate", header: "媛쒖떆?쇱옄" },
-  { accessorKey: "approvalDate", header: "?멸??쇱옄" },
-  { accessorKey: "withdrawalDate", header: "痍⑦븯?쇱옄" },
+  { accessorKey: "id", header: "순번" },
+  { accessorKey: "accountNumber", header: "계좌번호" },
+  { accessorKey: "applicantName", header: "신청인명" },
+  { accessorKey: "caseNumber", header: "사건번호" },
+  { accessorKey: "status", header: "상태" },
+  { accessorKey: "courtName", header: "법원명" },
+  { accessorKey: "receiptDate", header: "접수일자" },
+  { accessorKey: "startDate", header: "개시일자" },
+  { accessorKey: "approvalDate", header: "인가일자" },
+  { accessorKey: "withdrawalDate", header: "취하일자" },
 ];
 
 export default function LegalInfoSyncPage() {
@@ -140,27 +141,27 @@ export default function LegalInfoSyncPage() {
         {
           name: "bondType",
           type: "select",
-          label: "梨꾧텒醫낅쪟",
+          label: "채권종류",
           options: [
-            { value: "all", label: "?꾩껜" },
-            { value: "general", label: "?쇰컲梨꾧텒" },
-            { value: "special", label: "?뱀닔梨꾧텒" },
+            { value: "all", label: "전체" },
+            { value: "general", label: "일반채권" },
+            { value: "special", label: "특수채권" },
           ],
           defaultValue: "all",
         },
         {
           name: "webcashInquiry",
           type: "select",
-          label: "?뱀틦?쒖“??,
+          label: "웹캐시조회",
           options: [
-            { value: "all", label: "?꾩껜" },
-            { value: "yes", label: "?? },
-            { value: "no", label: "?꾨땲?? },
+            { value: "all", label: "전체" },
+            { value: "yes", label: "예" },
+            { value: "no", label: "아니오" },
           ],
           defaultValue: "all",
         },
-        { name: "customerNumber", type: "text", label: "怨좉컼踰덊샇" },
-        { name: "caseNumber", type: "text", label: "?ш굔踰덊샇" },
+        { name: "customerNumber", type: "text", label: "고객번호" },
+        { name: "caseNumber", type: "text", label: "사건번호" },
       ],
     },
   ]), []);
@@ -193,19 +194,19 @@ export default function LegalInfoSyncPage() {
   };
 
   const handleFirstRequest = () => {
-    alert("1李??붿껌 ?먮즺 湲곕뒫 ?ㅽ뻾");
+    alert("1차 요청 자료 기능 실행");
   };
 
   const handleSecondRequest = () => {
-    alert("2李??붿껌 ?먮즺 湲곕뒫 ?ㅽ뻾");
+    alert("2차 요청 자료 기능 실행");
   };
 
   const handleSync = () => {
-    alert("?숆린??湲곕뒫 ?ㅽ뻾");
+    alert("동기화 기능 실행");
   };
 
   const handleExcelDownload = () => {
-    alert("?묒? ?ㅼ슫濡쒕뱶 湲곕뒫 ?ㅽ뻾");
+    alert("엑셀 다운로드 기능 실행");
   };
 
   const handleRowDoubleClick = (row: LegalInfoData) => {
@@ -214,7 +215,7 @@ export default function LegalInfoSyncPage() {
     const left = (window.screen.width / 2) - (popupWidth / 2);
     const top = (window.screen.height / 2) - (popupHeight / 2);
 
-    const popupUrl = `${import.meta.env.BASE_URL}popup/legal-management?openerTabId=${tabId}` +
+    const popupUrl = `/popup/legal-management?openerTabId=${tabId}` +
                      `&customerNumber=${row.customerNumber}` +
                      `&residentNumber=${row.residentNumber}` +
                      `&legalManagementNumber=${row.legalManagementNumber}` +
@@ -233,19 +234,19 @@ export default function LegalInfoSyncPage() {
     <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <img src={TitleIcon} alt="??댄? ?꾩씠肄? width={40} height={40} />
-          <h2 className="text-lg font-semibold">踰뺣Т?뺣낫 ?숆린??/h2>
+          <img src={TitleIcon} alt="타이틀 아이콘" width={40} height={40} />
+          <h2 className="text-lg font-semibold">법무정보 동기화</h2>
         </div>
         <Breadcrumb>
           <BreadcrumbList>
-            <BreadcrumbItem>??/BreadcrumbItem>
+            <BreadcrumbItem>홈</BreadcrumbItem>
             <BreadcrumbSeparator />
-            <BreadcrumbItem>?ъ떊?ы썑</BreadcrumbItem>
+            <BreadcrumbItem>여신사후</BreadcrumbItem>
             <BreadcrumbSeparator />
-            <BreadcrumbItem>踰뺤쟻議곗튂</BreadcrumbItem>
+            <BreadcrumbItem>법적조치</BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>踰뺣Т?뺣낫 ?숆린??/BreadcrumbPage>
+              <BreadcrumbPage>법무정보 동기화</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
@@ -268,7 +269,7 @@ export default function LegalInfoSyncPage() {
       </div>
 
       <div className="flex flex-col gap-4">
-        <h3 className="font-semibold">踰뺣Т?뺣낫 ?숆린??/h3>
+        <h3 className="font-semibold">법무정보 동기화</h3>
         <FilterContainer
           filterLayout={filterLayout}
           values={filters}
@@ -277,7 +278,7 @@ export default function LegalInfoSyncPage() {
       </div>
 
       <DataTable
-        title="議고쉶 ?댁슜"
+        title="조회 내용"
         columns={columns}
         data={tableData}
         onRowDoubleClick={handleRowDoubleClick}
@@ -285,4 +286,3 @@ export default function LegalInfoSyncPage() {
     </div>
   );
 }
-

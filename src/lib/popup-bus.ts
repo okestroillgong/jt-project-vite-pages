@@ -1,4 +1,4 @@
-﻿// lib${import.meta.env.BASE_URL}popup-bus.ts
+// lib/popup-bus.ts
 
 const CHANNEL_NAME = "jt-popup-channel";
 
@@ -47,4 +47,3 @@ export function listenForPopupMessages(handler: (message: PopupMessage) => void)
   // Return a no-op cleanup function if channel is not supported
   return () => {};
 }
-

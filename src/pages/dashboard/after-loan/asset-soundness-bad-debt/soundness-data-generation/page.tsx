@@ -1,9 +1,9 @@
-﻿
+
 
 import { useState, useMemo, useCallback, useEffect } from "react";
 import { usePathname } from "@/lib/hooks/useAppLocation";
 import { usePageStore } from "@/lib/store/pageStore";
-import { listenForPopupMessages } from "@/lib${import.meta.env.BASE_URL}popup-bus";
+import { listenForPopupMessages } from "@/lib/popup-bus";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -21,7 +21,8 @@ import type { FilterLayout } from "@/components/filters/types";
 import TitleIcon from "@/assets/icons/webp/title-icon.webp";
 import { ColumnDef } from "@tanstack/react-table";
 
-// ?뚯씠釉?1: 議고쉶 ?곗씠?????type InquiryData = {
+// 테이블 1: 조회 데이터 타입
+type InquiryData = {
   id: number;
   soundnessMonth: string;
   subjectName: string;
@@ -31,26 +32,29 @@ import { ColumnDef } from "@tanstack/react-table";
   loanAmount: number;
 };
 
-// ?뚯씠釉?2: ?섏젙?댁뿭 ?곗씠?????type HistoryData = InquiryData & {
+// 테이블 2: 수정내역 데이터 타입
+type HistoryData = InquiryData & {
   loanBalance: number;
   loanBySubject: number;
 };
 
-// ?뚯씠釉?1 紐⑹뾽 ?곗씠??const mockInquiryData: InquiryData[] = Array.from({ length: 12 }, (_, i) => ({
+// 테이블 1 목업 데이터
+const mockInquiryData: InquiryData[] = Array.from({ length: 12 }, (_, i) => ({
   id: i + 1,
   soundnessMonth: "2024-10",
-  subjectName: "?쇰컲?먭툑?異?,
-  customerName: `怨좉컼${i + 1}`,
+  subjectName: "일반자금대출",
+  customerName: `고객${i + 1}`,
   customerNumber: `CUST${1001 + i}`,
   accountNumber: `ACC${2001 + i}`,
   loanAmount: 15000000 * (i + 1),
 }));
 
-// ?뚯씠釉?2 紐⑹뾽 ?곗씠??const mockHistoryData: HistoryData[] = Array.from({ length: 8 }, (_, i) => ({
+// 테이블 2 목업 데이터
+const mockHistoryData: HistoryData[] = Array.from({ length: 8 }, (_, i) => ({
   id: i + 1,
   soundnessMonth: "2024-09",
-  subjectName: "?쒖꽕?먭툑?異?,
-  customerName: `?대젰怨좉컼${i + 1}`,
+  subjectName: "시설자금대출",
+  customerName: `이력고객${i + 1}`,
   customerNumber: `HIST${1001 + i}`,
   accountNumber: `HIST_ACC${2001 + i}`,
   loanAmount: 20000000 * (i + 1),
@@ -58,28 +62,28 @@ import { ColumnDef } from "@tanstack/react-table";
   loanBySubject: 5000000 * (i + 1),
 }));
 
-// ?뚯씠釉?1 而щ읆 ?뺤쓽
+// 테이블 1 컬럼 정의
 const inquiryColumns: ColumnDef<InquiryData>[] = [
-  { accessorKey: "id", header: "?쒕쾲" },
-  { accessorKey: "soundnessMonth", header: "嫄댁쟾?깅뀈?? },
-  { accessorKey: "subjectName", header: "怨쇰ぉ紐? },
-  { accessorKey: "customerName", header: "怨좉컼紐? },
-  { accessorKey: "customerNumber", header: "怨좉컼踰덊샇" },
-  { accessorKey: "accountNumber", header: "怨꾩쥖踰덊샇" },
-  { accessorKey: "loanAmount", header: "?異쒓툑?? },
+  { accessorKey: "id", header: "순번" },
+  { accessorKey: "soundnessMonth", header: "건전성년월" },
+  { accessorKey: "subjectName", header: "과목명" },
+  { accessorKey: "customerName", header: "고객명" },
+  { accessorKey: "customerNumber", header: "고객번호" },
+  { accessorKey: "accountNumber", header: "계좌번호" },
+  { accessorKey: "loanAmount", header: "대출금액" },
 ];
 
-// ?뚯씠釉?2 而щ읆 ?뺤쓽
+// 테이블 2 컬럼 정의
 const historyColumns: ColumnDef<HistoryData>[] = [
-  { accessorKey: "id", header: "?쒕쾲" },
-  { accessorKey: "soundnessMonth", header: "嫄댁쟾?깅뀈?? },
-  { accessorKey: "subjectName", header: "怨쇰ぉ紐? },
-  { accessorKey: "customerName", header: "怨좉컼紐? },
-  { accessorKey: "customerNumber", header: "怨좉컼踰덊샇" },
-  { accessorKey: "accountNumber", header: "怨꾩쥖踰덊샇" },
-  { accessorKey: "loanAmount", header: "?異쒓툑?? },
-  { accessorKey: "loanBalance", header: "?異쒖옍?? },
-  { accessorKey: "loanBySubject", header: "怨쇰ぉ蹂꾨?異쒓툑" },
+  { accessorKey: "id", header: "순번" },
+  { accessorKey: "soundnessMonth", header: "건전성년월" },
+  { accessorKey: "subjectName", header: "과목명" },
+  { accessorKey: "customerName", header: "고객명" },
+  { accessorKey: "customerNumber", header: "고객번호" },
+  { accessorKey: "accountNumber", header: "계좌번호" },
+  { accessorKey: "loanAmount", header: "대출금액" },
+  { accessorKey: "loanBalance", header: "대출잔액" },
+  { accessorKey: "loanBySubject", header: "과목별대출금" },
 ];
 
 const CLOSING_MONTH_OPTIONS = [
@@ -102,7 +106,7 @@ export default function SoundnessDataGenerationPage() {
   const { currentState, updateFilters, updateTableData, clearState } = usePageStore();
   const [activeTab, setActiveTab] = useState("inquiry");
   const [userPermission, setUserPermission] = useState("Q0001");
-  const [tableType, setTableType] = useState<'inquiry' | 'history'>('inquiry'); // ?뚯씠釉?????곹깭
+  const [tableType, setTableType] = useState<'inquiry' | 'history'>('inquiry'); // 테이블 타입 상태
 
   useEffect(() => {
     const cleanup = listenForPopupMessages((message) => {
@@ -142,13 +146,13 @@ export default function SoundnessDataGenerationPage() {
         { 
           name: "closingMonth", 
           type: "combobox", 
-          label: "寃곗궛??, 
+          label: "결산월", 
           options: CLOSING_MONTH_OPTIONS 
         },
         { 
           name: "customerNumber", 
           type: "long-search", 
-          label: "怨좉컼踰덊샇",
+          label: "고객번호",
           defaultValue: "CUST1001",
           readonly: true,
           onButtonClick: (value?: any, e?: React.MouseEvent<HTMLElement>) => {
@@ -156,39 +160,39 @@ export default function SoundnessDataGenerationPage() {
             e?.stopPropagation();
             const customerNumber = value || '';
             const accountNumber = currentState?.filters.accountNumber || '';
-            window.open(`${import.meta.env.BASE_URL}popup/customer-search?customerNumber=${customerNumber}&accountNumber=${accountNumber}&openerTabId=${tabId}`, 'CustomerSearch', 'width=1600,height=800');
+            window.open(`/popup/customer-search?customerNumber=${customerNumber}&accountNumber=${accountNumber}&openerTabId=${tabId}`, 'CustomerSearch', 'width=1600,height=800');
           }
         },
-        { name: "accountNumber", type: "text", label: "怨꾩쥖踰덊샇" },
-        { name: "businessScale", type: "select", label: "湲곗뾽洹쒕え", options: [] },
-        { name: "accountName", type: "select", label: "怨쇰ぉ紐?, options: [] },
-        { name: "industryClassification", type: "select", label: "?낆쥌遺꾨쪟", options: [] },
-        { name: "byRegion", type: "text", label: "吏??퀎" },
+        { name: "accountNumber", type: "text", label: "계좌번호" },
+        { name: "businessScale", type: "select", label: "기업규모", options: [] },
+        { name: "accountName", type: "select", label: "과목명", options: [] },
+        { name: "industryClassification", type: "select", label: "업종분류", options: [] },
+        { name: "byRegion", type: "text", label: "지역별" },
         { 
           name: "managementBranch", 
           type: "search", 
-          label: "愿由щ???,
+          label: "관리부점",
           readonly: true,
-          defaultValue: { code: "B100", name: "媛뺣궓1吏?? },
+          defaultValue: { code: "B100", name: "강남1지점" },
           onButtonClick: (value?: any, e?: React.MouseEvent<HTMLElement>) => {
             e?.preventDefault();
             e?.stopPropagation();
             const branchCode = value?.code || '';
             const branchName = value?.name || '';
-            window.open(`${import.meta.env.BASE_URL}popup/branch-management?branchCode=${branchCode}&branchName=${branchName}&openerTabId=${tabId}`, 'BranchManagement', 'width=1600,height=800');
+            window.open(`/popup/branch-management?branchCode=${branchCode}&branchName=${branchName}&openerTabId=${tabId}`, 'BranchManagement', 'width=1600,height=800');
           }
         },
-        { name: "detailedProductName", type: "select", label: "?몃? ?곹뭹紐?, options: [] },
+        { name: "detailedProductName", type: "select", label: "세부 상품명", options: [] },
         { 
           name: "modifierEmployeeId", 
           type: "search", 
-          label: "?섏젙???щ쾲",
+          label: "수정자 사번",
           onButtonClick: (value?: any, e?: React.MouseEvent<HTMLElement>) => {
             e?.preventDefault();
             e?.stopPropagation();
             const usrno = value?.code || '';
             const usrNm = value?.name || '';
-            window.open(`${import.meta.env.BASE_URL}popup/user-search?usrno=${usrno}&usrNm=${usrNm}&openerTabId=${tabId}`, 'UserSearch', 'width=1600,height=800');
+            window.open(`/popup/user-search?usrno=${usrno}&usrNm=${usrNm}&openerTabId=${tabId}`, 'UserSearch', 'width=1600,height=800');
           }
         },
         { name: "blank1", type: "blank" },
@@ -202,8 +206,8 @@ export default function SoundnessDataGenerationPage() {
       type: "grid",
       columns: 3,
       filters: [
-        { name: "baseDate", type: "date", label: "湲곗??쇱옄" },
-        { name: "generationCondition", type: "select", label: "?앹꽦議곌굔", options: [] },
+        { name: "baseDate", type: "date", label: "기준일자" },
+        { name: "generationCondition", type: "select", label: "생성조건", options: [] },
         { name: "blank", type: "blank" },
       ],
     },
@@ -216,13 +220,15 @@ export default function SoundnessDataGenerationPage() {
     [tabId, updateFilters]
   );
 
-  // "議고쉶" 踰꾪듉 ?몃뱾??  const handleSearch = () => {
+  // "조회" 버튼 핸들러
+  const handleSearch = () => {
     console.log("Search clicked, fetching inquiry data...");
     setTableType('inquiry');
     updateTableData(tabId, "soundnessTable", mockInquiryData);
   };
 
-  // "?섏젙?댁뿭" 踰꾪듉 ?몃뱾??  const handleHistorySearch = () => {
+  // "수정내역" 버튼 핸들러
+  const handleHistorySearch = () => {
     console.log("History clicked, fetching history data...");
     setTableType('history');
     updateTableData(tabId, "soundnessTable", mockHistoryData);
@@ -265,7 +271,7 @@ export default function SoundnessDataGenerationPage() {
               const left = (window.screen.width / 2) - (popupWidth / 2);
               const top = (window.screen.height / 2) - (popupHeight / 2);
               window.open(
-                '${import.meta.env.BASE_URL}popup/asset-soundness-progress',
+                '/popup/asset-soundness-progress',
                 'AssetSoundnessProgress',
                 `width=${popupWidth},height=${popupHeight},top=${top},left=${left}`
               );
@@ -285,7 +291,7 @@ export default function SoundnessDataGenerationPage() {
               const monthOptions = encodeURIComponent(JSON.stringify(CLOSING_MONTH_OPTIONS));
 
               window.open(
-                `${import.meta.env.BASE_URL}popup/soundness-audit-opinion?openerTabId=${tabId}&selectedMonth=${selectedMonth}&monthOptions=${monthOptions}`,
+                `/popup/soundness-audit-opinion?openerTabId=${tabId}&selectedMonth=${selectedMonth}&monthOptions=${monthOptions}`,
                 'SoundnessAuditOpinion',
                 `width=${popupWidth},height=${popupHeight},top=${top},left=${left}`
               );
@@ -312,19 +318,19 @@ export default function SoundnessDataGenerationPage() {
     <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <img src={TitleIcon} alt="??댄? ?꾩씠肄? width={40} height={40} />
-          <h2 className="text-lg font-semibold">嫄댁쟾???먮즺 ?앹꽦</h2>
+          <img src={TitleIcon} alt="타이틀 아이콘" width={40} height={40} />
+          <h2 className="text-lg font-semibold">건전성 자료 생성</h2>
         </div>
         <Breadcrumb>
           <BreadcrumbList>
-            <BreadcrumbItem>??/BreadcrumbItem>
+            <BreadcrumbItem>홈</BreadcrumbItem>
             <BreadcrumbSeparator />
-            <BreadcrumbItem>?ъ떊?ы썑</BreadcrumbItem>
+            <BreadcrumbItem>여신사후</BreadcrumbItem>
             <BreadcrumbSeparator />
-            <BreadcrumbItem>?먯궛嫄댁쟾????먯긽媛?/BreadcrumbItem>
+            <BreadcrumbItem>자산건전성/대손상각</BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>嫄댁쟾???먮즺 ?앹꽦</BreadcrumbPage>
+              <BreadcrumbPage>건전성 자료 생성</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
@@ -337,8 +343,8 @@ export default function SoundnessDataGenerationPage() {
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList>
-          <TabsTrigger value="inquiry">議고쉶</TabsTrigger>
-          <TabsTrigger value="generation">?앹꽦</TabsTrigger>
+          <TabsTrigger value="inquiry">조회</TabsTrigger>
+          <TabsTrigger value="generation">생성</TabsTrigger>
         </TabsList>
         <TabsContent value="inquiry">
           <FilterContainer
@@ -349,20 +355,20 @@ export default function SoundnessDataGenerationPage() {
         </TabsContent>
         <TabsContent value="generation">
           <div className="rounded-lg border px-4 py-4">
-            <FilterFileUpload label="?뚯씪 ?좏깮" buttons={['browse']} />
+            <FilterFileUpload label="파일 선택" buttons={['browse']} />
           </div>
         </TabsContent>
       </Tabs>
 
       <DataTable
-        title="議고쉶?댁슜"
+        title="조회내용"
         columns={currentColumns}
         data={currentState.tables?.['soundnessTable'] || []}
         amountColumns={amountColumns}
         onRowDoubleClick={(row) => {
           const dummyRrn = "800101-1234567";
           window.open(
-            `${import.meta.env.BASE_URL}popup/bond-legal-progress?residentRegistrationNumber=${dummyRrn}`,
+            `/popup/bond-legal-progress?residentRegistrationNumber=${dummyRrn}`,
             'BondLegalProgress',
             'width=1600,height=800'
           );
@@ -371,4 +377,3 @@ export default function SoundnessDataGenerationPage() {
     </div>
   );
 }
-

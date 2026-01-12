@@ -1,4 +1,4 @@
-﻿
+
 
 import { usePathname } from "@/lib/hooks/useAppLocation";
 import { useCallback, useState } from "react";
@@ -42,31 +42,31 @@ const createColumn = (accessorKey: string, header: string): ColumnDef<BondsForSa
 });
 
 const columns: ColumnDef<BondsForSaleItem>[] = [
-  createColumn("customerName", "怨좉컼紐?),
-  createColumn("customerNo", "怨좉컼踰덊샇"),
-  createColumn("accountNo", "怨꾩쥖踰덊샇"),
-  createColumn("saleYearMonth", "留ㅺ컖?곗썡"),
-  createColumn("searchStartDate", "議고쉶?쒖옉??),
-  createColumn("searchEndDate", "議고쉶醫낅즺??),
-  createColumn("companyName", "?낆껜紐?),
-  createColumn("companyContact", "?낆껜?곕씫泥?),
-  createColumn("companyAddress", "?낆껜二쇱냼"),
-  createColumn("saleQuarter", "留ㅺ컖遺꾧린"),
+  createColumn("customerName", "고객명"),
+  createColumn("customerNo", "고객번호"),
+  createColumn("accountNo", "계좌번호"),
+  createColumn("saleYearMonth", "매각연월"),
+  createColumn("searchStartDate", "조회시작일"),
+  createColumn("searchEndDate", "조회종료일"),
+  createColumn("companyName", "업체명"),
+  createColumn("companyContact", "업체연락처"),
+  createColumn("companyAddress", "업체주소"),
+  createColumn("saleQuarter", "매각분기"),
 ];
 
 // 3. Mock Data
 const mockData: BondsForSaleItem[] = Array.from({ length: 5 }, (_, i) => ({
   id: i + 1,
-  customerName: `怨좉컼${i + 1}`,
+  customerName: `고객${i + 1}`,
   customerNo: `CUST${1000 + i}`,
   accountNo: `123-45-6789${i}`,
   saleYearMonth: "2024-01",
   searchStartDate: "2024-01-01",
   searchEndDate: "2024-01-31",
-  companyName: `留ㅺ컖?낆껜${i + 1}`,
+  companyName: `매각업체${i + 1}`,
   companyContact: "02-1234-5678",
-  companyAddress: "?쒖슱??媛뺣궓援?,
-  saleQuarter: "1遺꾧린",
+  companyAddress: "서울시 강남구",
+  saleQuarter: "1분기",
 }));
 
 export default function CollectiveRegistrationOfBondsForSalePage() {
@@ -94,14 +94,14 @@ export default function CollectiveRegistrationOfBondsForSalePage() {
     console.log("Registering...");
   };
 
-  // // 硫???묒? ?ㅼ슫濡쒕뱶 ?앹뾽?쇰줈 蹂寃??? ?꾨옒 二쇱꽍 泥섎━??肄붾뱶瑜??ъ슜?섏꽭??
+  // // 멀티 엑셀 다운로드 팝업으로 변경 시, 아래 주석 처리된 코드를 사용하세요.
   // const handleExcelDownload = () => {
   //   const width = 360;
   //   const height = 200;
   //   const left = window.screen.width / 2 - width / 2;
   //   const top = window.screen.height / 2 - height / 2;
   //   window.open(
-  //     `${import.meta.env.BASE_URL}popup/multi-excel-download`,
+  //     `/popup/multi-excel-download`,
   //     "MultiExcelDownload",
   //     `width=${width},height=${height},left=${left},top=${top}`
   //   );
@@ -119,13 +119,13 @@ export default function CollectiveRegistrationOfBondsForSalePage() {
     const top = window.screen.height / 2 - height / 2;
 
     window.open(
-      `${import.meta.env.BASE_URL}popup/excel-download?columns=${encodedColumns}`,
+      `/popup/excel-download?columns=${encodedColumns}`,
       "ExcelDownload",
       `width=${width},height=${height},left=${left},top=${top}`
     );
   };
 
-  // Fix layout for Row 3: "留ㅺ컖遺꾧린" should be one conceptual unit. 
+  // Fix layout for Row 3: "매각분기" should be one conceptual unit. 
   // FilterContainer grid simply flows. 
   // Let's adjust Row 3 to look better.
   const inquiryFilterLayout: FilterLayout = [
@@ -133,23 +133,23 @@ export default function CollectiveRegistrationOfBondsForSalePage() {
       type: "grid",
       columns: 3,
       filters: [
-        { name: "regDate", type: "date-range", label: "?깅줉?쇱옄" },
-        { name: "customerNo", type: "search", label: "怨좉컼踰덊샇" },
-        { name: "customerName", type: "text", label: "怨좉컼紐? },
+        { name: "regDate", type: "date-range", label: "등록일자" },
+        { name: "customerNo", type: "search", label: "고객번호" },
+        { name: "customerName", type: "text", label: "고객명" },
         
-        { name: "saleProcessDate", type: "date-range", label: "留ㅺ컖 泥섎━?? },
-        { name: "companyName", type: "text", label: "?낆껜紐? },
-        { name: "accountNo", type: "text", label: "怨꾩쥖踰덊샇" },
+        { name: "saleProcessDate", type: "date-range", label: "매각 처리일" },
+        { name: "companyName", type: "text", label: "업체명" },
+        { name: "accountNo", type: "text", label: "계좌번호" },
       ]
     },
     {
         type: "grid",
         columns: 4, // Use 4 cols to fit the quarter split better or just standard 3
         filters: [
-            { name: "saleYear", type: "text", label: "留ㅺ컖遺꾧린(??" },
-            { name: "saleQuarter", type: "select", label: "遺꾧린", options: [{value: "1", label: "1遺꾧린"}, {value: "2", label: "2遺꾧린"}] },
+            { name: "saleYear", type: "text", label: "매각분기(년)" },
+            { name: "saleQuarter", type: "select", label: "분기", options: [{value: "1", label: "1분기"}, {value: "2", label: "2분기"}] },
             { name: "pool", type: "text", label: "pool" },
-            { name: "generalSpecial", type: "select", label: "?쇰컲/?뱀닔", options: [{value: "general", label: "?쇰컲"}, {value: "special", label: "?뱀닔"}] },
+            { name: "generalSpecial", type: "select", label: "일반/특수", options: [{value: "general", label: "일반"}, {value: "special", label: "특수"}] },
         ]
     }
   ];
@@ -178,17 +178,17 @@ export default function CollectiveRegistrationOfBondsForSalePage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <img src={TitleIcon} alt="??댄? ?꾩씠肄? width={40} height={40} />
-          <h2 className="text-lg font-semibold">留ㅺ컖梨꾧텒?쇨큵?깅줉</h2>
+          <img src={TitleIcon} alt="타이틀 아이콘" width={40} height={40} />
+          <h2 className="text-lg font-semibold">매각채권일괄등록</h2>
         </div>
         <Breadcrumb>
           <BreadcrumbList>
-            <BreadcrumbItem>??/BreadcrumbItem>
+            <BreadcrumbItem>홈</BreadcrumbItem>
             <BreadcrumbSeparator />
-            <BreadcrumbItem>?ъ떊?ы썑</BreadcrumbItem>
+            <BreadcrumbItem>여신사후</BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>留ㅺ컖梨꾧텒?쇨큵?깅줉</BreadcrumbPage>
+              <BreadcrumbPage>매각채권일괄등록</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
@@ -203,8 +203,8 @@ export default function CollectiveRegistrationOfBondsForSalePage() {
       {/* Tabs Area */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList>
-          <TabsTrigger value="inquiry">議고쉶</TabsTrigger>
-          <TabsTrigger value="registration">?쇨큵?깅줉</TabsTrigger>
+          <TabsTrigger value="inquiry">조회</TabsTrigger>
+          <TabsTrigger value="registration">일괄등록</TabsTrigger>
         </TabsList>
 
         <TabsContent value="inquiry" className="flex flex-col gap-4 mt-0">
@@ -215,7 +215,7 @@ export default function CollectiveRegistrationOfBondsForSalePage() {
             />
             
             <DataTable 
-                title="議고쉶?댁슜"
+                title="조회내용"
                 columns={columns}
                 data={currentState.tables?.['bondsTable'] || []}
             />
@@ -223,11 +223,11 @@ export default function CollectiveRegistrationOfBondsForSalePage() {
 
         <TabsContent value="registration" className="flex flex-col gap-4 mt-0">
             <div className="rounded-lg border px-4 py-4">
-              <FilterFileUpload label="?묒??뚯씪" buttons={['browse']} />
+              <FilterFileUpload label="엑셀파일" buttons={['browse']} />
             </div>
             
             <DataTable 
-                title="議고쉶?댁슜"
+                title="조회내용"
                 columns={columns}
                 data={currentState.tables?.['bondsTable'] || []}
             />
@@ -236,4 +236,3 @@ export default function CollectiveRegistrationOfBondsForSalePage() {
     </div>
   );
 }
-

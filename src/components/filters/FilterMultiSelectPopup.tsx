@@ -1,11 +1,11 @@
-﻿
+
 
 import React, { useState, useEffect } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import type { FilterOption } from "./types";
 import { usePathname } from "@/lib/hooks/useAppLocation";
-import { listenForPopupMessages } from "@/lib${import.meta.env.BASE_URL}popup-bus";
+import { listenForPopupMessages } from "@/lib/popup-bus";
 
 export type FilterMultiSelectPopupProps = {
   name: string;
@@ -28,7 +28,7 @@ export function FilterMultiSelectPopup({
 }: FilterMultiSelectPopupProps) {
   const tabId = usePathname();
   
-  // value媛 undefined硫?泥댄겕 ?댁젣 ?곹깭
+  // value가 undefined면 체크 해제 상태
   const isChecked = value !== undefined;
   
   const [inputValue, setInputValue] = useState("");
@@ -57,11 +57,12 @@ export function FilterMultiSelectPopup({
     if (!onChange) return;
 
     if (checked) {
-      // 泥댄겕?? 鍮?諛곗뿴濡?珥덇린?뷀븯怨??앹뾽 ?ㅽ뵂
+      // 체크됨: 빈 배열로 초기화하고 팝업 오픈
       onChange([]);
       openPopup([]);
     } else {
-      // 泥댄겕 ?댁젣?? undefined濡?珥덇린??      onChange(undefined);
+      // 체크 해제됨: undefined로 초기화
+      onChange(undefined);
     }
   };
 
@@ -76,7 +77,7 @@ export function FilterMultiSelectPopup({
       const titleParam = encodeURIComponent(label || name);
 
       window.open(
-        `${import.meta.env.BASE_URL}popup/multi-select?openerTabId=${tabId}&source=multi-select-${name}&options=${optionsParam}&selected=${selectedParam}&title=${titleParam}`,
+        `/popup/multi-select?openerTabId=${tabId}&source=multi-select-${name}&options=${optionsParam}&selected=${selectedParam}&title=${titleParam}`,
         'MultiSelectPopup',
         `width=${popupWidth},height=${popupHeight},top=${top},left=${left}`
       );
@@ -105,15 +106,14 @@ export function FilterMultiSelectPopup({
         className="bg-white"
         disabled={!isChecked || wrapperDisabled}
         readOnly={readonly}
-        placeholder="?좏깮 ?먮뒗 ?낅젰?섏꽭??
+        placeholder="선택 또는 입력하세요"
         onClick={() => {
-            // ?대? 泥댄겕???곹깭?먯꽌 ?대┃ ?? ?앹뾽???꾩슱吏 ?щ?.
-            // ?ъ슜?먭? "?띿뒪???낅젰"???먰븯硫??앹뾽??諛⑺빐?????덉쓬.
-            // ?붽뎄?ы빆: "泥댄겕 ?? ?곗륫 ?명뭼李쎌뿉 ?띿뒪???낅젰???????놁쓬" -> ?닿껐??
-            // ?앹뾽? "泥댄겕 ?쒖꽦???쒖젏"?먮쭔 ?꾩슦湲곕줈 ?덉쑝誘濡??ш린?쒕뒗 ?앹뾽 濡쒖쭅 ?쒓굅.
+            // 이미 체크된 상태에서 클릭 시, 팝업을 띄울지 여부.
+            // 사용자가 "텍스트 입력"을 원하면 팝업이 방해될 수 있음.
+            // 요구사항: "체크 시, 우측 인풋창에 텍스트 입력을 할 수 없음" -> 해결됨.
+            // 팝업은 "체크 활성화 시점"에만 띄우기로 했으므로 여기서는 팝업 로직 제거.
         }}
       />
     </div>
   );
 }
-

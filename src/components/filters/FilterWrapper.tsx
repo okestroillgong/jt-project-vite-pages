@@ -1,4 +1,4 @@
-﻿import React from "react";
+import React from "react";
 import { usePathname } from "@/lib/hooks/useAppLocation";
 import type { Filter, FilterOption, LabelAlign } from "./types";
 import { Input } from "@/components/ui/input";
@@ -45,7 +45,7 @@ const FilterWrapper: React.FC<FilterWrapperProps> = (filter) => {
 
   const { name, value, onChange, activator, readonly, defaultValue, disabled } = filter;
 
-  // isDisabled??媛??꾪꽣媛 ?쒖꽦 泥댄겕諛뺤뒪???섑빐 鍮꾪솢?깊솕?????ъ슜
+  // isDisabled는 각 필터가 활성 체크박스에 의해 비활성화될 때 사용
   const isInternalDisabled = activator && value === undefined;
 
   let finalOnButtonClick = filter.onButtonClick;
@@ -62,7 +62,7 @@ const FilterWrapper: React.FC<FilterWrapperProps> = (filter) => {
         value={value || ''} 
         onChange={(e) => handleChange(e.target.value)} 
         className="w-full resize-none h-40" 
-        disabled={disabled || isInternalDisabled} // filter.disabled ?먮뒗 isInternalDisabled
+        disabled={disabled || isInternalDisabled} // filter.disabled 또는 isInternalDisabled
         readOnly={readonly} 
         placeholder={filter.placeholder} 
       />
@@ -72,7 +72,7 @@ const FilterWrapper: React.FC<FilterWrapperProps> = (filter) => {
   const finalValue = value ?? defaultValue;
 
   // Auto-inject popup logic for specific filters
-  if (!finalOnButtonClick && filter.label === "怨좉컼踰덊샇" && filter.type === "long-search") {
+  if (!finalOnButtonClick && filter.label === "고객번호" && filter.type === "long-search") {
     finalOnButtonClick = (currentValue?: any) => {
       const customerNumber = currentValue || '';
       const popupWidth = 1600;
@@ -80,7 +80,7 @@ const FilterWrapper: React.FC<FilterWrapperProps> = (filter) => {
       const left = (window.screen.width / 2) - (popupWidth / 2);
       const top = (window.screen.height / 2) - (popupHeight / 2);
       window.open(
-        `${import.meta.env.BASE_URL}popup/customer-search?customerNumber=${customerNumber}&openerTabId=${tabId}`,
+        `/popup/customer-search?customerNumber=${customerNumber}&openerTabId=${tabId}`,
         'CustomerSearch',
         `width=${popupWidth},height=${popupHeight},top=${top},left=${left}`
       );
@@ -173,7 +173,7 @@ const FilterWrapper: React.FC<FilterWrapperProps> = (filter) => {
                   readOnly={props.readOnly} 
                 />
                 <button
-                  type="button"  // 紐낆떆?곸쑝濡?type="button" 異붽?
+                  type="button"  // 명시적으로 type="button" 추가
                   className="absolute right-3 h-4 w-4 text-muted-foreground cursor-pointer hover:text-foreground active:scale-95"
                   onClick={(e) => {
                     e.preventDefault();
@@ -444,7 +444,7 @@ const FilterWrapper: React.FC<FilterWrapperProps> = (filter) => {
         );
 
       case "days-of-week":
-        const days = ["??, "??, "??, "紐?, "湲?, "??, "??];
+        const days = ["월", "화", "수", "목", "금", "토", "일"];
         const selectedDays: string[] = Array.isArray(finalValue) ? finalValue : [];
         
         const toggleDay = (day: string, checked: boolean) => {
@@ -498,7 +498,7 @@ const FilterWrapper: React.FC<FilterWrapperProps> = (filter) => {
                             {hours.map(h => <SelectItem key={h} value={h}>{h}</SelectItem>)}
                         </SelectContent>
                     </Select>
-                    <span className="text-sm">??/span>
+                    <span className="text-sm">시</span>
                 </div>
                 <span className="text-muted-foreground">~</span>
                 <div className="flex items-center gap-1">
@@ -514,7 +514,7 @@ const FilterWrapper: React.FC<FilterWrapperProps> = (filter) => {
                             {hours.map(h => <SelectItem key={h} value={h}>{h}</SelectItem>)}
                         </SelectContent>
                     </Select>
-                    <span className="text-sm">??/span>
+                    <span className="text-sm">시</span>
                 </div>
             </div>
         );
@@ -563,10 +563,10 @@ const FilterWrapper: React.FC<FilterWrapperProps> = (filter) => {
     <div className={cn("flex flex-1 min-w-[320px] items-center h-9", filter.className)}>
       <label
         className={cn(
-          // ??湲곗〈 right 湲곕낯媛믪? 洹몃?濡??좎? (湲곗〈 ?섏씠吏 臾댁쁺??
+          // ✅ 기존 right 기본값은 그대로 유지 (기존 페이지 무영향)
           !isLeft && "w-48 flex-shrink-0 text-right text-sm font-medium mr-4",
 
-          // ??left???뚮쭔 ?덉씠?꾩썐??'?뺤텞'?댁꽌 ?낅젰??媛숈씠 醫뚯륫?쇰줈 ?밴?
+          // ✅ left일 때만 레이아웃을 '압축'해서 입력도 같이 좌측으로 당김
           isLeft && "w-auto flex-shrink-0 text-left text-sm font-medium mr-2"
         )}
         htmlFor={filter.type === "checkbox" ? `checkbox-${filter.label}` : undefined}
@@ -588,4 +588,3 @@ const FilterWrapper: React.FC<FilterWrapperProps> = (filter) => {
 };
 
 export default FilterWrapper;
-

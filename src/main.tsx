@@ -8,8 +8,7 @@ import './styles/globals.css';
 // ------------------------------------------------------------
 // GitHub Pages(프로젝트 페이지) 하위 경로에서 팝업(/popup/*)이
 // 도메인 루트로 열려 404 나는 문제를 전역적으로 보정합니다.
-//  - window.open("/popup/...")  ->  window.open("<BASE_URL>popup/...")
-//  - BASE_URL은 Vite build --base 로 결정됩니다.
+//   window.open("/popup/...") -> window.open("<BASE_URL>popup/...")
 // ------------------------------------------------------------
 (() => {
   const base = (import.meta.env.BASE_URL || '/');
@@ -22,9 +21,7 @@ import './styles/globals.css';
       if (typeof url === 'string' && url.startsWith('/popup')) {
         url = `${baseNorm}popup${url.slice('/popup'.length)}`;
       }
-    } catch {
-      // ignore
-    }
+    } catch { /* ignore */ }
     return original(url as any, target, features);
   }) as any;
 })();

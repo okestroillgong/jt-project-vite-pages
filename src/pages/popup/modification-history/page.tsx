@@ -1,11 +1,11 @@
-﻿
+
 
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "@/lib/hooks/useAppLocation";
 import { DataTable } from "@/components/app/DataTable";
 import { PopupRightActions, PopupAction } from "@/components/app/PopupRightActions";
 import { ColumnDef } from "@tanstack/react-table";
-import { postPopupMessage } from "@/lib${import.meta.env.BASE_URL}popup-bus";
+import { postPopupMessage } from "@/lib/popup-bus";
 
 // Data type for the table
 type HistoryData = {
@@ -26,27 +26,27 @@ const mockData: HistoryData[] = Array.from({ length: 10 }, (_, i) => ({
   id: i + 1,
   accountNumber: "123-456-7890",
   customerNumber: "CUST001",
-  customerName: "?띻만??,
-  changeItem: i % 2 === 0 ? "二쇱냼" : "?꾪솕踰덊샇",
-  beforeChange: i % 2 === 0 ? "?쒖슱??媛뺣궓援? : "010-1111-2222",
-  afterChange: i % 2 === 0 ? "?쒖슱???쒖큹援? : "010-3333-4444",
-  modifier: "愿由ъ옄",
+  customerName: "홍길동",
+  changeItem: i % 2 === 0 ? "주소" : "전화번호",
+  beforeChange: i % 2 === 0 ? "서울시 강남구" : "010-1111-2222",
+  afterChange: i % 2 === 0 ? "서울시 서초구" : "010-3333-4444",
+  modifier: "관리자",
   changeDate: "2024-01-01",
   changeTime: "12:00:00",
 }));
 
 // Column definitions for the table
 const columns: ColumnDef<HistoryData>[] = [
-  { accessorKey: "id", header: "?쒕쾲" },
-  { accessorKey: "accountNumber", header: "怨꾩쥖踰덊샇" },
-  { accessorKey: "customerNumber", header: "?좎껌怨좉컼踰덊샇" },
-  { accessorKey: "customerName", header: "?좎껌?몃챸" },
-  { accessorKey: "changeItem", header: "蹂寃쏀빆紐? },
-  { accessorKey: "beforeChange", header: "蹂寃쎌씠?꾨궡?? },
-  { accessorKey: "afterChange", header: "蹂寃쎌씠?꾨궡?? },
-  { accessorKey: "modifier", header: "蹂寃??ъ슜?? },
-  { accessorKey: "changeDate", header: "蹂寃쎌씪?? },
-  { accessorKey: "changeTime", header: "蹂寃쎌떆媛? },
+  { accessorKey: "id", header: "순번" },
+  { accessorKey: "accountNumber", header: "계좌번호" },
+  { accessorKey: "customerNumber", header: "신청고객번호" },
+  { accessorKey: "customerName", header: "신청인명" },
+  { accessorKey: "changeItem", header: "변경항목" },
+  { accessorKey: "beforeChange", header: "변경이전내용" },
+  { accessorKey: "afterChange", header: "변경이후내용" },
+  { accessorKey: "modifier", header: "변경 사용자" },
+  { accessorKey: "changeDate", header: "변경일자" },
+  { accessorKey: "changeTime", header: "변경시각" },
 ];
 
 function ModificationHistoryPopupContent() {
@@ -82,14 +82,14 @@ function ModificationHistoryPopupContent() {
   };
 
   const popupActions: PopupAction[] = [
-    { id: "search", text: "議고쉶", onClick: handleSearch },
-    { id: "close", text: "?リ린", onClick: () => window.close() },
+    { id: "search", text: "조회", onClick: handleSearch },
+    { id: "close", text: "닫기", onClick: () => window.close() },
   ];
 
   return (
     <div className="flex flex-col gap-4 p-4 bg-gray-50 min-h-screen">
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-bold">?섏젙?댁뿭</h2>
+        <h2 className="text-xl font-bold">수정내역</h2>
         <PopupRightActions actions={popupActions} />
       </div>
 

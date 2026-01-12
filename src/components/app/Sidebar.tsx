@@ -1,4 +1,4 @@
-﻿
+
 
 import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "@/lib/hooks/useAppLocation";
@@ -10,18 +10,18 @@ import { useLayoutStore } from "@/lib/store/layoutStore";
 import { useFavoritesStore } from "@/lib/store/favoritesStore";
 
 // 1st level icons
-import IconMainMenu01 from "@/assets/icons/js/硫붿씤硫붾돱01?곷떞愿由?;
-import IconMainMenu02 from "@/assets/icons/js/硫붿씤硫붾돱02?ъ떊?ы썑";
+import IconMainMenu01 from "@/assets/icons/js/메인메뉴01상담관리";
+import IconMainMenu02 from "@/assets/icons/js/메인메뉴02여신사후";
 
 // 2nd level icons
-import IconSubMenu01 from "@/assets/icons/js/?쒕툕硫붾돱01梨꾧텒議곗젙";
-import IconSubMenu02 from "@/assets/icons/js/?쒕툕硫붾돱02梨꾧텒愿由?;
-import IconSubMenu03 from "@/assets/icons/js/?쒕툕硫붾돱03?ъ궛議곗궗";
-import IconSubMenu04 from "@/assets/icons/js/?쒕툕硫붾돱04踰뺤쟻議곗튂";
-import IconSubMenu05 from "@/assets/icons/js/?쒕툕硫붾돱05?먯궛嫄댁쟾?깅??먯긽媛?;
-import IconSubMenu06 from "@/assets/icons/js/?쒕툕硫붾돱06?뱀닔梨꾧텒";
-import IconSubMenu07 from "@/assets/icons/js/?쒕툕硫붾돱07留ㅺ컖梨꾧텒?쇨큵?깅줉";
-import IconSubMenu08 from "@/assets/icons/js/?쒕툕硫붾돱08梨꾧텒愿由щ벑湲됱뿊??낅줈??;
+import IconSubMenu01 from "@/assets/icons/js/서브메뉴01채권조정";
+import IconSubMenu02 from "@/assets/icons/js/서브메뉴02채권관리";
+import IconSubMenu03 from "@/assets/icons/js/서브메뉴03재산조사";
+import IconSubMenu04 from "@/assets/icons/js/서브메뉴04법적조치";
+import IconSubMenu05 from "@/assets/icons/js/서브메뉴05자산건전성대손상각";
+import IconSubMenu06 from "@/assets/icons/js/서브메뉴06특수채권";
+import IconSubMenu07 from "@/assets/icons/js/서브메뉴07매각채권일괄등록";
+import IconSubMenu08 from "@/assets/icons/js/서브메뉴08채권관리등급엑셀업로드";
 import IconCreditMonitoring from "@/assets/icons/js/IconCreditMonitoring";
 import IconSettings from "@/assets/icons/js/IconSettings";
 import IconAdmin from "@/assets/icons/js/IconAdmin";
@@ -32,31 +32,31 @@ import IconIlban from "@/assets/icons/js/IconIlban";
 import IconHelpdesk from "@/assets/icons/js/IconHelpdesk";
 
 const primaryNavItems = [
-  { name: "?곷떞愿由?, icon: IconMainMenu01, href: "#", panelId: "counseling" },
-  { name: "?ъ떊?ы썑", icon: IconMainMenu02, href: "#", panelId: "afterLoan" },
-  { name: "?ㅼ젙", icon: IconSettings, href: "/under-construction?page=?ㅼ젙", panelId: "under-construction" },
+  { name: "상담관리", icon: IconMainMenu01, href: "#", panelId: "counseling" },
+  { name: "여신사후", icon: IconMainMenu02, href: "#", panelId: "afterLoan" },
+  { name: "설정", icon: IconSettings, href: "/under-construction?page=설정", panelId: "under-construction" },
 ];
 
 const counselingSecondaryNavItems = [
   {
-    name: "?쇰컲?곷떞",
+    name: "일반상담",
     icon: IconIlban,
     children: [
-        { name: "梨꾧텒?곷떞", href: "/counseling/general-counseling/bond-counseling" },
-        { name: "洹몃９??梨꾧텒)", href: "/under-construction?page=洹몃９??梨꾧텒)" },
-        { name: "諛곗젙愿由?梨꾧텒)", href: "/under-construction?page=諛곗젙愿由?梨꾧텒)" },
-        { name: "?대떦?먮?寃쎌씠??, href: "/counseling/general-counseling/manager-change-history" },
-        { name: "?곷떞愿由?梨꾧텒)", href: "/under-construction?page=?곷떞愿由?梨꾧텒)" },
-        { name: "CMS?묐떦?쇱“??, href: "/counseling/general-counseling/cms-due-date" },
-        { name: "留ㅺ컖/?곴컖 由ъ뒪??, href: "/counseling/general-counseling/sale-write-off-list" },
-        { name: "PDS愿由?, href: "/counseling/general-counseling/pds-management" },
-        { name: "PDS(梨꾧텒)", href: "/under-construction?page=PDS(梨꾧텒)" },
+        { name: "채권상담", href: "/counseling/general-counseling/bond-counseling" },
+        { name: "그룹핑(채권)", href: "/under-construction?page=그룹핑(채권)" },
+        { name: "배정관리(채권)", href: "/under-construction?page=배정관리(채권)" },
+        { name: "담당자변경이력", href: "/counseling/general-counseling/manager-change-history" },
+        { name: "상담관리(채권)", href: "/under-construction?page=상담관리(채권)" },
+        { name: "CMS응당일조회", href: "/counseling/general-counseling/cms-due-date" },
+        { name: "매각/상각 리스트", href: "/counseling/general-counseling/sale-write-off-list" },
+        { name: "PDS관리", href: "/counseling/general-counseling/pds-management" },
+        { name: "PDS(채권)", href: "/under-construction?page=PDS(채권)" },
     ]
   },
   {
-    name: "SMS/?대찓??,
+    name: "SMS/이메일",
     icon: IconEmail,
-    href: "/under-construction?page=SMS/?대찓??,
+    href: "/under-construction?page=SMS/이메일",
   },
   {
     name: "HELPDESK",
@@ -64,119 +64,119 @@ const counselingSecondaryNavItems = [
     href: "/under-construction?page=HELPDESK",
   },
   {
-    name: "湲곗??뺣낫",
+    name: "기준정보",
     icon: IconGijun,
-    href: "/under-construction?page=湲곗??뺣낫",
+    href: "/under-construction?page=기준정보",
   },
 ];
 
 const afterLoanSecondaryNavItems = [
   {
-    name: "梨꾧텒議곗젙",
+    name: "채권조정",
     icon: IconSubMenu01,
     children: [
       {
-        name: "梨꾧텒議고쉶",
+        name: "채권조회",
         href: "/after-loan/bond-adjustment/bond-inquiry",
       },
       {
-        name: "?좎슜?뚮났愿由?,
+        name: "신용회복관리",
         href: "/after-loan/bond-adjustment/credit-recovery",
       },
       {
-        name: "媛쒖씤?뚯깮愿由?,
+        name: "개인회생관리",
         href: "/after-loan/bond-adjustment/personal-rehabilitation",
       },
       {
-        name: "?뚯궛硫댁콉愿由?,
+        name: "파산면책관리",
         href: "/after-loan/bond-adjustment/bankruptcy-exemption",
       },
       {
-        name: "梨꾧텒?뺣낫?숆린??,
-        href: "/under-construction?page=梨꾧텒?뺣낫?숆린??,
+        name: "채권정보동기화",
+        href: "/under-construction?page=채권정보동기화",
       },
       {
-        name: "誘몄쿂由ш툑?≪“??,
-        href: "/under-construction?page=誘몄쿂由ш툑?≪“??,
+        name: "미처리금액조회",
+        href: "/under-construction?page=미처리금액조회",
       },
       {
-        name: "梨꾨Т議곗젙愿由?,
+        name: "채무조정관리",
         href: "/after-loan/bond-adjustment/debt-adjustment-management",
       },
       {
-        name: "梨꾧텒議고쉶 (梨꾨Т議곗젙愿由??앹뾽 ?앹꽦)",
-        href: "/under-construction?page=梨꾧텒議고쉶 (梨꾨Т議곗젙愿由??앹뾽 ?앹꽦)",
+        name: "채권조회 (채무조정관리 팝업 생성)",
+        href: "/under-construction?page=채권조회 (채무조정관리 팝업 생성)",
       },
     ],
   },
   {
-    name: "梨꾧텒愿由?,
+    name: "채권관리",
     icon: IconSubMenu02,
-    href: "/under-construction?page=梨꾧텒愿由?,
+    href: "/under-construction?page=채권관리",
   },
   {
-    name: "?ъ궛議곗궗",
+    name: "재산조사",
     icon: IconSubMenu03,
-    href: "/under-construction?page=?ъ궛議곗궗",
+    href: "/under-construction?page=재산조사",
   },
   {
-    name: "踰뺤쟻議곗튂",
+    name: "법적조치",
     icon: IconSubMenu04,
     children: [
-        { name: "踰뺣Т?뺣낫 ?숆린??, href: "/after-loan/legal-action/legal-info-sync" },
-        { name: "踰뺣Т吏꾪뻾 議고쉶", href: "/after-loan/legal-action/inquiry-legal-proceedings" },
-        { name: "踰뺣Т愿由?, href: "/after-loan/legal-action/legal-management" },
-        { name: "?ы썑愿由ъ씪吏議고쉶", href: "/under-construction?page=?ы썑愿由ъ씪吏議고쉶" },
-        { name: "梨꾧텒?뱀꽦?뺣낫", href: "/under-construction?page=梨꾧텒?뱀꽦?뺣낫" },
-        { name: "?듯빀?묒??낅줈??, href: "/after-loan/legal-action/excel-upload" },
+        { name: "법무정보 동기화", href: "/after-loan/legal-action/legal-info-sync" },
+        { name: "법무진행 조회", href: "/after-loan/legal-action/inquiry-legal-proceedings" },
+        { name: "법무관리", href: "/after-loan/legal-action/legal-management" },
+        { name: "사후관리일지조회", href: "/under-construction?page=사후관리일지조회" },
+        { name: "채권특성정보", href: "/under-construction?page=채권특성정보" },
+        { name: "통합엑셀업로드", href: "/after-loan/legal-action/excel-upload" },
     ]
   },
   {
-    name: "?ъ궛嫄댁쟾????먯긽媛?,
+    name: "재산건전성/대손상각",
     icon: IconSubMenu05,
     children: [
-        { name: "嫄댁쟾??湲곗큹?먮즺 ?앹꽦", href: "/after-loan/asset-soundness-bad-debt/soundness-foundation-data-generation" },
-        { name: "嫄댁쟾???먮즺 ?앹꽦", href: "/after-loan/asset-soundness-bad-debt/soundness-data-generation" },
-        { name: "?먯궛嫄댁쟾??寃利?, href: "/after-loan/asset-soundness-bad-debt/asset-soundness-verification" },
-        { name: "??먯긽媛곷???愿由?, href: "/after-loan/asset-soundness-bad-debt/bad-debt-management" },
-        { name: "??먯긽媛곷???議고쉶", href: "/after-loan/asset-soundness-bad-debt/write-off-target" },
-        { name: "??먯떊泥?콈沅뚮챸??, href: "/after-loan/asset-soundness-bad-debt/write-off-application-specifications" },
-        { name: "遺?ㅼ콉?꾩꽦?ъ쓽猶곗꽌", href: "/under-construction?page=遺?ㅼ콉?꾩꽦?ъ쓽猶곗꽌" },
-        { name: "?곸뾽援ъ뿭 二쇱냼愿由?, href: "/after-loan/asset-soundness-bad-debt/business-area-address-management" },
+        { name: "건전성 기초자료 생성", href: "/after-loan/asset-soundness-bad-debt/soundness-foundation-data-generation" },
+        { name: "건전성 자료 생성", href: "/after-loan/asset-soundness-bad-debt/soundness-data-generation" },
+        { name: "자산건전성 검증", href: "/after-loan/asset-soundness-bad-debt/asset-soundness-verification" },
+        { name: "대손상각대상 관리", href: "/after-loan/asset-soundness-bad-debt/bad-debt-management" },
+        { name: "대손상각대상 조회", href: "/after-loan/asset-soundness-bad-debt/write-off-target" },
+        { name: "대손신청채권명세", href: "/after-loan/asset-soundness-bad-debt/write-off-application-specifications" },
+        { name: "부실책임성사의뢰서", href: "/under-construction?page=부실책임성사의뢰서" },
+        { name: "영업구역 주소관리", href: "/after-loan/asset-soundness-bad-debt/business-area-address-management" },
     ]
   },
   {
-    name: "?뱀닔梨꾧텒",
+    name: "특수채권",
     icon: IconSubMenu06,
     children: [
-        { name: "?뱀닔梨꾧텒 ?몄엯議고쉶", href: "/after-loan/special-bond/subscription-inquiry" },
-        { name: "?뱀닔梨꾧텒 愿由щ???, href: "/after-loan/special-bond/management-ledger" },
-        { name: "?뱀닔梨꾧텒 ?대떦?먭?由?, href: "/after-loan/special-bond/manager-management" },
-        { name: "?뱀닔梨꾧텒 ?대떦?먯“??, href: "/after-loan/special-bond/manager-inquiry" },
+        { name: "특수채권 편입조회", href: "/after-loan/special-bond/subscription-inquiry" },
+        { name: "특수채권 관리대장", href: "/after-loan/special-bond/management-ledger" },
+        { name: "특수채권 담당자관리", href: "/after-loan/special-bond/manager-management" },
+        { name: "특수채권 담당자조회", href: "/after-loan/special-bond/manager-inquiry" },
     ]
   },
   {
-    name: "?ъ떊?곸떆紐⑤땲?곕쭅",
+    name: "여신상시모니터링",
     icon: IconCreditMonitoring,
     children: [
-        { name: "?ъ떊?곸떆紐⑤땲?곕쭅 蹂?숉쁽??, href: "/under-construction?page=?ъ떊?곸떆紐⑤땲?곕쭅 蹂?숉쁽?? },
-        { name: "?ъ떊?곸떆紐⑤땲?곕쭅 寃곌낵", href: "/under-construction?page=?ъ떊?곸떆紐⑤땲?곕쭅 寃곌낵" },
+        { name: "여신상시모니터링 변동현황", href: "/under-construction?page=여신상시모니터링 변동현황" },
+        { name: "여신상시모니터링 결과", href: "/under-construction?page=여신상시모니터링 결과" },
     ]
   },
   {
-    name: "留ㅺ컖梨꾧텒?쇨큵?깅줉",
+    name: "매각채권일괄등록",
     icon: IconSubMenu07,
     href: "/after-loan/collective-registration-of-bonds-for-sale",
   },
   {
-    name: "梨꾧텒愿由щ벑湲??묒? ?낅줈??,
+    name: "채권관리등급 엑셀 업로드",
     icon: IconSubMenu08,
     href: "/after-loan/credit-rating-excel-upload",
   },
 ];
 
 export function Sidebar() {
-  const [selected, setSelected] = useState("?곷떞愿由?);
+  const [selected, setSelected] = useState("상담관리");
   const [openPanel, setOpenPanel] = useState<string | null>(null);
   const [expandedMenu, setExpandedMenu] = useState<string | null>(null);
   const [sidebarTab, setSidebarTab] = useState<'menu' | 'favorites'>('menu');
@@ -191,9 +191,9 @@ export function Sidebar() {
     if (currentItem) {
       setSelected(currentItem.name);
     } else if (pathname.startsWith("/after-loan")) {
-      setSelected("?ъ떊?ы썑");
+      setSelected("여신사후");
       if (isSidebarExpanded) {
-        setExpandedMenu("?ъ떊?ы썑");
+        setExpandedMenu("여신사후");
       }
     }
   }, [pathname, isSidebarExpanded]);
@@ -207,10 +207,10 @@ export function Sidebar() {
     setSelected(item.name);
     
     if (isSidebarExpanded) {
-        if (item.name === "?ъ떊?ы썑") {
-            setExpandedMenu(expandedMenu === "?ъ떊?ы썑" ? null : "?ъ떊?ы썑");
-        } else if (item.name === "?곷떞愿由?) {
-             setExpandedMenu(expandedMenu === "?곷떞愿由? ? null : "?곷떞愿由?);
+        if (item.name === "여신사후") {
+            setExpandedMenu(expandedMenu === "여신사후" ? null : "여신사후");
+        } else if (item.name === "상담관리") {
+             setExpandedMenu(expandedMenu === "상담관리" ? null : "상담관리");
         } else {
             // Leaf node navigation
             if (item.href !== "#") {
@@ -218,7 +218,7 @@ export function Sidebar() {
             }
         }
     } else {
-        if (item.name !== "?ъ떊?ы썑" && item.href !== "#") {
+        if (item.name !== "여신사후" && item.href !== "#") {
             handleLinkClick(item.href, item.name);
         }
     }
@@ -250,7 +250,7 @@ export function Sidebar() {
                   : "bg-transparent text-gray-600 hover:bg-gray-100"
               )}
             >
-              利먭꺼李얘린
+              즐겨찾기
             </Button>
             <Button
               variant={sidebarTab === 'menu' ? 'default' : 'ghost'}
@@ -265,7 +265,7 @@ export function Sidebar() {
                   : "bg-transparent text-gray-600 hover:bg-gray-100"
               )}
             >
-              ?낅Т硫붾돱
+              업무메뉴
             </Button>
           </div>
         ) : (
@@ -309,7 +309,7 @@ export function Sidebar() {
           <div className="px-4">
             {primaryNavItems.map((item) => {
               const isSelected = selected === item.name;
-              const hasChildren = item.name === "?ъ떊?ы썑" || item.name === "?곷떞愿由?;
+              const hasChildren = item.name === "여신사후" || item.name === "상담관리";
 
               return (
                 <div key={item.name} className="w-full mb-1">
@@ -351,10 +351,10 @@ export function Sidebar() {
                     {/* Inline Submenu for Expanded Mode */}
                     {isSidebarExpanded && expandedMenu === item.name && (
                         <div className="mt-1 space-y-1">
-                            {item.name === "?ъ떊?ы썑" && (
+                            {item.name === "여신사후" && (
                                 <InlineAfterLoanMenu handleLinkClick={handleLinkClick} />
                             )}
-                            {item.name === "?곷떞愿由? && (
+                            {item.name === "상담관리" && (
                                 <InlineCounselingMenu handleLinkClick={handleLinkClick} />
                             )}
                         </div>
@@ -383,12 +383,14 @@ export function Sidebar() {
                 {isSidebarExpanded && (
                      <div className="overflow-hidden flex flex-col justify-start">
                         <p className="truncate text-sm font-semibold text-gray-800 leading-tight">
-                            ?띻만??                        </p>
+                            홍길동
+                        </p>
                         <p className="truncate text-xs text-gray-500 mt-0.5">
                             admin@example.com
                         </p>
                         <p className="truncate text-sm font-semibold text-gray-800 mt-1">
-                            JT 移쒖븷?異뺤???                        </p>
+                            JT 친애저축은행
+                        </p>
                     </div>
                 )}
             </div>
@@ -461,13 +463,13 @@ function InlineAfterLoanMenu({ handleLinkClick }: { handleLinkClick: (path: stri
                                                 "hover:bg-[#FEFEFE] group-hover:text-gray-800"
                                             )}
                                             onClick={() => {
-                                                if (child.name === "梨꾧텒議고쉶 (梨꾨Т議곗젙愿由??앹뾽 ?앹꽦)") {
+                                                if (child.name === "채권조회 (채무조정관리 팝업 생성)") {
                                                     const popupWidth = 1600;
                                                     const popupHeight = 800;
                                                     const left = (window.screen.width / 2) - (popupWidth / 2);
                                                     const top = (window.screen.height / 2) - (popupHeight / 2);
                                                     window.open(
-                                                      '${import.meta.env.BASE_URL}popup/debt-adjustment-management',
+                                                      '/popup/debt-adjustment-management',
                                                       'DebtAdjustmentManagement',
                                                       `width=${popupWidth},height=${popupHeight},top=${top},left=${left}`
                                                     );
@@ -476,7 +478,7 @@ function InlineAfterLoanMenu({ handleLinkClick }: { handleLinkClick: (path: stri
                                                 }
                                             }}
                                         >
-                                            <span className="truncate">??{child.name}</span>
+                                            <span className="truncate">• {child.name}</span>
                                         </Button>
                                     ))}
                                 </div>
@@ -532,7 +534,7 @@ function CounselingSecondarySidebar({ handleLinkClick }: { handleLinkClick: (pat
 
   return (
     <aside className="h-full w-60 rounded-2xl border-r border-border bg-background py-4 ml-2 shadow-lg">
-      <h2 className="mb-4 text-lg font-semibold px-4">?곷떞愿由?/h2>
+      <h2 className="mb-4 text-lg font-semibold px-4">상담관리</h2>
       <nav className="flex flex-col gap-1">
         {counselingSecondaryNavItems.map((item) => (
           <div key={item.name}>
@@ -580,7 +582,7 @@ function CounselingSecondarySidebar({ handleLinkClick }: { handleLinkClick: (pat
                           handleLinkClick(child.href, child.name);
                         }}
                       >
-                        ??{child.name}
+                        • {child.name}
                       </Button>
                     ))}
                   </div>
@@ -674,7 +676,7 @@ function InlineCounselingMenu({ handleLinkClick }: { handleLinkClick: (path: str
                                                 handleLinkClick(child.href, child.name);
                                             }}
                                         >
-                                            <span className="truncate">??{child.name}</span>
+                                            <span className="truncate">• {child.name}</span>
                                         </Button>
                                     ))}
                                 </div>
@@ -730,7 +732,7 @@ function AfterLoanSecondarySidebar({ handleLinkClick }: { handleLinkClick: (path
 
   return (
     <aside className="h-full w-60 rounded-2xl border-r border-border bg-background py-4 ml-2 shadow-lg">
-      <h2 className="mb-4 text-lg font-semibold px-4">?ъ떊?ы썑</h2>
+      <h2 className="mb-4 text-lg font-semibold px-4">여신사후</h2>
       <nav className="flex flex-col gap-1">
         {afterLoanSecondaryNavItems.map((item) => (
           <div key={item.name}>
@@ -775,13 +777,13 @@ function AfterLoanSecondarySidebar({ handleLinkClick }: { handleLinkClick: (path
                         )}
                         onClick={(e) => {
                           e.preventDefault();
-                          if (child.name === "梨꾧텒議고쉶 (梨꾨Т議곗젙愿由??앹뾽 ?앹꽦)") {
+                          if (child.name === "채권조회 (채무조정관리 팝업 생성)") {
                             const popupWidth = 1600;
                             const popupHeight = 800;
                             const left = (window.screen.width / 2) - (popupWidth / 2);
                             const top = (window.screen.height / 2) - (popupHeight / 2);
                             window.open(
-                              '${import.meta.env.BASE_URL}popup/debt-adjustment-management',
+                              '/popup/debt-adjustment-management',
                               'DebtAdjustmentManagement',
                               `width=${popupWidth},height=${popupHeight},top=${top},left=${left}`
                             );
@@ -790,7 +792,7 @@ function AfterLoanSecondarySidebar({ handleLinkClick }: { handleLinkClick: (path
                           }
                         }}
                       >
-                        ??{child.name}
+                        • {child.name}
                       </Button>
                     ))}
                   </div>
@@ -933,11 +935,11 @@ function FavoritesSecondarySidebar({ handleLinkClick }: { handleLinkClick: (path
   if (favorites.length === 0) {
     return (
       <aside className="h-full w-60 rounded-2xl border-r border-border bg-background py-4 ml-2 shadow-lg">
-        <h2 className="mb-4 text-lg font-semibold px-4">利먭꺼李얘린</h2>
+        <h2 className="mb-4 text-lg font-semibold px-4">즐겨찾기</h2>
         <div className="flex items-start justify-center pt-8 text-[#25292e] text-sm">
           <div className="text-center">
             <Folder className="size-8 mx-auto mb-2 text-[#25292e]" />
-            <p>利먭꺼李얘린媛 ?놁뒿?덈떎</p>
+            <p>즐겨찾기가 없습니다</p>
           </div>
         </div>
       </aside>
@@ -946,7 +948,7 @@ function FavoritesSecondarySidebar({ handleLinkClick }: { handleLinkClick: (path
 
   return (
     <aside className="h-full w-60 rounded-2xl border-r border-border bg-background py-4 ml-2 shadow-lg">
-      <h2 className="mb-4 text-lg font-semibold px-4">利먭꺼李얘린</h2>
+      <h2 className="mb-4 text-lg font-semibold px-4">즐겨찾기</h2>
       <nav className="flex flex-col gap-1 overflow-y-auto">
         {rootFolders.map(folder => renderFolder(folder, 0))}
       </nav>
@@ -1122,9 +1124,10 @@ function FavoritesList({
       <div className="flex-grow flex items-start justify-center pt-8 px-4">
         <div className="text-center text-[#25292e] text-sm">
           <Folder className="size-8 mx-auto mb-2 text-[#25292e]" />
-          <p>利먭꺼李얘린???섏씠吏媛 ?놁뒿?덈떎</p>
+          <p>즐겨찾기한 페이지가 없습니다</p>
           <p className="text-xs mt-1 text-[#25292e]/70">
-            ?섏씠吏?먯꽌 ??踰꾪듉???대┃?섏뿬<br />利먭꺼李얘린瑜?異붽??섏꽭??          </p>
+            페이지에서 ★ 버튼을 클릭하여<br />즐겨찾기를 추가하세요
+          </p>
         </div>
       </div>
     );
@@ -1138,4 +1141,3 @@ function FavoritesList({
     </div>
   );
 }
-
