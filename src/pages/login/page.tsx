@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
@@ -13,6 +13,10 @@ export default function LoginPage() {
   const [rememberLogin, setRememberLogin] = useState(false);
   const [clientIP, setClientIP] = useState('192.111.111.102');
   const [isLoading, setIsLoading] = useState(false);
+
+  // GitHub Pages(프로젝트 하위 경로)에서도 public 자산이 깨지지 않도록 BASE_URL을 붙입니다.
+  const base = (import.meta.env.BASE_URL || '/').replace(/\/?$/, '/');
+  const withBase = (p: string) => `${base}${p.replace(/^\/+/, '')}`;
 
   // 저장된 로그인 정보 불러오기
   useEffect(() => {
@@ -76,7 +80,7 @@ export default function LoginPage() {
     <div
       className="min-h-screen w-full flex items-center justify-center relative"
       style={{
-        backgroundImage: 'url(/login/background.png)',
+        backgroundImage: `url(${withBase('login/background.png')})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -89,7 +93,7 @@ export default function LoginPage() {
           {/* 로고 영역 */}
           <div className="flex items-center gap-2 mb-8">
             <img
-              src="/login/text-logo.png"
+              src={withBase('login/text-logo.png')}
               alt="JT 친애저축은행"
               className="h-6"
             />
@@ -160,7 +164,7 @@ export default function LoginPage() {
 
         {/* 화살표 차트 이미지 */}
         <img
-          src="/login/arrow-image.png"
+          src={withBase('login/arrow-image.png')}
           alt="성장 차트"
           className="w-[280px] h-auto -ml-2 mb-4 relative z-0"
         />
