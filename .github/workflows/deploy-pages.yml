@@ -18,8 +18,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout (with LFS)
         uses: actions/checkout@v4
+        with:
+          lfs: true
+          fetch-depth: 0
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -29,7 +32,6 @@ jobs:
       - name: Install deps (npm)
         run: npm ci
 
-      # ✅ repo pages는 /<repo>/ 하위경로라 base 필요
       - name: Build
         run: |
           npm run build -- --base=/${{ github.event.repository.name }}/
