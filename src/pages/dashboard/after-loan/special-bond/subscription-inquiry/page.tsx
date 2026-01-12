@@ -1,4 +1,4 @@
-
+﻿
 
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { usePathname } from "@/lib/hooks/useAppLocation";
@@ -21,37 +21,30 @@ import { listenForPopupMessages } from "@/lib/popup-bus";
 // --- Types ---
 
 interface SpecialBondSubscriptionData {
-  id: number; // 순번 (implicit)
-  usrNm: string; // 담당자명
-  incrprDt: string; // 편입일자
-  custNo: string; // 고객번호
-  custNm: string; // 고객명
-  acntNo: string; // 계좌번호
-  accCd: string; // 상품명
-  loanDt: string; // 대출일자
-  expDt: string; // 만기일자
-  loanAmt: number; // 대출금액
-  incrprAmt: number; // 편입금액
-  incrprNrmlIntr: number; // 편입정상이자
-  incrprArrs: number; // 편입연체료
-  incrprArrintr: number; // 편입연체이자
-  incrprSpnpyt: number; // 편입가지급금
-  loanBlce: number; // 대출잔액
-  acitrc: number; // 미수이자
-  ouArrs: number; // 미수연체료
-  ouArrIntr: number; // 미수연체이자
-  ouSpnpyt: number; // 미수가지급금
+  id: number; // ?쒕쾲 (implicit)
+  usrNm: string; // ?대떦?먮챸
+  incrprDt: string; // ?몄엯?쇱옄
+  custNo: string; // 怨좉컼踰덊샇
+  custNm: string; // 怨좉컼紐?  acntNo: string; // 怨꾩쥖踰덊샇
+  accCd: string; // ?곹뭹紐?  loanDt: string; // ?異쒖씪??  expDt: string; // 留뚭린?쇱옄
+  loanAmt: number; // ?異쒓툑??  incrprAmt: number; // ?몄엯湲덉븸
+  incrprNrmlIntr: number; // ?몄엯?뺤긽?댁옄
+  incrprArrs: number; // ?몄엯?곗껜猷?  incrprArrintr: number; // ?몄엯?곗껜?댁옄
+  incrprSpnpyt: number; // ?몄엯媛吏湲됯툑
+  loanBlce: number; // ?異쒖옍??  acitrc: number; // 誘몄닔?댁옄
+  ouArrs: number; // 誘몄닔?곗껜猷?  ouArrIntr: number; // 誘몄닔?곗껜?댁옄
+  ouSpnpyt: number; // 誘몄닔媛吏湲됯툑
 }
 
 // --- Mock Data ---
 const mockData: SpecialBondSubscriptionData[] = Array.from({ length: 20 }, (_, i) => ({
   id: i + 1,
-  usrNm: `담당자${i + 1}`,
+  usrNm: `?대떦??{i + 1}`,
   incrprDt: "2024-11-01",
   custNo: `CUST${1000 + i}`,
-  custNm: `고객${i + 1}`,
+  custNm: `怨좉컼${i + 1}`,
   acntNo: `100-200-${300000 + i}`,
-  accCd: "신용대출",
+  accCd: "?좎슜?異?,
   loanDt: "2023-01-01",
   expDt: "2025-01-01",
   loanAmt: 10000000 * (i + 1),
@@ -69,26 +62,26 @@ const mockData: SpecialBondSubscriptionData[] = Array.from({ length: 20 }, (_, i
 
 // --- Columns ---
 const columns: ColumnDef<SpecialBondSubscriptionData>[] = [
-  { accessorKey: "id", header: "순번" },
-  { accessorKey: "usrNm", header: "담당자명" },
-  { accessorKey: "incrprDt", header: "편입일자" },
-  { accessorKey: "custNo", header: "고객번호" },
-  { accessorKey: "custNm", header: "고객명" },
-  { accessorKey: "acntNo", header: "계좌번호" },
-  { accessorKey: "accCd", header: "상품명" },
-  { accessorKey: "loanDt", header: "대출일자" },
-  { accessorKey: "expDt", header: "만기일자" },
-  { accessorKey: "loanAmt", header: "대출금액" },
-  { accessorKey: "incrprAmt", header: "편입금액" },
-  { accessorKey: "incrprNrmlIntr", header: "편입정상이자" },
-  { accessorKey: "incrprArrs", header: "편입연체료" },
-  { accessorKey: "incrprArrintr", header: "편입연체이자" },
-  { accessorKey: "incrprSpnpyt", header: "편입가지급금" },
-  { accessorKey: "loanBlce", header: "대출잔액" },
-  { accessorKey: "acitrc", header: "미수이자" },
-  { accessorKey: "ouArrs", header: "미수연체료" },
-  { accessorKey: "ouArrIntr", header: "미수연체이자" },
-  { accessorKey: "ouSpnpyt", header: "미수가지급금" },
+  { accessorKey: "id", header: "?쒕쾲" },
+  { accessorKey: "usrNm", header: "?대떦?먮챸" },
+  { accessorKey: "incrprDt", header: "?몄엯?쇱옄" },
+  { accessorKey: "custNo", header: "怨좉컼踰덊샇" },
+  { accessorKey: "custNm", header: "怨좉컼紐? },
+  { accessorKey: "acntNo", header: "怨꾩쥖踰덊샇" },
+  { accessorKey: "accCd", header: "?곹뭹紐? },
+  { accessorKey: "loanDt", header: "?異쒖씪?? },
+  { accessorKey: "expDt", header: "留뚭린?쇱옄" },
+  { accessorKey: "loanAmt", header: "?異쒓툑?? },
+  { accessorKey: "incrprAmt", header: "?몄엯湲덉븸" },
+  { accessorKey: "incrprNrmlIntr", header: "?몄엯?뺤긽?댁옄" },
+  { accessorKey: "incrprArrs", header: "?몄엯?곗껜猷? },
+  { accessorKey: "incrprArrintr", header: "?몄엯?곗껜?댁옄" },
+  { accessorKey: "incrprSpnpyt", header: "?몄엯媛吏湲됯툑" },
+  { accessorKey: "loanBlce", header: "?異쒖옍?? },
+  { accessorKey: "acitrc", header: "誘몄닔?댁옄" },
+  { accessorKey: "ouArrs", header: "誘몄닔?곗껜猷? },
+  { accessorKey: "ouArrIntr", header: "誘몄닔?곗껜?댁옄" },
+  { accessorKey: "ouSpnpyt", header: "誘몄닔媛吏湲됯툑" },
 ];
 
 export default function SpecialBondSubscriptionInquiryPage() {
@@ -145,17 +138,17 @@ export default function SpecialBondSubscriptionInquiryPage() {
         {
           name: "incorporationDate",
           type: "date-range",
-          label: "편입일자",
+          label: "?몄엯?쇱옄",
         },
         {
           name: "managementBranch",
           type: "search",
-          label: "관리부점",
+          label: "愿由щ???,
           readonly: true,
           onButtonClick: (value, e) => {
             e?.preventDefault();
             window.open(
-              `/popup/branch-management?openerTabId=${tabId}`,
+              `${import.meta.env.BASE_URL}popup/branch-management?openerTabId=${tabId}`,
               "BranchManagement",
               "width=1600,height=800"
             );
@@ -164,12 +157,12 @@ export default function SpecialBondSubscriptionInquiryPage() {
         {
           name: "customer",
           type: "long-search",
-          label: "고객번호",
+          label: "怨좉컼踰덊샇",
           readonly: true,
           onButtonClick: (value, e) => {
             e?.preventDefault();
             window.open(
-              `/popup/customer-search?openerTabId=${tabId}`,
+              `${import.meta.env.BASE_URL}popup/customer-search?openerTabId=${tabId}`,
               "CustomerSearch",
               "width=1600,height=800"
             );
@@ -178,7 +171,7 @@ export default function SpecialBondSubscriptionInquiryPage() {
         {
           name: "accountNumber",
           type: "text",
-          label: "계좌번호",
+          label: "怨꾩쥖踰덊샇",
         },
       ],
     },
@@ -190,7 +183,7 @@ export default function SpecialBondSubscriptionInquiryPage() {
   };
 
   const handleExcelDownload = () => {
-    alert("엑셀 다운로드 실행");
+    alert("?묒? ?ㅼ슫濡쒕뱶 ?ㅽ뻾");
   };
 
   const handleReset = () => {
@@ -209,19 +202,19 @@ export default function SpecialBondSubscriptionInquiryPage() {
     <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <img src={TitleIcon} alt="타이틀 아이콘" width={40} height={40} />
-          <h2 className="text-lg font-semibold">특수채권 편입조회</h2>
+          <img src={TitleIcon} alt="??댄? ?꾩씠肄? width={40} height={40} />
+          <h2 className="text-lg font-semibold">?뱀닔梨꾧텒 ?몄엯議고쉶</h2>
         </div>
         <Breadcrumb>
           <BreadcrumbList>
-            <BreadcrumbItem>홈</BreadcrumbItem>
+            <BreadcrumbItem>??/BreadcrumbItem>
             <BreadcrumbSeparator />
-            <BreadcrumbItem>여신사후</BreadcrumbItem>
+            <BreadcrumbItem>?ъ떊?ы썑</BreadcrumbItem>
             <BreadcrumbSeparator />
-            <BreadcrumbItem>특수채권</BreadcrumbItem>
+            <BreadcrumbItem>?뱀닔梨꾧텒</BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>특수채권 편입조회</BreadcrumbPage>
+              <BreadcrumbPage>?뱀닔梨꾧텒 ?몄엯議고쉶</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
@@ -238,7 +231,7 @@ export default function SpecialBondSubscriptionInquiryPage() {
       </div>
 
       <div className="flex flex-col gap-4">
-        <h3 className="font-semibold">검색 조건</h3>
+        <h3 className="font-semibold">寃??議곌굔</h3>
         <FilterContainer
           filterLayout={filterLayout}
           values={filters}
@@ -247,7 +240,7 @@ export default function SpecialBondSubscriptionInquiryPage() {
       </div>
 
       <DataTable
-        title="특수채권 편입내역"
+        title="?뱀닔梨꾧텒 ?몄엯?댁뿭"
         columns={columns}
         data={tableData}
         amountColumns={amountColumns}
@@ -256,3 +249,4 @@ export default function SpecialBondSubscriptionInquiryPage() {
     </div>
   );
 }
+

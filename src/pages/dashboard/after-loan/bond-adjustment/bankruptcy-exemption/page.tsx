@@ -1,4 +1,4 @@
-
+﻿
 
 import { usePathname } from "@/lib/hooks/useAppLocation";
 import { useCallback, useEffect } from "react";
@@ -31,14 +31,13 @@ type BankruptcyBankData = {
   loanAmt: number;
 };
 
-// 예시 데이터
-const mockData: BankruptcyBankData[] = [
+// ?덉떆 ?곗씠??const mockData: BankruptcyBankData[] = [
   {
     id: 1,
     acntNo: "123-456-7890",
-    applicantNm: "홍길동",
-    acntSttsCd: "정상",
-    prdctNm: "신용대출",
+    applicantNm: "?띻만??,
+    acntSttsCd: "?뺤긽",
+    prdctNm: "?좎슜?異?,
     nwDt: "20230101",
     expDt: "20240101",
     loanAmt: 10000000,
@@ -46,9 +45,9 @@ const mockData: BankruptcyBankData[] = [
   {
     id: 2,
     acntNo: "987-654-3210",
-    applicantNm: "김철수",
-    acntSttsCd: "연체",
-    prdctNm: "담보대출",
+    applicantNm: "源泥좎닔",
+    acntSttsCd: "?곗껜",
+    prdctNm: "?대낫?異?,
     nwDt: "20220515",
     expDt: "20250515",
     loanAmt: 50000000,
@@ -57,14 +56,14 @@ const mockData: BankruptcyBankData[] = [
 
 // Column definitions for the table
 const columns: ColumnDef<BankruptcyBankData>[] = [
-  { accessorKey: "id", header: "순번" },
-  { accessorKey: "acntNo", header: "계좌번호" },
-  { accessorKey: "applicantNm", header: "신청인명" },
-  { accessorKey: "acntSttsCd", header: "계좌상태" },
-  { accessorKey: "prdctNm", header: "상품명" },
-  { accessorKey: "nwDt", header: "대출신규일자" },
-  { accessorKey: "expDt", header: "대출만기일자" },
-  { accessorKey: "loanAmt", header: "대출금액" },
+  { accessorKey: "id", header: "?쒕쾲" },
+  { accessorKey: "acntNo", header: "怨꾩쥖踰덊샇" },
+  { accessorKey: "applicantNm", header: "?좎껌?몃챸" },
+  { accessorKey: "acntSttsCd", header: "怨꾩쥖?곹깭" },
+  { accessorKey: "prdctNm", header: "?곹뭹紐? },
+  { accessorKey: "nwDt", header: "?異쒖떊洹쒖씪?? },
+  { accessorKey: "expDt", header: "?異쒕쭔湲곗씪?? },
+  { accessorKey: "loanAmt", header: "?異쒓툑?? },
 ];
 
 export default function BankruptcyExemptionPage() {
@@ -106,20 +105,20 @@ export default function BankruptcyExemptionPage() {
         {
           name: "topCustomerNumber",
           type: "text",
-          label: "고객번호",
+          label: "怨좉컼踰덊샇",
           readonly: true,
         },
         {
           name: "topAccountNumber",
           type: "text",
-          label: "계좌번호",
+          label: "怨꾩쥖踰덊샇",
           readonly: true,
         },
         {
           name: "bondAdjustmentType",
           type: "select",
-          label: "채권조정구분",
-          options: [{ value: "bankruptcy-exemption", label: "파산/면책" }],
+          label: "梨꾧텒議곗젙援щ텇",
+          options: [{ value: "bankruptcy-exemption", label: "?뚯궛/硫댁콉" }],
           defaultValue: "bankruptcy-exemption",
           readonly: true,
         },
@@ -136,62 +135,62 @@ export default function BankruptcyExemptionPage() {
         { 
           name: "customerNumber", 
           type: "long-search", 
-          label: "고객번호",
+          label: "怨좉컼踰덊샇",
           onButtonClick: (value?: any, e?: React.MouseEvent<HTMLElement>) => {
             e?.preventDefault();
             e?.stopPropagation();
             const customerNumber = value || '';
             // openerTabId removed to prevent data feedback (double click disabled in popup context effectively)
-            window.open(`/popup/customer-search?customerNumber=${customerNumber}&sourceFilter=customerNumber`, 'CustomerSearch', 'width=1600,height=800');
+            window.open(`${import.meta.env.BASE_URL}popup/customer-search?customerNumber=${customerNumber}&sourceFilter=customerNumber`, 'CustomerSearch', 'width=1600,height=800');
           }
         },
-        { name: "debtorName", type: "text", label: "채무자명", readonly: true },
+        { name: "debtorName", type: "text", label: "梨꾨Т?먮챸", readonly: true },
         { 
           name: "applicantName", 
           type: "long-search", 
-          label: "신청자명",
+          label: "?좎껌?먮챸",
           readonly: true,
           onButtonClick: (value?: any, e?: React.MouseEvent<HTMLElement>) => {
             e?.preventDefault();
             e?.stopPropagation();
             const name = value || '';
              // openerTabId removed
-            window.open(`/popup/customer-search?customerName=${name}&sourceFilter=applicantName`, 'CustomerSearch', 'width=1600,height=800');
+            window.open(`${import.meta.env.BASE_URL}popup/customer-search?customerName=${name}&sourceFilter=applicantName`, 'CustomerSearch', 'width=1600,height=800');
           }
         },
-        { name: "residentRegistrationNumber", type: "text", label: "주민등록번호", readonly: true },
+        { name: "residentRegistrationNumber", type: "text", label: "二쇰??깅줉踰덊샇", readonly: true },
         
-        { name: "accountNumber", type: "text", label: "계좌번호", readonly: true },
-        { name: "loanBalance", type: "number", label: "대출잔액", readonly: true },
-        { name: "handlingBank", type: "text", label: "취급은행" },
+        { name: "accountNumber", type: "text", label: "怨꾩쥖踰덊샇", readonly: true },
+        { name: "loanBalance", type: "number", label: "?異쒖옍??, readonly: true },
+        { name: "handlingBank", type: "text", label: "痍④툒??? },
         { name: "blank_1", type: "blank" },
 
-        { name: "balanceStandardMonth", type: "date", label: "잔액기준년월" },
-        { name: "standardBalanceAmount", type: "number", label: "기준잔액금액" },
+        { name: "balanceStandardMonth", type: "date", label: "?붿븸湲곗??꾩썡" },
+        { name: "standardBalanceAmount", type: "number", label: "湲곗??붿븸湲덉븸" },
         { name: "blank_2", type: "blank" },
         { name: "blank_3", type: "blank" },
 
         { 
           name: "competentCourt", 
           type: "select", 
-          label: "관할법원",
-          options: [{ value: "gapyeong", label: "[26] 가평군법원" }, { value: "seoul", label: "[01] 서울중앙지법" }] 
+          label: "愿?좊쾿??,
+          options: [{ value: "gapyeong", label: "[26] 媛?됯뎔踰뺤썝" }, { value: "seoul", label: "[01] ?쒖슱以묒븰吏踰? }] 
         },
         { 
           name: "progressStatus", 
           type: "select", 
-          label: "진행상태",
-          options: [{ value: "receipt", label: "접수" }, { value: "ongoing", label: "진행중" }, { value: "completed", label: "완료" }]
+          label: "吏꾪뻾?곹깭",
+          options: [{ value: "receipt", label: "?묒닔" }, { value: "ongoing", label: "吏꾪뻾以? }, { value: "completed", label: "?꾨즺" }]
         },
-        { name: "caseNumberBottom", type: "text", label: "사건번호(하단)" },
-        { name: "caseNumberScreen", type: "text", label: "사건번호(화면)" },
+        { name: "caseNumberBottom", type: "text", label: "?ш굔踰덊샇(?섎떒)" },
+        { name: "caseNumberScreen", type: "text", label: "?ш굔踰덊샇(?붾㈃)" },
 
-        { name: "receiptDate", type: "date", label: "접수일자" },
-        { name: "sentencingDate", type: "date", label: "선고일자" },
-        { name: "exemptionDate", type: "date", label: "면책일" },
-        { name: "revocationDate", type: "date", label: "폐지일자" },
+        { name: "receiptDate", type: "date", label: "?묒닔?쇱옄" },
+        { name: "sentencingDate", type: "date", label: "?좉퀬?쇱옄" },
+        { name: "exemptionDate", type: "date", label: "硫댁콉?? },
+        { name: "revocationDate", type: "date", label: "?먯??쇱옄" },
 
-        { name: "notes", type: "text", label: "특이사항", colSpan: 4 },
+        { name: "notes", type: "text", label: "?뱀씠?ы빆", colSpan: 4 },
       ],
     },
   ];
@@ -212,18 +211,18 @@ export default function BankruptcyExemptionPage() {
       residentRegistrationNumber: "800101-1234567",
       accountNumber: row.acntNo,
       loanBalance: row.loanAmt,
-      handlingBank: "친애저축은행",
+      handlingBank: "移쒖븷?異뺤???,
       balanceStandardMonth: "2024-01-01",
       standardBalanceAmount: row.loanAmt,
       competentCourt: "seoul",
       progressStatus: "ongoing",
-      caseNumberBottom: "2023개회12345",
+      caseNumberBottom: "2023媛쒗쉶12345",
       caseNumberScreen: "2023-12345",
       receiptDate: "2023-05-01",
       sentencingDate: "2023-06-01",
       exemptionDate: "2024-05-01",
       revocationDate: "",
-      notes: "특이사항 없음",
+      notes: "?뱀씠?ы빆 ?놁쓬",
       // Also update top read-only fields
       topCustomerNumber: "00012345678",
       topAccountNumber: row.acntNo,
@@ -240,7 +239,7 @@ export default function BankruptcyExemptionPage() {
     const { customerNumber, accountNumber } = currentState?.filters || {};
 
     window.open(
-      `/popup/modification-history?customerNumber=${customerNumber || ''}&accountNumber=${accountNumber || ''}&openerTabId=${tabId}`,
+      `${import.meta.env.BASE_URL}popup/modification-history?customerNumber=${customerNumber || ''}&accountNumber=${accountNumber || ''}&openerTabId=${tabId}`,
       'ModificationHistory',
       'width=1600,height=800'
     );
@@ -252,19 +251,19 @@ export default function BankruptcyExemptionPage() {
     <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <img src={TitleIcon} alt="타이틀 아이콘" width={40} height={40} />
-          <h2 className="text-lg font-semibold">파산면책관리</h2>
+          <img src={TitleIcon} alt="??댄? ?꾩씠肄? width={40} height={40} />
+          <h2 className="text-lg font-semibold">?뚯궛硫댁콉愿由?/h2>
         </div>
         <Breadcrumb>
           <BreadcrumbList>
-            <BreadcrumbItem>홈</BreadcrumbItem>
+            <BreadcrumbItem>??/BreadcrumbItem>
             <BreadcrumbSeparator />
-            <BreadcrumbItem>여신사후</BreadcrumbItem>
+            <BreadcrumbItem>?ъ떊?ы썑</BreadcrumbItem>
             <BreadcrumbSeparator />
-            <BreadcrumbItem>채권조정</BreadcrumbItem>
+            <BreadcrumbItem>梨꾧텒議곗젙</BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>파산면책관리</BreadcrumbPage>
+              <BreadcrumbPage>?뚯궛硫댁콉愿由?/BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
@@ -295,7 +294,7 @@ export default function BankruptcyExemptionPage() {
       />
 
       <DataTable
-        title="당행"
+        title="?뱁뻾"
         columns={columns}
         data={mockData}
         amountColumns={["loanAmt"]}
@@ -304,7 +303,7 @@ export default function BankruptcyExemptionPage() {
       />
 
       <div className="flex flex-col gap-4">
-        <h3 className="font-semibold">파산면책 원장정보</h3>
+        <h3 className="font-semibold">?뚯궛硫댁콉 ?먯옣?뺣낫</h3>
         <FilterContainer 
           filterLayout={bankruptcyFilterLayout} 
           values={currentState.filters}
@@ -314,3 +313,4 @@ export default function BankruptcyExemptionPage() {
     </div>
   );
 }
+

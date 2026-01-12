@@ -1,4 +1,4 @@
-
+﻿
 
 import { usePathname } from "@/lib/hooks/useAppLocation";
 import { useCallback, useState, useEffect } from "react";
@@ -51,16 +51,16 @@ const createColumn = (accessorKey: string, header: string): ColumnDef<AssignedMa
 });
 
 const assignedColumns: ColumnDef<AssignedManagerItem>[] = [
-  createColumn("managerId", "담당자 사번"),
-  createColumn("managerName", "담당자명"),
-  createColumn("count", "건수"),
-  createColumn("startDate", "담당 시작일"),
-  createColumn("accountNo", "계좌번호"),
-  createColumn("customerName", "고객명"),
-  createColumn("historyStartDate", "담당 시작일"),
-  createColumn("historyEndDate", "담당 종료일"),
-  createColumn("historyManagerId", "담당자 사번"),
-  createColumn("historyManagerName", "담당자명"),
+  createColumn("managerId", "?대떦???щ쾲"),
+  createColumn("managerName", "?대떦?먮챸"),
+  createColumn("count", "嫄댁닔"),
+  createColumn("startDate", "?대떦 ?쒖옉??),
+  createColumn("accountNo", "怨꾩쥖踰덊샇"),
+  createColumn("customerName", "怨좉컼紐?),
+  createColumn("historyStartDate", "?대떦 ?쒖옉??),
+  createColumn("historyEndDate", "?대떦 醫낅즺??),
+  createColumn("historyManagerId", "?대떦???щ쾲"),
+  createColumn("historyManagerName", "?대떦?먮챸"),
 ];
 
 // 2.2 Unassigned Tab (No Checkbox)
@@ -70,32 +70,32 @@ const createUnassignedColumn = (accessorKey: string, header: string): ColumnDef<
 });
 
 const unassignedColumns: ColumnDef<UnassignedManagerItem>[] = [
-  createUnassignedColumn("accountNo", "계좌번호"),
-  createUnassignedColumn("customerNo", "고객번호"),
-  createUnassignedColumn("customerName", "고객명"),
+  createUnassignedColumn("accountNo", "怨꾩쥖踰덊샇"),
+  createUnassignedColumn("customerNo", "怨좉컼踰덊샇"),
+  createUnassignedColumn("customerName", "怨좉컼紐?),
 ];
 
 // 3. Mock Data
 const mockAssignedData: AssignedManagerItem[] = Array.from({ length: 5 }, (_, i) => ({
   id: i + 1,
   managerId: `M${1000 + i}`,
-  managerName: `담당자${i + 1}`,
+  managerName: `?대떦??{i + 1}`,
   count: 1,
   startDate: "2024-01-01",
   accountNo: `123-45-6789${i}`,
-  customerName: `고객${i + 1}`,
+  customerName: `怨좉컼${i + 1}`,
   historyStartDate: "2023-01-01",
   historyEndDate: "2023-12-31",
   historyManagerId: `M${2000 + i}`,
-  historyManagerName: `이전담당${i + 1}`,
+  historyManagerName: `?댁쟾?대떦${i + 1}`,
 }));
 
 const mockUnassignedData: UnassignedManagerItem[] = Array.from({ length: 5 }, (_, i) => ({
   id: i + 1,
   accountNo: `987-65-4321${i}`,
   customerNo: `CUST${5000 + i}`,
-  customerName: `미배정고객${i + 1}`,
-  productName: "신용대출",
+  customerName: `誘몃같?뺢퀬媛?{i + 1}`,
+  productName: "?좎슜?異?,
 }));
 
 export default function SpecialBondManagerInquiryPage() {
@@ -152,14 +152,14 @@ export default function SpecialBondManagerInquiryPage() {
         { 
             name: "unassignedManagerCode", 
             type: "search", 
-            label: "담당자 코드",
+            label: "?대떦??肄붾뱶",
             onButtonClick: (val, e) => {
                 e?.preventDefault();
-                window.open(`/popup/user-search?openerTabId=${tabId}`, "UserSearch", "width=1600,height=800");
+                window.open(`${import.meta.env.BASE_URL}popup/user-search?openerTabId=${tabId}`, "UserSearch", "width=1600,height=800");
             }
         },
-        { name: "unassignedManagerName", type: "text", label: "담당자명", readonly: true },
-        { name: "unassignedStartDate", type: "date", label: "담당시작일" },
+        { name: "unassignedManagerName", type: "text", label: "?대떦?먮챸", readonly: true },
+        { name: "unassignedStartDate", type: "date", label: "?대떦?쒖옉?? },
       ],
     },
   ];
@@ -181,19 +181,19 @@ export default function SpecialBondManagerInquiryPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <img src={TitleIcon} alt="타이틀 아이콘" width={40} height={40} />
-          <h2 className="text-lg font-semibold">특수채권 담당자조회</h2>
+          <img src={TitleIcon} alt="??댄? ?꾩씠肄? width={40} height={40} />
+          <h2 className="text-lg font-semibold">?뱀닔梨꾧텒 ?대떦?먯“??/h2>
         </div>
         <Breadcrumb>
           <BreadcrumbList>
-            <BreadcrumbItem>홈</BreadcrumbItem>
+            <BreadcrumbItem>??/BreadcrumbItem>
             <BreadcrumbSeparator />
-            <BreadcrumbItem>여신사후</BreadcrumbItem>
+            <BreadcrumbItem>?ъ떊?ы썑</BreadcrumbItem>
             <BreadcrumbSeparator />
-            <BreadcrumbItem>특수채권</BreadcrumbItem>
+            <BreadcrumbItem>?뱀닔梨꾧텒</BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>특수채권 담당자조회</BreadcrumbPage>
+              <BreadcrumbPage>?뱀닔梨꾧텒 ?대떦?먯“??/BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
@@ -207,32 +207,29 @@ export default function SpecialBondManagerInquiryPage() {
       {/* Tabs Area */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList>
-          <TabsTrigger value="assigned">배정</TabsTrigger>
-          <TabsTrigger value="unassigned">미배정</TabsTrigger>
+          <TabsTrigger value="assigned">諛곗젙</TabsTrigger>
+          <TabsTrigger value="unassigned">誘몃같??/TabsTrigger>
         </TabsList>
 
         <TabsContent value="assigned" className="flex flex-col gap-4 mt-0">
             {/* Result Summary Layout (Mimicking Filter Container) */}
             <div className="flex justify-between items-center px-6 py-8 bg-[#f5f6f9] text-sm border-gray-200 border-1 rounded-lg">
             <div className="flex justify-between items-center gap-12">
-                <div className="font-medium">담당자 정보: </div>
+                <div className="font-medium">?대떦???뺣낫: </div>
                   <div>
-                    <span className="text-[#3da072]">총 1</span>건
-                  </div>
+                    <span className="text-[#3da072]">珥?1</span>嫄?                  </div>
                 </div>
 
                 <div className="flex justify-between items-center gap-12">
-                  <div className="font-medium">담당 계좌정보: </div>
+                  <div className="font-medium">?대떦 怨꾩쥖?뺣낫: </div>
                   <div>
-                    <span className="text-[#3da072]">총 1</span>건
-                  </div>
+                    <span className="text-[#3da072]">珥?1</span>嫄?                  </div>
                 </div>
 
                 <div className="flex justify-between items-center gap-12">
-                  <div className="font-medium">계좌 이력정보: </div>
+                  <div className="font-medium">怨꾩쥖 ?대젰?뺣낫: </div>
                   <div>
-                    <span className="text-[#3da072]">총 3</span>건
-                  </div>
+                    <span className="text-[#3da072]">珥?3</span>嫄?                  </div>
                 </div>
             </div>
             
@@ -250,7 +247,7 @@ export default function SpecialBondManagerInquiryPage() {
             />
             
             <DataTable 
-                title="담당 미배정 계좌정보"
+                title="?대떦 誘몃같??怨꾩쥖?뺣낫"
                 columns={unassignedColumns}
                 data={currentState.tables?.['unassignedTable'] || []}
             />

@@ -1,4 +1,4 @@
-
+﻿
 
 import { usePathname } from "@/lib/hooks/useAppLocation";
 import { useCallback, useState, useEffect } from "react";
@@ -37,24 +37,24 @@ const createColumn = (accessorKey: string, header: string): ColumnDef<ManagerMan
 });
 
 const columns: ColumnDef<ManagerManagementItem>[] = [
-  createColumn("id", "순번"),
-  createColumn("managerName", "담당자명"),
-  createColumn("incorporationDate", "편입일자"),
-  createColumn("customerNo", "고객번호"),
-  createColumn("customerName", "고객명"),
-  createColumn("accountNo", "계좌번호"),
-  createColumn("productName", "상품명"),
+  createColumn("id", "?쒕쾲"),
+  createColumn("managerName", "?대떦?먮챸"),
+  createColumn("incorporationDate", "?몄엯?쇱옄"),
+  createColumn("customerNo", "怨좉컼踰덊샇"),
+  createColumn("customerName", "怨좉컼紐?),
+  createColumn("accountNo", "怨꾩쥖踰덊샇"),
+  createColumn("productName", "?곹뭹紐?),
 ];
 
 // 3. Mock Data
 const mockData: ManagerManagementItem[] = Array.from({ length: 5 }, (_, i) => ({
   id: i + 1,
-  managerName: `담당자${i + 1}`,
+  managerName: `?대떦??{i + 1}`,
   incorporationDate: "2024-01-01",
   customerNo: `CUST${1000 + i}`,
-  customerName: `고객${i + 1}`,
+  customerName: `怨좉컼${i + 1}`,
   accountNo: `123-45-6789${i}`,
-  productName: "신용대출",
+  productName: "?좎슜?異?,
 }));
 
 export default function SpecialBondManagerManagementPage() {
@@ -128,39 +128,39 @@ export default function SpecialBondManagerManagementPage() {
       type: "grid",
       columns: 3,
       filters: [
-        { name: "incorporationDate", type: "date-range", label: "편입일자" },
+        { name: "incorporationDate", type: "date-range", label: "?몄엯?쇱옄" },
         { 
             name: "managementBranch", 
             type: "search", 
-            label: "관리부점",
+            label: "愿由щ???,
             onButtonClick: (val, e) => {
                 e?.preventDefault();
-                window.open(`/popup/branch-management?openerTabId=${tabId}`, "BranchManagement", "width=1600,height=800");
+                window.open(`${import.meta.env.BASE_URL}popup/branch-management?openerTabId=${tabId}`, "BranchManagement", "width=1600,height=800");
             }
         },
         { 
             name: "manager", 
             type: "long-search", 
-            label: "담당자",
+            label: "?대떦??,
             onButtonClick: (val, e) => {
                 e?.preventDefault();
-                window.open(`/popup/user-search?openerTabId=${tabId}`, "UserSearch", "width=1600,height=800");
+                window.open(`${import.meta.env.BASE_URL}popup/user-search?openerTabId=${tabId}`, "UserSearch", "width=1600,height=800");
             }
         },
         { 
             name: "customerNo", 
             type: "search", 
-            label: "고객번호",
+            label: "怨좉컼踰덊샇",
             onButtonClick: (val, e) => {
                 e?.preventDefault();
-                window.open(`/popup/customer-search?openerTabId=${tabId}`, "CustomerSearch", "width=1600,height=800");
+                window.open(`${import.meta.env.BASE_URL}popup/customer-search?openerTabId=${tabId}`, "CustomerSearch", "width=1600,height=800");
             }
         },
-        { name: "accountNo", type: "text", label: "계좌번호" },
+        { name: "accountNo", type: "text", label: "怨꾩쥖踰덊샇" },
         { 
             name: "isManager", 
             type: "select", 
-            label: "담당여부", 
+            label: "?대떦?щ?", 
             options: [{ value: "Y", label: "Y" }, { value: "N", label: "N" }] 
         },
       ],
@@ -175,14 +175,14 @@ export default function SpecialBondManagerManagementPage() {
         { 
             name: "regManager", 
             type: "long-search", 
-            label: "담당자",
+            label: "?대떦??,
             onButtonClick: (val, e) => {
                 e?.preventDefault();
-                window.open(`/popup/user-search?openerTabId=${tabId}`, "UserSearch", "width=1600,height=800");
+                window.open(`${import.meta.env.BASE_URL}popup/user-search?openerTabId=${tabId}`, "UserSearch", "width=1600,height=800");
             }
         },
-        { name: "regManagerName", type: "text", label: "담당자명", readonly: true },
-        { name: "regStartDate", type: "date", label: "담당시작일" },
+        { name: "regManagerName", type: "text", label: "?대떦?먮챸", readonly: true },
+        { name: "regStartDate", type: "date", label: "?대떦?쒖옉?? },
       ],
     },
   ];
@@ -207,19 +207,19 @@ export default function SpecialBondManagerManagementPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <img src={TitleIcon} alt="타이틀 아이콘" width={40} height={40} />
-          <h2 className="text-lg font-semibold">특수채권 담당자관리</h2>
+          <img src={TitleIcon} alt="??댄? ?꾩씠肄? width={40} height={40} />
+          <h2 className="text-lg font-semibold">?뱀닔梨꾧텒 ?대떦?먭?由?/h2>
         </div>
         <Breadcrumb>
           <BreadcrumbList>
-            <BreadcrumbItem>홈</BreadcrumbItem>
+            <BreadcrumbItem>??/BreadcrumbItem>
             <BreadcrumbSeparator />
-            <BreadcrumbItem>여신사후</BreadcrumbItem>
+            <BreadcrumbItem>?ъ떊?ы썑</BreadcrumbItem>
             <BreadcrumbSeparator />
-            <BreadcrumbItem>특수채권</BreadcrumbItem>
+            <BreadcrumbItem>?뱀닔梨꾧텒</BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>특수채권 담당자관리</BreadcrumbPage>
+              <BreadcrumbPage>?뱀닔梨꾧텒 ?대떦?먭?由?/BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
@@ -233,8 +233,8 @@ export default function SpecialBondManagerManagementPage() {
       {/* Tabs Area */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList>
-          <TabsTrigger value="inquiry">조회</TabsTrigger>
-          <TabsTrigger value="registration">담당자 등록</TabsTrigger>
+          <TabsTrigger value="inquiry">議고쉶</TabsTrigger>
+          <TabsTrigger value="registration">?대떦???깅줉</TabsTrigger>
         </TabsList>
 
         <TabsContent value="inquiry" className="flex flex-col gap-4 mt-0">
@@ -245,7 +245,7 @@ export default function SpecialBondManagerManagementPage() {
             />
             
             <DataTable 
-                title="조회내용"
+                title="議고쉶?댁슜"
                 columns={columns}
                 data={currentState.tables?.['managerTable'] || []}
             />
@@ -259,7 +259,7 @@ export default function SpecialBondManagerManagementPage() {
             />
             
             <DataTable 
-                title="조회내용"
+                title="議고쉶?댁슜"
                 columns={columns}
                 data={currentState.tables?.['managerTable'] || []} // Using same table for demo
             />

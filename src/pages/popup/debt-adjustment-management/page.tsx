@@ -1,4 +1,4 @@
-
+﻿
 
 import { usePathname, useSearchParams } from "@/lib/hooks/useAppLocation";
 import { useCallback, useEffect, useState } from "react";
@@ -28,10 +28,10 @@ type DebtAdjustmentData = {
 const mockData: DebtAdjustmentData[] = Array.from({ length: 5 }, (_, i) => ({
   id: i + 1,
   sequence: i + 1,
-  applicationType: i % 2 === 0 ? "개인회생" : "신용회복",
-  progressStatus: "접수",
+  applicationType: i % 2 === 0 ? "媛쒖씤?뚯깮" : "?좎슜?뚮났",
+  progressStatus: "?묒닔",
   accountNo: `123-456-7890${i}`,
-  loanName: "일반자금대출",
+  loanName: "?쇰컲?먭툑?異?,
   completionDate: "2024-01-01",
 }));
 
@@ -65,7 +65,7 @@ export default function DebtAdjustmentManagementPopup() {
 
   // Filter Values
   const [formValues, setFormValues] = useState<Record<string, any>>({
-    // 변제계획 필드
+    // 蹂?쒓퀎???꾨뱶
     repaymentGraceYn: "N",
     gracePeriodMonths: "0",
     graceInterest: "",
@@ -105,12 +105,12 @@ export default function DebtAdjustmentManagementPopup() {
         />
       ),
     },
-    { accessorKey: "sequence", header: "순번" },
-    { accessorKey: "applicationType", header: "신청구분" },
-    { accessorKey: "progressStatus", header: "진행상태" },
-    { accessorKey: "accountNo", header: "계좌번호" },
-    { accessorKey: "loanName", header: "대출명" },
-    { accessorKey: "completionDate", header: "채무조정완료일자" },
+    { accessorKey: "sequence", header: "?쒕쾲" },
+    { accessorKey: "applicationType", header: "?좎껌援щ텇" },
+    { accessorKey: "progressStatus", header: "吏꾪뻾?곹깭" },
+    { accessorKey: "accountNo", header: "怨꾩쥖踰덊샇" },
+    { accessorKey: "loanName", header: "?異쒕챸" },
+    { accessorKey: "completionDate", header: "梨꾨Т議곗젙?꾨즺?쇱옄" },
   ];
 
   // --- Layouts ---
@@ -119,26 +119,26 @@ export default function DebtAdjustmentManagementPopup() {
       type: "grid",
       columns: 3,
       filters: [
-        { name: "progressStatus", type: "select", label: "진행상태", options: [{ value: "receipt", label: "접수" }] },
-        { name: "accountNo", type: "text", label: "계좌번호", readonly: true },
-        { name: "loanName", type: "text", label: "대출명", readonly: true },
+        { name: "progressStatus", type: "select", label: "吏꾪뻾?곹깭", options: [{ value: "receipt", label: "?묒닔" }] },
+        { name: "accountNo", type: "text", label: "怨꾩쥖踰덊샇", readonly: true },
+        { name: "loanName", type: "text", label: "?異쒕챸", readonly: true },
       ],
     },
     {
       type: "grid",
       columns: 3,
       filters: [
-        { name: "loanAmount", type: "number", label: "대출금액" },
-        { name: "completionDate", type: "date", label: "채무조정완료일자", readonly: true },
-        { name: "applicationType", type: "select", label: "신청구분", options: [] },
+        { name: "loanAmount", type: "number", label: "?異쒓툑?? },
+        { name: "completionDate", type: "date", label: "梨꾨Т議곗젙?꾨즺?쇱옄", readonly: true },
+        { name: "applicationType", type: "select", label: "?좎껌援щ텇", options: [] },
       ],
     },
     {
       type: "grid",
       columns: 3,
       filters: [
-        { name: "address", type: "text", label: "거주지 주소", colSpan: 2, readonly: true },
-        { name: "virtualAccount", type: "text", label: "가상계좌", readonly: true },
+        { name: "address", type: "text", label: "嫄곗＜吏 二쇱냼", colSpan: 2, readonly: true },
+        { name: "virtualAccount", type: "text", label: "媛?곴퀎醫?, readonly: true },
       ],
     },
   ];
@@ -148,8 +148,8 @@ export default function DebtAdjustmentManagementPopup() {
       type: "grid",
       columns: 3,
       filters: [
-        { name: "internalAdjustmentType", type: "select", label: "자체채무조정구분", options: [] },
-        { name: "requestReason", type: "select-with-input", label: "채무조정 요청사유", options: [], colSpan: 2 }, 
+        { name: "internalAdjustmentType", type: "select", label: "?먯껜梨꾨Т議곗젙援щ텇", options: [] },
+        { name: "requestReason", type: "select-with-input", label: "梨꾨Т議곗젙 ?붿껌?ъ쑀", options: [], colSpan: 2 }, 
       ],
     },
 
@@ -157,9 +157,9 @@ export default function DebtAdjustmentManagementPopup() {
       type: "grid",
       columns: 3,
       filters: [
-        { name: "baseDate", type: "date", label: "기준일" },
-        { name: "completionDate2", type: "date", label: "채무조정완료일자" }, // Duplicate label name, using different key
-        { name: "agreementCancellationDate", type: "date", label: "합의해제일자" },
+        { name: "baseDate", type: "date", label: "湲곗??? },
+        { name: "completionDate2", type: "date", label: "梨꾨Т議곗젙?꾨즺?쇱옄" }, // Duplicate label name, using different key
+        { name: "agreementCancellationDate", type: "date", label: "?⑹쓽?댁젣?쇱옄" },
       ],
     },
   ];
@@ -169,26 +169,26 @@ export default function DebtAdjustmentManagementPopup() {
       type: "grid",
       columns: 3,
       filters: [
-        { name: "defermentPrincipal", type: "checkbox", label: "상환유예(원금)" },
-        { name: "defermentPrincipalInterest", type: "checkbox", label: "상환유예(원리금)" },
-        { name: "reductionPrincipalLump", type: "checkbox", label: "원금 감면(일시납)" },
+        { name: "defermentPrincipal", type: "checkbox", label: "?곹솚?좎삁(?먭툑)" },
+        { name: "defermentPrincipalInterest", type: "checkbox", label: "?곹솚?좎삁(?먮━湲?" },
+        { name: "reductionPrincipalLump", type: "checkbox", label: "?먭툑 媛먮㈃(?쇱떆??" },
       ],
     },
     {
       type: "grid",
       columns: 3,
       filters: [
-        { name: "reductionPrincipalInstallment", type: "checkbox", label: "원금 감면(분납)" },
-        { name: "reductionInterest", type: "checkbox", label: "이자 감면(이자)" },
-        { name: "reductionOverdue", type: "checkbox", label: "이자 감면(연체이자)" },
+        { name: "reductionPrincipalInstallment", type: "checkbox", label: "?먭툑 媛먮㈃(遺꾨궔)" },
+        { name: "reductionInterest", type: "checkbox", label: "?댁옄 媛먮㈃(?댁옄)" },
+        { name: "reductionOverdue", type: "checkbox", label: "?댁옄 媛먮㈃(?곗껜?댁옄)" },
       ],
     },
     {
       type: "grid",
       columns: 2,
       filters: [
-        { name: "maturityExtension", type: "checkbox", label: "만기연장" },
-        { name: "others", type: "input-button", label: "기타", activator: true, buttonText: "", onButtonClick: () => {} }, // Using input-button as placeholder for Checkbox+Input
+        { name: "maturityExtension", type: "checkbox", label: "留뚭린?곗옣" },
+        { name: "others", type: "input-button", label: "湲고?", activator: true, buttonText: "", onButtonClick: () => {} }, // Using input-button as placeholder for Checkbox+Input
         // Note: FilterWrapper "input-button" is basically Input + Button. 
         // For "Checkbox + Input", "FilterInput" with activator is the correct one.
         // Let's swap to FilterInput with activator.
@@ -204,13 +204,13 @@ export default function DebtAdjustmentManagementPopup() {
         columns: 2, // 3 items in row 1, 2, but row 3 has 2 items?
         // "Maturity Extension" and "Others".
         filters: [
-          { name: "maturityExtension", type: "checkbox", label: "만기연장" },
-          { name: "others", type: "text", label: "기타", activator: true }, // activator provides the checkbox
+          { name: "maturityExtension", type: "checkbox", label: "留뚭린?곗옣" },
+          { name: "others", type: "text", label: "湲고?", activator: true }, // activator provides the checkbox
         ]
       }
   ];
 
-  // 변제계획 - 왼쪽 컬럼
+  // 蹂?쒓퀎??- ?쇱そ 而щ읆
   const repaymentPlanLeftLayout: FilterLayout = [
     {
       type: "grid",
@@ -219,7 +219,7 @@ export default function DebtAdjustmentManagementPopup() {
         {
           name: "repaymentGraceYn",
           type: "select",
-          label: "상환 유예",
+          label: "?곹솚 ?좎삁",
           options: [
             { value: "Y", label: "Y" },
             { value: "N", label: "N" },
@@ -231,34 +231,34 @@ export default function DebtAdjustmentManagementPopup() {
       type: "grid",
       columns: 2,
       filters: [
-        { name: "gracePeriodMonths", type: "text", label: "유예기간 (개월)" },
-        { name: "graceInterest", type: "text", label: "유예이자 (월)" },
+        { name: "gracePeriodMonths", type: "text", label: "?좎삁湲곌컙 (媛쒖썡)" },
+        { name: "graceInterest", type: "text", label: "?좎삁?댁옄 (??" },
       ],
     },
     {
       type: "grid",
       columns: 1,
       filters: [
-        { name: "repaymentPeriod", type: "date-range", label: "상환기간" },
+        { name: "repaymentPeriod", type: "date-range", label: "?곹솚湲곌컙" },
       ],
     },
     {
       type: "grid",
       columns: 1,
       filters: [
-        { name: "monthlyPaymentDay", type: "text", label: "매월 납입일 (일)" },
+        { name: "monthlyPaymentDay", type: "text", label: "留ㅼ썡 ?⑹엯??(??" },
       ],
     },
     {
       type: "grid",
       columns: 1,
       filters: [
-        { name: "gracePeriodEndDate", type: "text", label: "거치기간종료일" },
+        { name: "gracePeriodEndDate", type: "text", label: "嫄곗튂湲곌컙醫낅즺?? },
       ],
     },
   ];
 
-  // 변제계획 - 오른쪽 컬럼
+  // 蹂?쒓퀎??- ?ㅻⅨ履?而щ읆
   const repaymentPlanRightLayout: FilterLayout = [
     {
       type: "grid",
@@ -267,11 +267,11 @@ export default function DebtAdjustmentManagementPopup() {
         {
           name: "repaymentMethod",
           type: "select",
-          label: "상환방법",
+          label: "?곹솚諛⑸쾿",
           options: [
-            { value: "principal", label: "원금" },
-            { value: "equal", label: "원리금균등" },
-            { value: "maturity", label: "만기일시" },
+            { value: "principal", label: "?먭툑" },
+            { value: "equal", label: "?먮━湲덇퇏?? },
+            { value: "maturity", label: "留뚭린?쇱떆" },
           ],
         },
       ],
@@ -280,21 +280,21 @@ export default function DebtAdjustmentManagementPopup() {
       type: "grid",
       columns: 1,
       filters: [
-        { name: "repaymentMethodOther", type: "text", label: "기타", activator: true },
+        { name: "repaymentMethodOther", type: "text", label: "湲고?", activator: true },
       ],
     },
     {
       type: "grid",
       columns: 1,
       filters: [
-        { name: "paymentStartDate", type: "date", label: "납입 시작일" },
+        { name: "paymentStartDate", type: "date", label: "?⑹엯 ?쒖옉?? },
       ],
     },
     {
       type: "grid",
       columns: 1,
       filters: [
-        { name: "monthlyPaymentAmount", type: "text", label: "월납입액" },
+        { name: "monthlyPaymentAmount", type: "text", label: "?붾궔?낆븸" },
       ],
     },
   ];
@@ -309,24 +309,24 @@ export default function DebtAdjustmentManagementPopup() {
         accountNo: row.accountNo,
         loanName: row.loanName,
         completionDate: row.completionDate,
-        applicationType: row.applicationType === "개인회생" ? "1" : "2",
-        address: "서울시 강남구 테헤란로 123",
+        applicationType: row.applicationType === "媛쒖씤?뚯깮" ? "1" : "2",
+        address: "?쒖슱??媛뺣궓援??뚰뿤?濡?123",
         virtualAccount: "999-999-999999",
         baseDate: "2024-01-01",
     });
   };
 
   const popupActions: PopupAction[] = [
-    { id: "add", text: "행추가" }, // Need to ensure 'add' is a valid ID or mapped
-    { id: "delete", text: "행삭제" },
-    { id: "close", text: "닫기", onClick: () => window.close() },
+    { id: "add", text: "?됱텛媛" }, // Need to ensure 'add' is a valid ID or mapped
+    { id: "delete", text: "?됱궘?? },
+    { id: "close", text: "?リ린", onClick: () => window.close() },
   ];
 
   return (
     <div className="flex flex-col h-full bg-gray-50">
         {/* 1. Header */}
         <div className="flex items-center justify-between p-4 bg-white border-b">
-            <h1 className="text-xl font-bold">채무조정관리</h1>
+            <h1 className="text-xl font-bold">梨꾨Т議곗젙愿由?/h1>
             <PopupRightActions actions={popupActions} />
         </div>
 
@@ -334,7 +334,7 @@ export default function DebtAdjustmentManagementPopup() {
             {/* 2. Master Table */}
             <div className="h-auto">
                 <DataTable
-                    title="채무조정내역"
+                    title="梨꾨Т議곗젙?댁뿭"
                     columns={columns}
                     data={tableData}
                     onRowClick={handleRowClick}
@@ -347,14 +347,13 @@ export default function DebtAdjustmentManagementPopup() {
                     variant="secondary"
                     className="h-[35px] w-24 cursor-pointer rounded-2xl"
                 >
-                    알림톡/SMS
+                    ?뚮┝??SMS
                 </Button>
                 <Button
                     variant="secondary"
                     className="h-[35px] w-24 cursor-pointer rounded-2xl"
                 >
-                    저장
-                </Button>
+                    ???                </Button>
                 <Button
                     variant="secondary"
                     className="h-[35px] w-24 cursor-pointer rounded-2xl"
@@ -362,13 +361,13 @@ export default function DebtAdjustmentManagementPopup() {
                         const popupWidth = 1600;
                         const popupHeight = 800;
                         window.open(
-                            `/popup/debt-adjustment-e-signature?openerTabId=${openerTabId}`,
+                            `${import.meta.env.BASE_URL}popup/debt-adjustment-e-signature?openerTabId=${openerTabId}`,
                             'DebtAdjustmentESignature',
                             `width=${popupWidth},height=${popupHeight}`
                         );
                     }}
                 >
-                    전자서명내역
+                    ?꾩옄?쒕챸?댁뿭
                 </Button>
                 <Button
                     variant="secondary"
@@ -377,19 +376,19 @@ export default function DebtAdjustmentManagementPopup() {
                         const popupWidth = 1600;
                         const popupHeight = 800;
                         window.open(
-                            `/popup/abstract-and-payment?openerTabId=${openerTabId}`,
+                            `${import.meta.env.BASE_URL}popup/abstract-and-payment?openerTabId=${openerTabId}`,
                             'AbstractAndPaymentPopup',
                             `width=${popupWidth},height=${popupHeight}`
                         );
                     }}
                 >
-                    초본 및 납부
+                    珥덈낯 諛??⑸?
                 </Button>
             </div>
 
             {/* 4. First Filter Layout */}
             <div className="flex flex-col gap-2">
-                <h3 className="font-semibold text-base">채무조정</h3>
+                <h3 className="font-semibold text-base">梨꾨Т議곗젙</h3>
                 
                 {/* Rows 1-3 */}
                 <FilterContainer 
@@ -413,7 +412,7 @@ export default function DebtAdjustmentManagementPopup() {
 
             {/* 5. Second Filter Layout */}
             <div className="flex flex-col gap-2">
-                 <h3 className="font-semibold text-base">채무조정 사항</h3>
+                 <h3 className="font-semibold text-base">梨꾨Т議곗젙 ?ы빆</h3>
                  <FilterContainer
                     filterLayout={detailFormLayoutCorrected}
                     values={formValues}
@@ -421,16 +420,16 @@ export default function DebtAdjustmentManagementPopup() {
                 />
             </div>
 
-            {/* 6. 변제계획 Layout */}
+            {/* 6. 蹂?쒓퀎??Layout */}
             <div className="flex flex-col gap-2">
-                <h3 className="font-semibold text-base">변제계획</h3>
+                <h3 className="font-semibold text-base">蹂?쒓퀎??/h3>
                 <div className="bg-white rounded-lg">
                     <table className="w-full border-collapse">
                         <tbody>
-                            {/* Row 1: 상환 유예 & 상환방법 */}
+                            {/* Row 1: ?곹솚 ?좎삁 & ?곹솚諛⑸쾿 */}
                             <tr>
                                 <td className="border border-gray-300 bg-gray-50 px-3 py-2 font-medium text-sm w-32 align-middle">
-                                    상환 유예
+                                    ?곹솚 ?좎삁
                                 </td>
                                 <td className="border border-gray-300 px-3 py-2 align-middle">
                                     <FilterContainer
@@ -454,8 +453,8 @@ export default function DebtAdjustmentManagementPopup() {
                                                 type: "grid",
                                                 columns: 2,
                                                 filters: [
-                                                    { name: "gracePeriodMonths", type: "text", label: "유예기간 (개월)" },
-                                                    { name: "graceInterest", type: "text", label: "유예이자 (월)" },
+                                                    { name: "gracePeriodMonths", type: "text", label: "?좎삁湲곌컙 (媛쒖썡)" },
+                                                    { name: "graceInterest", type: "text", label: "?좎삁?댁옄 (??" },
                                                 ],
                                             },
                                         ]}
@@ -466,7 +465,7 @@ export default function DebtAdjustmentManagementPopup() {
                                     />
                                 </td>
                                 <td className="border border-gray-300 bg-gray-50 px-3 py-2 font-medium text-sm w-32 align-middle">
-                                    상환방법
+                                    ?곹솚諛⑸쾿
                                 </td>
                                 <td className="border border-gray-300 px-3 py-2 align-middle">
                                     <FilterContainer
@@ -480,9 +479,9 @@ export default function DebtAdjustmentManagementPopup() {
                                                         type: "select",
                                                         label: "",
                                                         options: [
-                                                            { value: "principal", label: "원금" },
-                                                            { value: "equal", label: "원리금균등" },
-                                                            { value: "maturity", label: "만기일시" },
+                                                            { value: "principal", label: "?먭툑" },
+                                                            { value: "equal", label: "?먮━湲덇퇏?? },
+                                                            { value: "maturity", label: "留뚭린?쇱떆" },
                                                         ],
                                                     },
                                                 ],
@@ -491,7 +490,7 @@ export default function DebtAdjustmentManagementPopup() {
                                                 type: "grid",
                                                 columns: 1,
                                                 filters: [
-                                                    { name: "repaymentMethodOther", type: "text", label: "기타", activator: true },
+                                                    { name: "repaymentMethodOther", type: "text", label: "湲고?", activator: true },
                                                 ],
                                             },
                                         ]}
@@ -502,10 +501,10 @@ export default function DebtAdjustmentManagementPopup() {
                                     />
                                 </td>
                             </tr>
-                            {/* Row 2: 상환기간 & 납입 시작일 */}
+                            {/* Row 2: ?곹솚湲곌컙 & ?⑹엯 ?쒖옉??*/}
                             <tr>
                                 <td className="border border-gray-300 bg-gray-50 px-3 py-2 font-medium text-sm align-middle">
-                                    상환기간
+                                    ?곹솚湲곌컙
                                 </td>
                                 <td className="border border-gray-300 px-3 py-2 align-middle">
                                     <FilterContainer
@@ -521,7 +520,7 @@ export default function DebtAdjustmentManagementPopup() {
                                                 type: "grid",
                                                 columns: 1,
                                                 filters: [
-                                                    { name: "repaymentPeriodMonths", type: "text", label: "개월" },
+                                                    { name: "repaymentPeriodMonths", type: "text", label: "媛쒖썡" },
                                                 ],
                                             },
                                         ]}
@@ -532,8 +531,7 @@ export default function DebtAdjustmentManagementPopup() {
                                     />
                                 </td>
                                 <td className="border border-gray-300 bg-gray-50 px-3 py-2 font-medium text-sm align-middle">
-                                    납입 시작일
-                                </td>
+                                    ?⑹엯 ?쒖옉??                                </td>
                                 <td className="border border-gray-300 px-3 py-2 align-middle">
                                     <FilterContainer
                                         filterLayout={[
@@ -552,11 +550,10 @@ export default function DebtAdjustmentManagementPopup() {
                                     />
                                 </td>
                             </tr>
-                            {/* Row 3: 매월 납입일 & 월납입액 */}
+                            {/* Row 3: 留ㅼ썡 ?⑹엯??& ?붾궔?낆븸 */}
                             <tr>
                                 <td className="border border-gray-300 bg-gray-50 px-3 py-2 font-medium text-sm align-middle">
-                                    매월 납입일
-                                </td>
+                                    留ㅼ썡 ?⑹엯??                                </td>
                                 <td className="border border-gray-300 px-3 py-2 align-middle">
                                     <FilterContainer
                                         filterLayout={[
@@ -564,7 +561,7 @@ export default function DebtAdjustmentManagementPopup() {
                                                 type: "grid",
                                                 columns: 1,
                                                 filters: [
-                                                    { name: "monthlyPaymentDay", type: "text", label: "일" },
+                                                    { name: "monthlyPaymentDay", type: "text", label: "?? },
                                                 ],
                                             },
                                         ]}
@@ -575,7 +572,7 @@ export default function DebtAdjustmentManagementPopup() {
                                     />
                                 </td>
                                 <td className="border border-gray-300 bg-gray-50 px-3 py-2 font-medium text-sm align-middle">
-                                    월납입액
+                                    ?붾궔?낆븸
                                 </td>
                                 <td className="border border-gray-300 px-3 py-2 align-middle">
                                     <FilterContainer
@@ -595,11 +592,10 @@ export default function DebtAdjustmentManagementPopup() {
                                     />
                                 </td>
                             </tr>
-                            {/* Row 4: 거치기간종료일 */}
+                            {/* Row 4: 嫄곗튂湲곌컙醫낅즺??*/}
                             <tr>
                                 <td className="border border-gray-300 bg-gray-50 px-3 py-2 font-medium text-sm align-middle">
-                                    거치기간종료일
-                                </td>
+                                    嫄곗튂湲곌컙醫낅즺??                                </td>
                                 <td className="border border-gray-300 px-3 py-2 align-middle" colSpan={3}>
                                     <FilterContainer
                                         filterLayout={[
@@ -626,3 +622,4 @@ export default function DebtAdjustmentManagementPopup() {
     </div>
   );
 }
+

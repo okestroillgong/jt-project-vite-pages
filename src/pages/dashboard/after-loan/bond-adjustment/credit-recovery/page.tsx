@@ -1,4 +1,4 @@
-
+﻿
 
 import { usePathname } from "@/lib/hooks/useAppLocation";
 import { useCallback, useEffect } from "react";
@@ -34,34 +34,33 @@ type CreditRecoveryBankData = {
   fdnCustNo: string;
 };
 
-// 예시 데이터
-const mockData: CreditRecoveryBankData[] = [
+// ?덉떆 ?곗씠??const mockData: CreditRecoveryBankData[] = [
   {
     tbLimCredtRecvyId: 4,
     acntNo: "2345665432",
     rqsRrn: "9802151234568",
-    prdctNm: "프리미엄론",
+    prdctNm: "?꾨━誘몄뾼濡?,
     nwDt: "20240215",
     expDt: "20250215",
     loanAmt: 15000000,
-    acntSttsCd: "정상",
+    acntSttsCd: "?뺤긽",
     custNo: "00054942704",
-    custNm: "김OO",
+    custNm: "源OO",
     fdnCustNo: "0680119111",
   },
 ];
 
 // Column definitions for the table
 const columns: ColumnDef<CreditRecoveryBankData>[] = [
-  { accessorKey: "tbLimCredtRecvyId", header: "순번" },
-  { accessorKey: "custNo", header: "고객번호" },
-  { accessorKey: "custNm", header: "고객명" },
-  { accessorKey: "acntNo", header: "계좌번호" },
-  { accessorKey: "prdctNm", header: "상품명" },
-  { accessorKey: "acntSttsCd", header: "계좌상태" },
-  { accessorKey: "nwDt", header: "대출신규일자" },
-  { accessorKey: "expDt", header: "대출만기일자" },
-  { accessorKey: "loanAmt", header: "대출금액" },
+  { accessorKey: "tbLimCredtRecvyId", header: "?쒕쾲" },
+  { accessorKey: "custNo", header: "怨좉컼踰덊샇" },
+  { accessorKey: "custNm", header: "怨좉컼紐? },
+  { accessorKey: "acntNo", header: "怨꾩쥖踰덊샇" },
+  { accessorKey: "prdctNm", header: "?곹뭹紐? },
+  { accessorKey: "acntSttsCd", header: "怨꾩쥖?곹깭" },
+  { accessorKey: "nwDt", header: "?異쒖떊洹쒖씪?? },
+  { accessorKey: "expDt", header: "?異쒕쭔湲곗씪?? },
+  { accessorKey: "loanAmt", header: "?異쒓툑?? },
 ];
 
 export default function CreditRecoveryPage() {
@@ -116,21 +115,21 @@ export default function CreditRecoveryPage() {
         { 
           name: "birthDate", 
           type: "long-search", 
-          label: "대상자생년월일", 
+          label: "??곸옄?앸뀈?붿씪", 
           readonly: true, 
           defaultValue: "1990-01-01",
           onButtonClick: (value?: any, e?: React.MouseEvent<HTMLElement>) => {
             e?.preventDefault();
             e?.stopPropagation();
             const birthDate = value || '';
-            window.open(`/popup/customer-search?birthDate=${birthDate}&openerTabId=${tabId}&sourceFilter=birthDate`, 'CustomerSearch', 'width=1600,height=800');
+            window.open(`${import.meta.env.BASE_URL}popup/customer-search?birthDate=${birthDate}&openerTabId=${tabId}&sourceFilter=birthDate`, 'CustomerSearch', 'width=1600,height=800');
           }
         },
         {
           name: "bondAdjustmentType",
           type: "select",
-          label: "채권조정구분",
-          options: [{ value: "credit-recovery", label: "신용회복" }],
+          label: "梨꾧텒議곗젙援щ텇",
+          options: [{ value: "credit-recovery", label: "?좎슜?뚮났" }],
           defaultValue: "credit-recovery",
           readonly: true,
         },
@@ -143,39 +142,39 @@ export default function CreditRecoveryPage() {
       type: "grid",
       columns: 3,
       filters: [
-        { name: "debtorName", type: "text", label: "채무자명" },
-        { name: "residentRegistrationNumber", type: "text", label: "주민등록번호" },
+        { name: "debtorName", type: "text", label: "梨꾨Т?먮챸" },
+        { name: "residentRegistrationNumber", type: "text", label: "二쇰??깅줉踰덊샇" },
         { 
           name: "customerNumber", 
           type: "long-search", 
-          label: "고객번호",
+          label: "怨좉컼踰덊샇",
           onButtonClick: (value?: any, e?: React.MouseEvent<HTMLElement>) => {
             e?.preventDefault();
             e?.stopPropagation();
             const customerNumber = value || '';
-            window.open(`/popup/customer-search?customerNumber=${customerNumber}&openerTabId=${tabId}&sourceFilter=customerNumber`, 'CustomerSearch', 'width=1600,height=800');
+            window.open(`${import.meta.env.BASE_URL}popup/customer-search?customerNumber=${customerNumber}&openerTabId=${tabId}&sourceFilter=customerNumber`, 'CustomerSearch', 'width=1600,height=800');
           }
         },
-        { name: "accountNumber", type: "text", label: "계좌번호" },
-        { name: "applicantName", type: "long-search", label: "신청자명" },
-        { name: "loanBalance", type: "number", label: "대출잔액" },
-        { name: "applicantStatus", type: "select", label: "신청인진행상태", options: [] },
-        { name: "accountStatusDetails", type: "text", label: "계좌진행상태내용" },
-        { name: "applicationType", type: "text", label: "신청구분" },
-        { name: "receiptNoticeDate", type: "date", label: "접수통지일자", popoverSide: "top" },
-        { name: "confirmationDate", type: "date", label: "확정일", popoverSide: "top" },
-        { name: "invalidationDate", type: "date", label: "실효/완제/합의서포기일", popoverSide: "top"},
-        { name: "adjustedInterestRate", type: "number", label: "조정후이율" },
-        { name: "adjustedPrincipal", type: "number", label: "조정후원금" },
-        { name: "adjustedInterest", type: "number", label: "조정후이자" },
-        { name: "adjustedOverdueInterest", type: "number", label: "조정후연체이자" },
-        { name: "adjustedCosts", type: "number", label: "조정후비용" },
-        { name: "adjustedTotal", type: "number", label: "조정후합계" },
-        { name: "principalReduction", type: "select", label: "원금감면여부", options: [] },
-        { name: "totalRepaymentPeriod", type: "number", label: "총상환기간" },
-        { name: "paymentInstallment", type: "number", label: "납입회차" },
-        { name: "overduePeriod", type: "number", label: "연체기간" },
-        { name: "reductionMethod", type: "text", label: "감면방식" },
+        { name: "accountNumber", type: "text", label: "怨꾩쥖踰덊샇" },
+        { name: "applicantName", type: "long-search", label: "?좎껌?먮챸" },
+        { name: "loanBalance", type: "number", label: "?異쒖옍?? },
+        { name: "applicantStatus", type: "select", label: "?좎껌?몄쭊?됱긽??, options: [] },
+        { name: "accountStatusDetails", type: "text", label: "怨꾩쥖吏꾪뻾?곹깭?댁슜" },
+        { name: "applicationType", type: "text", label: "?좎껌援щ텇" },
+        { name: "receiptNoticeDate", type: "date", label: "?묒닔?듭??쇱옄", popoverSide: "top" },
+        { name: "confirmationDate", type: "date", label: "?뺤젙??, popoverSide: "top" },
+        { name: "invalidationDate", type: "date", label: "?ㅽ슚/?꾩젣/?⑹쓽?쒗룷湲곗씪", popoverSide: "top"},
+        { name: "adjustedInterestRate", type: "number", label: "議곗젙?꾩씠?? },
+        { name: "adjustedPrincipal", type: "number", label: "議곗젙?꾩썝湲? },
+        { name: "adjustedInterest", type: "number", label: "議곗젙?꾩씠?? },
+        { name: "adjustedOverdueInterest", type: "number", label: "議곗젙?꾩뿰泥댁씠?? },
+        { name: "adjustedCosts", type: "number", label: "議곗젙?꾨퉬?? },
+        { name: "adjustedTotal", type: "number", label: "議곗젙?꾪빀怨? },
+        { name: "principalReduction", type: "select", label: "?먭툑媛먮㈃?щ?", options: [] },
+        { name: "totalRepaymentPeriod", type: "number", label: "珥앹긽?섍린媛? },
+        { name: "paymentInstallment", type: "number", label: "?⑹엯?뚯감" },
+        { name: "overduePeriod", type: "number", label: "?곗껜湲곌컙" },
+        { name: "reductionMethod", type: "text", label: "媛먮㈃諛⑹떇" },
       ],
     },
   ];
@@ -193,11 +192,11 @@ export default function CreditRecoveryPage() {
       residentRegistrationNumber: row.rqsRrn,
       customerNumber: row.custNo,
       accountNumber: row.acntNo,
-      applicantName: `신청인_${row.custNm}`,
+      applicantName: `?좎껌??${row.custNm}`,
       loanBalance: row.loanAmt,
-      applicantStatus: '접수',
-      accountStatusDetails: '정상 처리',
-      applicationType: '개인회생',
+      applicantStatus: '?묒닔',
+      accountStatusDetails: '?뺤긽 泥섎━',
+      applicationType: '媛쒖씤?뚯깮',
       receiptNoticeDate: '2024-05-01',
       confirmationDate: '2024-05-15',
       invalidationDate: '2029-05-14',
@@ -211,7 +210,7 @@ export default function CreditRecoveryPage() {
       totalRepaymentPeriod: 60,
       paymentInstallment: 1,
       overduePeriod: 0,
-      reductionMethod: '원금 일부 감면',
+      reductionMethod: '?먭툑 ?쇰? 媛먮㈃',
     };
     updateFilters(tabId, mockLedgerData);
   };
@@ -228,19 +227,19 @@ export default function CreditRecoveryPage() {
     <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <img src={TitleIcon} alt="타이틀 아이콘" width={40} height={40} />
-          <h2 className="text-lg font-semibold">신용회복관리</h2>
+          <img src={TitleIcon} alt="??댄? ?꾩씠肄? width={40} height={40} />
+          <h2 className="text-lg font-semibold">?좎슜?뚮났愿由?/h2>
         </div>
         <Breadcrumb>
           <BreadcrumbList>
-            <BreadcrumbItem>홈</BreadcrumbItem>
+            <BreadcrumbItem>??/BreadcrumbItem>
             <BreadcrumbSeparator />
-            <BreadcrumbItem>여신사후</BreadcrumbItem>
+            <BreadcrumbItem>?ъ떊?ы썑</BreadcrumbItem>
             <BreadcrumbSeparator />
-            <BreadcrumbItem>채권조정</BreadcrumbItem>
+            <BreadcrumbItem>梨꾧텒議곗젙</BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>신용회복관리</BreadcrumbPage>
+              <BreadcrumbPage>?좎슜?뚮났愿由?/BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
@@ -265,7 +264,7 @@ export default function CreditRecoveryPage() {
       />
 
       <DataTable
-        title="당행"
+        title="?뱁뻾"
         columns={columns}
         data={mockData}
         amountColumns={["loanAmt"]}
@@ -274,7 +273,7 @@ export default function CreditRecoveryPage() {
       />
 
       <div className="flex flex-col gap-4">
-        <h3 className="font-semibold">신용회복 원장정보</h3>
+        <h3 className="font-semibold">?좎슜?뚮났 ?먯옣?뺣낫</h3>
         <FilterContainer 
           filterLayout={creditRecoveryFilterLayout} 
           values={currentState.filters}
@@ -284,3 +283,4 @@ export default function CreditRecoveryPage() {
     </div>
   );
 }
+

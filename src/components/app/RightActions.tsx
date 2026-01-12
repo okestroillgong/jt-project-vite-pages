@@ -1,4 +1,4 @@
-
+﻿
 
 import { Button } from "@/components/ui/button";
 import {
@@ -7,69 +7,69 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import IconReset from "@/assets/icons/js/오른쪽버튼아이콘01초기화흰색";
-import IconExcel from "@/assets/icons/js/오른쪽버튼아이콘02엑셀다운로드흰색";
-import IconDelete from "@/assets/icons/js/오른쪽버튼아이콘05삭제흰색";
-import IconSearch from "@/assets/icons/js/오른쪽버튼아이콘06조회흰색";
-import IconRegister from "@/assets/icons/js/오른쪽버튼아이콘03등록흰색";
-import IconSave from "@/assets/icons/js/오른쪽버튼아이콘04저장흰색";
-import IconScan from "@/assets/icons/js/오른쪽버튼아이콘07문서스캔흰색";
-import IconAttach from "@/assets/icons/js/오른쪽버튼아이콘08파일첨부흰색";
-import IconSearchDoc from "@/assets/icons/js/오른쪽버튼아이콘09문서검색흰색";
-import IconDataReset from "@/assets/icons/js/오른쪽버튼아이콘10데이터초기화흰색";
+import IconReset from "@/assets/icons/js/?ㅻⅨ履쎈쾭?쇱븘?댁퐯01珥덇린?뷀씛??;
+import IconExcel from "@/assets/icons/js/?ㅻⅨ履쎈쾭?쇱븘?댁퐯02?묒??ㅼ슫濡쒕뱶?곗깋";
+import IconDelete from "@/assets/icons/js/?ㅻⅨ履쎈쾭?쇱븘?댁퐯05??젣?곗깋";
+import IconSearch from "@/assets/icons/js/?ㅻⅨ履쎈쾭?쇱븘?댁퐯06議고쉶?곗깋";
+import IconRegister from "@/assets/icons/js/?ㅻⅨ履쎈쾭?쇱븘?댁퐯03?깅줉?곗깋";
+import IconSave from "@/assets/icons/js/?ㅻⅨ履쎈쾭?쇱븘?댁퐯04??ν씛??;
+import IconScan from "@/assets/icons/js/?ㅻⅨ履쎈쾭?쇱븘?댁퐯07臾몄꽌?ㅼ틪?곗깋";
+import IconAttach from "@/assets/icons/js/?ㅻⅨ履쎈쾭?쇱븘?댁퐯08?뚯씪泥⑤??곗깋";
+import IconSearchDoc from "@/assets/icons/js/?ㅻⅨ履쎈쾭?쇱븘?댁퐯09臾몄꽌寃?됲씛??;
+import IconDataReset from "@/assets/icons/js/?ㅻⅨ履쎈쾭?쇱븘?댁퐯10?곗씠?곗큹湲고솕?곗깋";
 import { X, CheckCircle, FilePenLine, FileText, ShieldCheck, Percent, Hourglass, History, Printer, Gavel, Play, Pause, XSquare, ExternalLink, Star } from "lucide-react";
 import type { ComponentType, SVGProps } from "react";
 import { usePathname } from "@/lib/hooks/useAppLocation";
 import { useFavoritesStore } from "@/lib/store/favoritesStore";
 import { useTabStore } from "@/lib/store/tabs";
 
-// 각 액션 버튼의 설정을 위한 타입을 정의합니다.
+// 媛??≪뀡 踰꾪듉???ㅼ젙???꾪븳 ??낆쓣 ?뺤쓽?⑸땲??
 type ActionConfig = {
   icon: ComponentType<SVGProps<SVGSVGElement>>;
   text: string;
-  handler?: () => void; // handler는 선택적 프로퍼티입니다.
+  handler?: () => void; // handler???좏깮???꾨줈?쇳떚?낅땲??
 };
 
 const iconMap: Record<string, ActionConfig> = {
   reset: {
     icon: IconReset,
-    text: "페이지 새로고침",
+    text: "?섏씠吏 ?덈줈怨좎묠",
     handler: () => window.location.reload(),
   },
-  excel: { icon: IconExcel, text: "엑셀다운로드" },
-  "excel-generate": { icon: IconSave, text: "엑셀생성" },
-  delete: { icon: IconDelete, text: "삭제" },
-  search: { icon: IconSearch, text: "조회" },
-  register: { icon: IconRegister, text: "등록" },
-  new: { icon: IconRegister, text: "신규" },
-  save: { icon: IconSave, text: "저장" },
-  process: { icon: IconSave, text: "처리" },
-  scan: { icon: IconScan, text: "문서 스캔" },
-  attach: { icon: IconAttach, text: "파일첨부" },
-  "file-upload": { icon: IconAttach, text: "파일 업로드" },
-  "excel-upload": { icon: IconAttach, text: "엑셀업로드" },
-  "court-search": { icon: Gavel, text: "법원사건조회" },
-  edit: { icon: FilePenLine, text: "수정" },
+  excel: { icon: IconExcel, text: "?묒??ㅼ슫濡쒕뱶" },
+  "excel-generate": { icon: IconSave, text: "?묒??앹꽦" },
+  delete: { icon: IconDelete, text: "??젣" },
+  search: { icon: IconSearch, text: "議고쉶" },
+  register: { icon: IconRegister, text: "?깅줉" },
+  new: { icon: IconRegister, text: "?좉퇋" },
+  save: { icon: IconSave, text: "??? },
+  process: { icon: IconSave, text: "泥섎━" },
+  scan: { icon: IconScan, text: "臾몄꽌 ?ㅼ틪" },
+  attach: { icon: IconAttach, text: "?뚯씪泥⑤?" },
+  "file-upload": { icon: IconAttach, text: "?뚯씪 ?낅줈?? },
+  "excel-upload": { icon: IconAttach, text: "?묒??낅줈?? },
+  "court-search": { icon: Gavel, text: "踰뺤썝?ш굔議고쉶" },
+  edit: { icon: FilePenLine, text: "?섏젙" },
     searchDoc: { 
       icon: IconSearchDoc, 
-      text: "문서검색",
-    },  "data-reset": { icon: IconDataReset, text: "데이터 초기화" },
-  close: { icon: X, text: "닫기", handler: () => window.close() },
-  assignConfirm: { icon: CheckCircle, text: "지정확인" },
-  modify: { icon: FilePenLine, text: "수정" },
-  auditOpinion: { icon: FileText, text: "감리미의견" },
-  auditConfirm: { icon: ShieldCheck, text: "감리확인" },
-  surcharge: { icon: Percent, text: "할증차금" },
-  progressStatus: { icon: Hourglass, text: "진행상태" },
-  history: { icon: History, text: "수정내역" },
-  print: { icon: Printer, text: "인쇄" },
-  "loss-confirmation": { icon: CheckCircle, text: "로스확정" },
-  "doc-reception": { icon: FileText, text: "문서접수" },
-  execute: { icon: Play, text: "실행" },
-  stop: { icon: Pause, text: "중지" },
-  terminate: { icon: XSquare, text: "종료" },
-  "open-popup": { icon: ExternalLink, text: "새 창으로 열기" },
-  favorite: { icon: Star, text: "즐겨찾기" },
+      text: "臾몄꽌寃??,
+    },  "data-reset": { icon: IconDataReset, text: "?곗씠??珥덇린?? },
+  close: { icon: X, text: "?リ린", handler: () => window.close() },
+  assignConfirm: { icon: CheckCircle, text: "吏?뺥솗?? },
+  modify: { icon: FilePenLine, text: "?섏젙" },
+  auditOpinion: { icon: FileText, text: "媛먮━誘몄쓽寃? },
+  auditConfirm: { icon: ShieldCheck, text: "媛먮━?뺤씤" },
+  surcharge: { icon: Percent, text: "?좎쬆李④툑" },
+  progressStatus: { icon: Hourglass, text: "吏꾪뻾?곹깭" },
+  history: { icon: History, text: "?섏젙?댁뿭" },
+  print: { icon: Printer, text: "?몄뇙" },
+  "loss-confirmation": { icon: CheckCircle, text: "濡쒖뒪?뺤젙" },
+  "doc-reception": { icon: FileText, text: "臾몄꽌?묒닔" },
+  execute: { icon: Play, text: "?ㅽ뻾" },
+  stop: { icon: Pause, text: "以묒?" },
+  terminate: { icon: XSquare, text: "醫낅즺" },
+  "open-popup": { icon: ExternalLink, text: "??李쎌쑝濡??닿린" },
+  favorite: { icon: Star, text: "利먭꺼李얘린" },
 };
 
 export type ActionType = keyof typeof iconMap;
@@ -77,7 +77,7 @@ export type ActionType = keyof typeof iconMap;
 interface RightActionsProps {
   actions: {
     id: ActionType;
-    onClick?: () => void; // 'reset'과 같이 고정된 동작이 있는 버튼은 onClick이 필요 없습니다.
+    onClick?: () => void; // 'reset'怨?媛숈씠 怨좎젙???숈옉???덈뒗 踰꾪듉? onClick???꾩슂 ?놁뒿?덈떎.
   }[];
 }
 
@@ -104,14 +104,14 @@ export function RightActions({ actions }: RightActionsProps) {
 
   // Favorite button handler - opens favorites management popup
   const handleFavoriteClick = () => {
-    const label = activeTab?.label || tabId.split('/').pop() || '페이지';
+    const label = activeTab?.label || tabId.split('/').pop() || '?섏씠吏';
     const popupWidth = 800;
     const popupHeight = 600;
     const left = (window.screen.width / 2) - (popupWidth / 2);
     const top = (window.screen.height / 2) - (popupHeight / 2);
 
     window.open(
-      `/popup/favorites-management?pageId=${encodeURIComponent(tabId)}&pageName=${encodeURIComponent(label)}`,
+      `${import.meta.env.BASE_URL}popup/favorites-management?pageId=${encodeURIComponent(tabId)}&pageName=${encodeURIComponent(label)}`,
       'FavoritesManagement',
       `width=${popupWidth},height=${popupHeight},top=${top},left=${left}`
     );
@@ -137,7 +137,7 @@ export function RightActions({ actions }: RightActionsProps) {
             </Button>
           </TooltipTrigger>
           <TooltipContent>
-            <p>{isCurrentFavorite ? '즐겨찾기 해제' : '즐겨찾기 추가'}</p>
+            <p>{isCurrentFavorite ? '利먭꺼李얘린 ?댁젣' : '利먭꺼李얘린 異붽?'}</p>
           </TooltipContent>
         </Tooltip>
 
@@ -159,7 +159,7 @@ export function RightActions({ actions }: RightActionsProps) {
               const left = (window.screen.width / 2) - (popupWidth / 2);
               const top = (window.screen.height / 2) - (popupHeight / 2);
               window.open(
-                `/popup/document-search?openerTabId=${tabId}`,
+                `${import.meta.env.BASE_URL}popup/document-search?openerTabId=${tabId}`,
                 'DocumentSearch',
                 `width=${popupWidth},height=${popupHeight},top=${top},left=${left}`
               );
@@ -172,7 +172,7 @@ export function RightActions({ actions }: RightActionsProps) {
               const popupHeight = 800;
               const left = (window.screen.width / 2) - (popupWidth / 2);
               const top = (window.screen.height / 2) - (popupHeight / 2);
-              // 현재 페이지를 팝업으로 열기 (popup 경로로 변환)
+              // ?꾩옱 ?섏씠吏瑜??앹뾽?쇰줈 ?닿린 (popup 寃쎈줈濡?蹂??
               const popupPath = `/popup${tabId}`;
               window.open(
                 popupPath,
