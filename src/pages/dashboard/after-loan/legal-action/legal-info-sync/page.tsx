@@ -17,7 +17,7 @@ import { RightActions } from "@/components/app/RightActions";
 import { LeftActions } from "@/components/app/LeftActions";
 import type { FilterLayout } from "@/components/filters/types";
 import { usePageStore } from "@/lib/store/pageStore";
-import { listenForPopupMessages, postPopupMessage } from "@/lib/popup-bus"; // Assuming popup-bus is used for consistency
+import { listenForPopupMessages, postPopupMessage } from "@/lib${import.meta.env.BASE_URL}popup-bus"; // Assuming popup-bus is used for consistency
 
 // --- Types for Data and Filters ---
 

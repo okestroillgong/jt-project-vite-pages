@@ -5,7 +5,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import type { FilterOption } from "./types";
 import { usePathname } from "@/lib/hooks/useAppLocation";
-import { listenForPopupMessages } from "@/lib/popup-bus";
+import { listenForPopupMessages } from "@/lib${import.meta.env.BASE_URL}popup-bus";
 
 export type FilterMultiSelectPopupProps = {
   name: string;

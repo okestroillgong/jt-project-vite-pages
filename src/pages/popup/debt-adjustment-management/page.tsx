@@ -3,7 +3,7 @@
 import { usePathname, useSearchParams } from "@/lib/hooks/useAppLocation";
 import { useCallback, useEffect, useState } from "react";
 import { usePageStore } from "@/lib/store/pageStore";
-import { listenForPopupMessages, postPopupMessage } from "@/lib/popup-bus";
+import { listenForPopupMessages, postPopupMessage } from "@/lib${import.meta.env.BASE_URL}popup-bus";
 import { Button } from "@/components/ui/button";
 import { PopupRightActions, PopupAction } from "@/components/app/PopupRightActions";
 import { DataTable } from "@/components/app/DataTable";

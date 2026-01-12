@@ -1,4 +1,4 @@
-
+﻿
 
 import { useState, useEffect, useCallback, Suspense, useMemo } from "react";
 import { useSearchParams } from "@/lib/hooks/useAppLocation";
@@ -7,48 +7,44 @@ import { FilterContainer } from "@/components/filters/FilterContainer";
 import { PopupRightActions, PopupAction } from "@/components/app/PopupRightActions";
 import type { FilterLayout } from "@/components/filters/types";
 import { ColumnDef } from "@tanstack/react-table";
-import { postPopupMessage } from "@/lib/popup-bus";
+import { postPopupMessage } from "@/lib${import.meta.env.BASE_URL}popup-bus";
 
 // Data type for the table
 type CaseData = {
   curRow: number;
-  IfaffManageDstcd: string; // 관리구분
-  rnmNo: string; // 실명번호
-  custNm: string; // 고객명
-  csNo: string; // 사건번호 (표시용)
-  csYy: string; // 사건년월 (데이터용)
-  csKind: string; // 사건종류 (데이터용)
-  csNoSeq: string; // 사건일련번호 (데이터용)
-  csNm: string; // 사건명
-  cortCo: string; // 법원명
-  lfaffPrgsSttsCd: string; // 진행상태
+  IfaffManageDstcd: string; // 愿由ш뎄遺?  rnmNo: string; // ?ㅻ챸踰덊샇
+  custNm: string; // 怨좉컼紐?  csNo: string; // ?ш굔踰덊샇 (?쒖떆??
+  csYy: string; // ?ш굔?꾩썡 (?곗씠?곗슜)
+  csKind: string; // ?ш굔醫낅쪟 (?곗씠?곗슜)
+  csNoSeq: string; // ?ш굔?쇰젴踰덊샇 (?곗씠?곗슜)
+  csNm: string; // ?ш굔紐?  cortCo: string; // 踰뺤썝紐?  lfaffPrgsSttsCd: string; // 吏꾪뻾?곹깭
 };
 
 // Mock data
 const mockData: CaseData[] = Array.from({ length: 15 }, (_, i) => ({
   curRow: i + 1,
-  IfaffManageDstcd: i % 2 === 0 ? "개인회생" : "파산면책",
+  IfaffManageDstcd: i % 2 === 0 ? "媛쒖씤?뚯깮" : "?뚯궛硫댁콉",
   rnmNo: `800101-123456${i % 10}`,
-  custNm: `고객${i + 1}`,
+  custNm: `怨좉컼${i + 1}`,
   csNo: `${String(100000 + i).padStart(6, '0')}${(i % 26 + 10).toString(36).toUpperCase()}`,
   csYy: "2024",
-  csKind: "가단",
+  csKind: "媛??,
   csNoSeq: `${10000 + i}`,
-  csNm: `대여금 반환 청구의 소 ${i + 1}`,
-  cortCo: "서울중앙지방법원",
-  lfaffPrgsSttsCd: "진행중",
+  csNm: `??ш툑 諛섑솚 泥?뎄????${i + 1}`,
+  cortCo: "?쒖슱以묒븰吏諛⑸쾿??,
+  lfaffPrgsSttsCd: "吏꾪뻾以?,
 }));
 
 // Columns
 const columns: ColumnDef<CaseData>[] = [
-  { accessorKey: "curRow", header: "순번" },
-  { accessorKey: "IfaffManageDstcd", header: "관리구분" },
-  { accessorKey: "rnmNo", header: "실명번호" },
-  { accessorKey: "custNm", header: "고객명" },
-  { accessorKey: "csNo", header: "사건번호" },
-  { accessorKey: "csNm", header: "사건명" },
-  { accessorKey: "cortCo", header: "법원명" },
-  { accessorKey: "lfaffPrgsSttsCd", header: "진행상태" },
+  { accessorKey: "curRow", header: "?쒕쾲" },
+  { accessorKey: "IfaffManageDstcd", header: "愿由ш뎄遺? },
+  { accessorKey: "rnmNo", header: "?ㅻ챸踰덊샇" },
+  { accessorKey: "custNm", header: "怨좉컼紐? },
+  { accessorKey: "csNo", header: "?ш굔踰덊샇" },
+  { accessorKey: "csNm", header: "?ш굔紐? },
+  { accessorKey: "cortCo", header: "踰뺤썝紐? },
+  { accessorKey: "lfaffPrgsSttsCd", header: "吏꾪뻾?곹깭" },
 ];
 
 function CaseInquiryPopupContent() {
@@ -90,16 +86,16 @@ function CaseInquiryPopupContent() {
       type: "grid",
       columns: 3,
       filters: [
-        { name: "birthDate", type: "text", label: "생년월일" },
-        { name: "customerName", type: "text", label: "고객명" },
-        { name: "caseNumber", type: "text", label: "사건번호" },
+        { name: "birthDate", type: "text", label: "?앸뀈?붿씪" },
+        { name: "customerName", type: "text", label: "怨좉컼紐? },
+        { name: "caseNumber", type: "text", label: "?ш굔踰덊샇" },
       ],
     },
   ], []);
 
   const popupActions: PopupAction[] = [
-    { id: "search", text: "조회", onClick: handleSearch },
-    { id: "close", text: "닫기", onClick: () => window.close() },
+    { id: "search", text: "議고쉶", onClick: handleSearch },
+    { id: "close", text: "?リ린", onClick: () => window.close() },
   ];
 
   const handleRowDoubleClick = (row: CaseData) => {
@@ -118,12 +114,12 @@ function CaseInquiryPopupContent() {
   return (
     <div className="flex flex-col gap-4 p-4 bg-gray-50 min-h-screen">
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-bold">사건 조회</h2>
+        <h2 className="text-xl font-bold">?ш굔 議고쉶</h2>
         <PopupRightActions actions={popupActions} />
       </div>
 
       <div className="border-t pt-4">
-        <h3 className="font-semibold mb-2">사건 검색</h3>
+        <h3 className="font-semibold mb-2">?ш굔 寃??/h3>
         <FilterContainer
           filterLayout={filterLayout}
           values={filters}
@@ -133,7 +129,7 @@ function CaseInquiryPopupContent() {
 
       <div className="flex-grow">
         <DataTable
-          title="사건 목록"
+          title="?ш굔 紐⑸줉"
           columns={columns}
           data={tableData}
           onRowDoubleClick={handleRowDoubleClick}
@@ -150,3 +146,4 @@ export default function CaseInquiryPopupPage() {
     </Suspense>
   );
 }
+

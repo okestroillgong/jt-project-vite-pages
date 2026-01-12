@@ -3,7 +3,7 @@
 import { usePathname } from "@/lib/hooks/useAppLocation";
 import { useCallback, useEffect, useState } from "react";
 import { usePageStore } from "@/lib/store/pageStore";
-import { listenForPopupMessages } from "@/lib/popup-bus";
+import { listenForPopupMessages } from "@/lib${import.meta.env.BASE_URL}popup-bus";
 import {
   Breadcrumb,
   BreadcrumbItem,

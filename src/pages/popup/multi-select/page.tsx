@@ -1,10 +1,10 @@
-
+﻿
 
 import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "@/lib/hooks/useAppLocation";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { postPopupMessage } from "@/lib/popup-bus";
+import { postPopupMessage } from "@/lib${import.meta.env.BASE_URL}popup-bus";
 import { LoadingSpinner } from "@/components/app/LoadingSpinner";
 import {
   Table,
@@ -21,7 +21,7 @@ function MultiSelectPopupContent() {
   const source = searchParams.get("source");
   const optionsParam = searchParams.get("options");
   const selectedParam = searchParams.get("selected");
-  const title = searchParams.get("title") || "선택";
+  const title = searchParams.get("title") || "?좏깮";
 
   const [options, setOptions] = useState<{ value: string; label: string }[]>([]);
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
@@ -78,16 +78,16 @@ function MultiSelectPopupContent() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[50px] text-center">선택</TableHead>
-              <TableHead className="text-center">상태</TableHead>
-              <TableHead className="text-center">비고</TableHead>
+              <TableHead className="w-[50px] text-center">?좏깮</TableHead>
+              <TableHead className="text-center">?곹깭</TableHead>
+              <TableHead className="text-center">鍮꾧퀬</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {options.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={3} className="text-center h-24 text-muted-foreground">
-                  항목이 없습니다.
+                  ??ぉ???놁뒿?덈떎.
                 </TableCell>
               </TableRow>
             ) : (
@@ -96,7 +96,7 @@ function MultiSelectPopupContent() {
                   key={option.value}
                   className="cursor-pointer hover:bg-muted/50"
                   onClick={() => {
-                    // 행 클릭 시 체크박스 토글
+                    // ???대┃ ??泥댄겕諛뺤뒪 ?좉?
                     const isChecked = selectedValues.includes(option.value);
                     handleToggle(option.value, !isChecked);
                   }}
@@ -124,7 +124,7 @@ function MultiSelectPopupContent() {
                     </label>
                   </TableCell>
                   <TableCell className="text-center p-2 text-muted-foreground">
-                    {/* 비고란은 현재 데이터가 없으므로 공란 */}
+                    {/* 鍮꾧퀬?? ?꾩옱 ?곗씠?곌? ?놁쑝誘濡?怨듬? */}
                   </TableCell>
                 </TableRow>
               ))
@@ -134,8 +134,8 @@ function MultiSelectPopupContent() {
       </div>
 
       <div className="flex justify-end gap-2">
-        <Button variant="outline" onClick={handleCancel}>취소</Button>
-        <Button onClick={handleConfirm}>확인</Button>
+        <Button variant="outline" onClick={handleCancel}>痍⑥냼</Button>
+        <Button onClick={handleConfirm}>?뺤씤</Button>
       </div>
     </div>
   );

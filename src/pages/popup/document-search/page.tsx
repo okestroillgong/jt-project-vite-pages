@@ -9,7 +9,7 @@ import type { FilterLayout } from "@/components/filters/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { PopupRightActions, PopupAction } from "@/components/app/PopupRightActions";
 import { Button } from "@/components/ui/button";
-import { listenForPopupMessages } from "@/lib/popup-bus";
+import { listenForPopupMessages } from "@/lib${import.meta.env.BASE_URL}popup-bus";
 
 // Data type for the table
 type DocumentData = {

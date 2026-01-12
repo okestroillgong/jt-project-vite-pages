@@ -3,7 +3,7 @@
 import { useState, useMemo, useCallback, useEffect } from "react";
 import { usePathname } from "@/lib/hooks/useAppLocation";
 import { usePageStore } from "@/lib/store/pageStore";
-import { listenForPopupMessages } from "@/lib/popup-bus";
+import { listenForPopupMessages } from "@/lib${import.meta.env.BASE_URL}popup-bus";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -265,7 +265,7 @@ export default function SoundnessDataGenerationPage() {
               const left = (window.screen.width / 2) - (popupWidth / 2);
               const top = (window.screen.height / 2) - (popupHeight / 2);
               window.open(
-                '/popup/asset-soundness-progress',
+                '${import.meta.env.BASE_URL}popup/asset-soundness-progress',
                 'AssetSoundnessProgress',
                 `width=${popupWidth},height=${popupHeight},top=${top},left=${left}`
               );

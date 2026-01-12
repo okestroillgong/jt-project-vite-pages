@@ -22,6 +22,7 @@ import type { ComponentType, SVGProps } from "react";
 import { usePathname } from "@/lib/hooks/useAppLocation";
 import { useFavoritesStore } from "@/lib/store/favoritesStore";
 import { useTabStore } from "@/lib/store/tabs";
+import { getPageNameOrFallback } from "@/lib/utils/pageNames";
 
 // 媛??≪뀡 踰꾪듉???ㅼ젙???꾪븳 ??낆쓣 ?뺤쓽?⑸땲??
 type ActionConfig = {
@@ -104,7 +105,7 @@ export function RightActions({ actions }: RightActionsProps) {
 
   // Favorite button handler - opens favorites management popup
   const handleFavoriteClick = () => {
-    const label = activeTab?.label || tabId.split('/').pop() || '?섏씠吏';
+    const label = activeTab?.label || getPageNameOrFallback(tabId);
     const popupWidth = 800;
     const popupHeight = 600;
     const left = (window.screen.width / 2) - (popupWidth / 2);
@@ -173,7 +174,7 @@ export function RightActions({ actions }: RightActionsProps) {
               const left = (window.screen.width / 2) - (popupWidth / 2);
               const top = (window.screen.height / 2) - (popupHeight / 2);
               // ?꾩옱 ?섏씠吏瑜??앹뾽?쇰줈 ?닿린 (popup 寃쎈줈濡?蹂??
-              const popupPath = `/popup${tabId}`;
+              const popupPath = `${import.meta.env.BASE_URL}popup${tabId}`;
               window.open(
                 popupPath,
                 'PagePopup',

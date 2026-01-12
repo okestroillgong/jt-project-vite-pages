@@ -68,42 +68,42 @@ const CollectiveRegistrationPage = () => lazyLoad(() => import('@/pages/dashboar
 const CreditRatingExcelUploadPage = () => lazyLoad(() => import('@/pages/dashboard/after-loan/credit-rating-excel-upload/page'));
 
 // Popup pages
-const CustomerSearchPopup = () => lazyLoad(() => import('@/pages/popup/customer-search/page'));
-const UserSearchPopup = () => lazyLoad(() => import('@/pages/popup/user-search/page'));
-const DebtAdjustmentManagementPopup = () => lazyLoad(() => import('@/pages/popup/debt-adjustment-management/page'));
-const DocumentScanPopup = () => lazyLoad(() => import('@/pages/popup/document-scan/page'));
-const MultiSelectPopup = () => lazyLoad(() => import('@/pages/popup/multi-select/page'));
-const AssetSoundnessProgressPopup = () => lazyLoad(() => import('@/pages/popup/asset-soundness-progress/page'));
-const SoundnessAuditOpinionPopup = () => lazyLoad(() => import('@/pages/popup/soundness-audit-opinion/page'));
-const AbstractAndPaymentPopup = () => lazyLoad(() => import('@/pages/popup/abstract-and-payment/page'));
-const AddressVerificationPopup = () => lazyLoad(() => import('@/pages/popup/address-verification/page'));
-const BondLegalProgressPopup = () => lazyLoad(() => import('@/pages/popup/bond-legal-progress/page'));
-const BranchManagementPopup = () => lazyLoad(() => import('@/pages/popup/branch-management/page'));
-const CaseInquiryPopup = () => lazyLoad(() => import('@/pages/popup/case-inquiry/page'));
-const CorrectionHistoryPopup = () => lazyLoad(() => import('@/pages/popup/correction-history/page'));
-const CreditLedgerPopup = () => lazyLoad(() => import('@/pages/popup/credit-ledger/page'));
-const CustomerManagementCodePopup = () => lazyLoad(() => import('@/pages/popup/customer-management-code/page'));
-const DebtAdjustmentESignaturePopup = () => lazyLoad(() => import('@/pages/popup/debt-adjustment-e-signature/page'));
-const DebtCollectionRestrictionPopup = () => lazyLoad(() => import('@/pages/popup/debt-collection-restriction/page'));
-const DocumentSearchPopup = () => lazyLoad(() => import('@/pages/popup/document-search/page'));
-const EarlyWarningPopup = () => lazyLoad(() => import('@/pages/popup/early-warning/page'));
-const ExcelDownloadPopup = () => lazyLoad(() => import('@/pages/popup/excel-download/page'));
-const IssuanceHistoryPopup = () => lazyLoad(() => import('@/pages/popup/issuance-history/page'));
-const MessageTypePopup = () => lazyLoad(() => import('@/pages/popup/message-type/page'));
-const ModificationHistoryPopup = () => lazyLoad(() => import('@/pages/popup/modification-history/page'));
-const MultiExcelDownloadPopup = () => lazyLoad(() => import('@/pages/popup/multi-excel-download/page'));
-const RealEstateAuctionPopup = () => lazyLoad(() => import('@/pages/popup/real-estate-auction/page'));
-const SendDMPopup = () => lazyLoad(() => import('@/pages/popup/send-dm/page'));
-const SendSMSPopup = () => lazyLoad(() => import('@/pages/popup/send-sms/page'));
-const SpecificInfoInquiryPopup = () => lazyLoad(() => import('@/pages/popup/specific-info-inquiry/page'));
-const TransactionHistoryPopup = () => lazyLoad(() => import('@/pages/popup/transaction-history/page'));
-const UnprocessedAmountProcessingPopup = () => lazyLoad(() => import('@/pages/popup/unprocessed-amount-processing/page'));
-const Form7Popup = () => lazyLoad(() => import('@/pages/popup/form-7/page'));
-const LoanConditionsPopup = () => lazyLoad(() => import('@/pages/popup/loan-conditions/page'));
-const CreditRepaymentPopup = () => lazyLoad(() => import('@/pages/popup/credit-repayment/page'));
-const VisitRegistrationPopup = () => lazyLoad(() => import('@/pages/popup/visit-registration/page'));
-const CounselingRegistrationPopup = () => lazyLoad(() => import('@/pages/popup/counseling-registration/page'));
-const FavoritesManagementPopup = () => lazyLoad(() => import('@/pages/popup/favorites-management/page'));
+const CustomerSearchPopup = () => lazyLoad(() => import('@/pages${import.meta.env.BASE_URL}popup/customer-search/page'));
+const UserSearchPopup = () => lazyLoad(() => import('@/pages${import.meta.env.BASE_URL}popup/user-search/page'));
+const DebtAdjustmentManagementPopup = () => lazyLoad(() => import('@/pages${import.meta.env.BASE_URL}popup/debt-adjustment-management/page'));
+const DocumentScanPopup = () => lazyLoad(() => import('@/pages${import.meta.env.BASE_URL}popup/document-scan/page'));
+const MultiSelectPopup = () => lazyLoad(() => import('@/pages${import.meta.env.BASE_URL}popup/multi-select/page'));
+const AssetSoundnessProgressPopup = () => lazyLoad(() => import('@/pages${import.meta.env.BASE_URL}popup/asset-soundness-progress/page'));
+const SoundnessAuditOpinionPopup = () => lazyLoad(() => import('@/pages${import.meta.env.BASE_URL}popup/soundness-audit-opinion/page'));
+const AbstractAndPaymentPopup = () => lazyLoad(() => import('@/pages${import.meta.env.BASE_URL}popup/abstract-and-payment/page'));
+const AddressVerificationPopup = () => lazyLoad(() => import('@/pages${import.meta.env.BASE_URL}popup/address-verification/page'));
+const BondLegalProgressPopup = () => lazyLoad(() => import('@/pages${import.meta.env.BASE_URL}popup/bond-legal-progress/page'));
+const BranchManagementPopup = () => lazyLoad(() => import('@/pages${import.meta.env.BASE_URL}popup/branch-management/page'));
+const CaseInquiryPopup = () => lazyLoad(() => import('@/pages${import.meta.env.BASE_URL}popup/case-inquiry/page'));
+const CorrectionHistoryPopup = () => lazyLoad(() => import('@/pages${import.meta.env.BASE_URL}popup/correction-history/page'));
+const CreditLedgerPopup = () => lazyLoad(() => import('@/pages${import.meta.env.BASE_URL}popup/credit-ledger/page'));
+const CustomerManagementCodePopup = () => lazyLoad(() => import('@/pages${import.meta.env.BASE_URL}popup/customer-management-code/page'));
+const DebtAdjustmentESignaturePopup = () => lazyLoad(() => import('@/pages${import.meta.env.BASE_URL}popup/debt-adjustment-e-signature/page'));
+const DebtCollectionRestrictionPopup = () => lazyLoad(() => import('@/pages${import.meta.env.BASE_URL}popup/debt-collection-restriction/page'));
+const DocumentSearchPopup = () => lazyLoad(() => import('@/pages${import.meta.env.BASE_URL}popup/document-search/page'));
+const EarlyWarningPopup = () => lazyLoad(() => import('@/pages${import.meta.env.BASE_URL}popup/early-warning/page'));
+const ExcelDownloadPopup = () => lazyLoad(() => import('@/pages${import.meta.env.BASE_URL}popup/excel-download/page'));
+const IssuanceHistoryPopup = () => lazyLoad(() => import('@/pages${import.meta.env.BASE_URL}popup/issuance-history/page'));
+const MessageTypePopup = () => lazyLoad(() => import('@/pages${import.meta.env.BASE_URL}popup/message-type/page'));
+const ModificationHistoryPopup = () => lazyLoad(() => import('@/pages${import.meta.env.BASE_URL}popup/modification-history/page'));
+const MultiExcelDownloadPopup = () => lazyLoad(() => import('@/pages${import.meta.env.BASE_URL}popup/multi-excel-download/page'));
+const RealEstateAuctionPopup = () => lazyLoad(() => import('@/pages${import.meta.env.BASE_URL}popup/real-estate-auction/page'));
+const SendDMPopup = () => lazyLoad(() => import('@/pages${import.meta.env.BASE_URL}popup/send-dm/page'));
+const SendSMSPopup = () => lazyLoad(() => import('@/pages${import.meta.env.BASE_URL}popup/send-sms/page'));
+const SpecificInfoInquiryPopup = () => lazyLoad(() => import('@/pages${import.meta.env.BASE_URL}popup/specific-info-inquiry/page'));
+const TransactionHistoryPopup = () => lazyLoad(() => import('@/pages${import.meta.env.BASE_URL}popup/transaction-history/page'));
+const UnprocessedAmountProcessingPopup = () => lazyLoad(() => import('@/pages${import.meta.env.BASE_URL}popup/unprocessed-amount-processing/page'));
+const Form7Popup = () => lazyLoad(() => import('@/pages${import.meta.env.BASE_URL}popup/form-7/page'));
+const LoanConditionsPopup = () => lazyLoad(() => import('@/pages${import.meta.env.BASE_URL}popup/loan-conditions/page'));
+const CreditRepaymentPopup = () => lazyLoad(() => import('@/pages${import.meta.env.BASE_URL}popup/credit-repayment/page'));
+const VisitRegistrationPopup = () => lazyLoad(() => import('@/pages${import.meta.env.BASE_URL}popup/visit-registration/page'));
+const CounselingRegistrationPopup = () => lazyLoad(() => import('@/pages${import.meta.env.BASE_URL}popup/counseling-registration/page'));
+const FavoritesManagementPopup = () => lazyLoad(() => import('@/pages${import.meta.env.BASE_URL}popup/favorites-management/page'));
 
 export const router = createBrowserRouter([
   // Login page (standalone, no layout)
@@ -215,3 +215,4 @@ export const router = createBrowserRouter([
     ],
   },
 ], { basename: import.meta.env.BASE_URL });
+

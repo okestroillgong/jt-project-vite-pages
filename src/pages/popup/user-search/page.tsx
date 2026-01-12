@@ -7,7 +7,7 @@ import { FilterContainer } from "@/components/filters/FilterContainer";
 import { PopupRightActions, PopupAction } from "@/components/app/PopupRightActions";
 import type { FilterLayout } from "@/components/filters/types";
 import { ColumnDef } from "@tanstack/react-table";
-import { postPopupMessage, listenForPopupMessages } from "@/lib/popup-bus";
+import { postPopupMessage, listenForPopupMessages } from "@/lib${import.meta.env.BASE_URL}popup-bus";
 
 // Data type for the table
 type UserData = {

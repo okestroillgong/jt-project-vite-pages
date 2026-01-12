@@ -1,8 +1,27 @@
+import { useEffect } from "react";
+import { useRouter } from "@/lib/hooks/useAppLocation";
+import { useTabStore } from "@/lib/store/tabs";
 import { LeftActions } from "@/components/app/LeftActions";
-import { RightActions } from "@/components/app/RightActions";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 export default function DashboardDefaultPage() {
+  const router = useRouter();
+  const { tabs, addTab, _hasHydrated } = useTabStore();
+
+  useEffect(() => {
+    // Wait for hydration to complete
+    if (!_hasHydrated) return;
+
+    // If no tabs exist, open "채권상담" as default
+    if (tabs.length === 0) {
+      const defaultPath = "/counseling/general-counseling/bond-counseling";
+      addTab({ id: defaultPath, label: "채권상담", path: defaultPath });
+      // Wait for state update before routing
+      queueMicrotask(() => {
+        router.push(defaultPath);
+      });
+    }
+  }, [_hasHydrated, tabs.length, addTab, router]);
+
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold">메인 대시보드</h1>

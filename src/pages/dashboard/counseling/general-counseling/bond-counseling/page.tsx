@@ -17,7 +17,7 @@ import { FilterDateRange } from "@/components/filters/FilterDateRange";
 import { RightActions } from "@/components/app/RightActions";
 import type { FilterLayout } from "@/components/filters/types";
 import { usePageStore } from "@/lib/store/pageStore";
-import { listenForPopupMessages } from "@/lib/popup-bus";
+import { listenForPopupMessages } from "@/lib${import.meta.env.BASE_URL}popup-bus";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -1141,26 +1141,26 @@ export default function BondCounselingPage() {
         className="w-[100px] h-[32px] rounded-md text-xs font-medium shadow-sm transition-colors border bg-[#e8e7e3] hover:bg-[#dcdbd7] text-black border-[#d1d0cc]"
         onClick={() => {
           const popupConfigs: Record<string, { width: number; height: number; path: string; tab?: string }> = {
-            "?뚮┝??SMS": { width: 1000, height: 800, path: "/popup/send-sms" },
-            "DM諛쒖넚": { width: 1000, height: 800, path: "/popup/send-dm" },
-            "?異쒖“嫄?: { width: 1600, height: 900, path: "/popup/loan-conditions" },
-            "?ъ떊?곹솚": { width: 1600, height: 900, path: "/popup/credit-repayment" },
-            "?ъ떊?먯옣": { width: 1600, height: 800, path: "/popup/credit-ledger" },
-            "嫄곕옒?댁뿭": { width: 1600, height: 800, path: "/popup/transaction-history" },
-            "議곌린寃쎈낫": { width: 1200, height: 800, path: "/popup/early-warning" },
-            "遺?숈궛寃쎈ℓ?뺣낫": { width: 1400, height: 800, path: "/popup/real-estate-auction" },
-            "諛쒓툒?댁뿭": { width: 1400, height: 800, path: "/popup/issuance-history" },
-            "?섏젙?뺣낫": { width: 1000, height: 600, path: "/popup/correction-history" },
-            "諛⑸Ц?깅줉": { width: 800, height: 400, path: "/popup/visit-registration" },
-            "異붿떖?곕씫?쒗븳": { width: 1200, height: 600, path: "/popup/debt-collection-restriction" },
-            "二쇱냼寃利?: { width: 1000, height: 600, path: "/popup/address-verification" },
-            "?곷떞?깅줉": { width: 1200, height: 800, path: "/popup/counseling-registration" },
-            "?뱀젙?뺣낫議고쉶": { width: 1200, height: 600, path: "/popup/specific-info-inquiry" },
-            "硫붿꽭吏?좏삎": { width: 1000, height: 600, path: "/popup/message-type" },
-            "怨좉컼愿由ъ퐫??: { width: 1600, height: 800, path: "/popup/customer-management-code" },
-            "梨꾨Т議곗젙": { width: 1600, height: 900, path: "/popup/debt-adjustment-management" },
-            "7?몄꽌??: { width: 1400, height: 900, path: "/popup/form-7", tab: "form7" },
-            "10?몄꽌??: { width: 1400, height: 900, path: "/popup/form-7", tab: "form10" },
+            "?뚮┝??SMS": { width: 1000, height: 800, path: "${import.meta.env.BASE_URL}popup/send-sms" },
+            "DM諛쒖넚": { width: 1000, height: 800, path: "${import.meta.env.BASE_URL}popup/send-dm" },
+            "?異쒖“嫄?: { width: 1600, height: 900, path: "${import.meta.env.BASE_URL}popup/loan-conditions" },
+            "?ъ떊?곹솚": { width: 1600, height: 900, path: "${import.meta.env.BASE_URL}popup/credit-repayment" },
+            "?ъ떊?먯옣": { width: 1600, height: 800, path: "${import.meta.env.BASE_URL}popup/credit-ledger" },
+            "嫄곕옒?댁뿭": { width: 1600, height: 800, path: "${import.meta.env.BASE_URL}popup/transaction-history" },
+            "議곌린寃쎈낫": { width: 1200, height: 800, path: "${import.meta.env.BASE_URL}popup/early-warning" },
+            "遺?숈궛寃쎈ℓ?뺣낫": { width: 1400, height: 800, path: "${import.meta.env.BASE_URL}popup/real-estate-auction" },
+            "諛쒓툒?댁뿭": { width: 1400, height: 800, path: "${import.meta.env.BASE_URL}popup/issuance-history" },
+            "?섏젙?뺣낫": { width: 1000, height: 600, path: "${import.meta.env.BASE_URL}popup/correction-history" },
+            "諛⑸Ц?깅줉": { width: 800, height: 400, path: "${import.meta.env.BASE_URL}popup/visit-registration" },
+            "異붿떖?곕씫?쒗븳": { width: 1200, height: 600, path: "${import.meta.env.BASE_URL}popup/debt-collection-restriction" },
+            "二쇱냼寃利?: { width: 1000, height: 600, path: "${import.meta.env.BASE_URL}popup/address-verification" },
+            "?곷떞?깅줉": { width: 1200, height: 800, path: "${import.meta.env.BASE_URL}popup/counseling-registration" },
+            "?뱀젙?뺣낫議고쉶": { width: 1200, height: 600, path: "${import.meta.env.BASE_URL}popup/specific-info-inquiry" },
+            "硫붿꽭吏?좏삎": { width: 1000, height: 600, path: "${import.meta.env.BASE_URL}popup/message-type" },
+            "怨좉컼愿由ъ퐫??: { width: 1600, height: 800, path: "${import.meta.env.BASE_URL}popup/customer-management-code" },
+            "梨꾨Т議곗젙": { width: 1600, height: 900, path: "${import.meta.env.BASE_URL}popup/debt-adjustment-management" },
+            "7?몄꽌??: { width: 1400, height: 900, path: "${import.meta.env.BASE_URL}popup/form-7", tab: "form7" },
+            "10?몄꽌??: { width: 1400, height: 900, path: "${import.meta.env.BASE_URL}popup/form-7", tab: "form10" },
           };
 
           const config = popupConfigs[label];

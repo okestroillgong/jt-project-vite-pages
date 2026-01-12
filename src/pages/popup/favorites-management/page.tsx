@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { useSearchParams } from "@/lib/hooks/useAppLocation";
 import {
   CustomTabs as Tabs,
@@ -11,6 +11,7 @@ import { FolderTree } from "@/components/app/FolderTree";
 import { useFavoritesStore, FavoriteFolder, FavoriteItem } from "@/lib/store/favoritesStore";
 import type { FilterLayout } from "@/components/filters/types";
 import { toast } from "sonner";
+import { getPageNameOrFallback } from "@/lib/utils/pageNames";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -69,6 +70,33 @@ export default function FavoritesManagementPopupPage() {
     }
   }, [pageId, pageName]);
 
+  // Ref to store beforeunload handler for removal
+  const beforeUnloadHandlerRef = useRef<((e: BeforeUnloadEvent) => void) | null>(null);
+
+  // Handle browser close button (X) with beforeunload
+  useEffect(() => {
+    // Remove previous handler if exists
+    if (beforeUnloadHandlerRef.current) {
+      window.removeEventListener('beforeunload', beforeUnloadHandlerRef.current);
+    }
+
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (hasChanges) {
+        e.preventDefault();
+        // Browser will show default confirmation dialog
+        e.returnValue = '변경사항이 있습니다. 저장하지 않고 닫으시겠습니까?';
+        return e.returnValue;
+      }
+    };
+
+    beforeUnloadHandlerRef.current = handleBeforeUnload;
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [hasChanges]);
+
   const handleFilterChange = useCallback((name: string, value: any) => {
     setFilters((prev) => ({ ...prev, [name]: value }));
   }, []);
@@ -76,7 +104,7 @@ export default function FavoritesManagementPopupPage() {
   // Handle adding a favorite (to draft)
   const handleAddFavorite = useCallback(() => {
     const id = filters.pageId;
-    const label = filters.pageName || id.split("/").pop() || "페이지";
+    const label = filters.pageName || getPageNameOrFallback(id);
 
     if (!id) {
       toast.error("화면ID를 입력해주세요.");
@@ -158,10 +186,10 @@ export default function FavoritesManagementPopupPage() {
     setHasChanges(true);
   }, []);
 
-  const handleDraftDeleteFolder = useCallback((folderId: string) => {
+  const handleDraftDeleteFolder = useCallback((folderId: string): number => {
     if (folderId === "root") {
       toast.error("기본 폴더는 삭제할 수 없습니다.");
-      return;
+      return 0;
     }
 
     // Get all descendant folder IDs
@@ -172,10 +200,20 @@ export default function FavoritesManagementPopupPage() {
 
     const folderIdsToRemove = [folderId, ...getDescendantIds(folderId)];
 
+    // Count favorites to be deleted
+    const favoritesToRemove = draftFavorites.filter((f) =>
+      folderIdsToRemove.includes(f.folderId)
+    ).length;
+
+    // Total deleted = folders + favorites
+    const totalDeleted = folderIdsToRemove.length + favoritesToRemove;
+
     setDraftFolders((prev) => prev.filter((f) => !folderIdsToRemove.includes(f.id)));
     setDraftFavorites((prev) => prev.filter((f) => !folderIdsToRemove.includes(f.folderId)));
     setHasChanges(true);
-  }, [draftFolders]);
+
+    return totalDeleted;
+  }, [draftFolders, draftFavorites]);
 
   const handleDraftRenameFolder = useCallback((folderId: string, name: string) => {
     if (folderId === "root") return;
@@ -200,8 +238,8 @@ export default function FavoritesManagementPopupPage() {
           toast.error("기본 폴더는 삭제할 수 없습니다.");
           return;
         }
-        handleDraftDeleteFolder(id);
-        deletedCount++;
+        // handleDraftDeleteFolder returns total deleted count (folder + children + favorites)
+        deletedCount += handleDraftDeleteFolder(id);
       } else {
         handleDraftDeleteFavorite(id);
         deletedCount++;
@@ -217,6 +255,11 @@ export default function FavoritesManagementPopupPage() {
   // Save and close
   const handleSaveAndClose = useCallback(() => {
     replaceAll(draftFolders, draftFavorites);
+    // Remove beforeunload handler before closing to prevent browser confirmation
+    if (beforeUnloadHandlerRef.current) {
+      window.removeEventListener('beforeunload', beforeUnloadHandlerRef.current);
+      beforeUnloadHandlerRef.current = null;
+    }
     toast.success("즐겨찾기가 저장되었습니다.");
     window.close();
   }, [draftFolders, draftFavorites, replaceAll]);
@@ -233,6 +276,11 @@ export default function FavoritesManagementPopupPage() {
   // Close without saving (confirmed)
   const handleCloseConfirmed = useCallback(() => {
     setShowCloseConfirm(false);
+    // Remove beforeunload handler before closing
+    if (beforeUnloadHandlerRef.current) {
+      window.removeEventListener('beforeunload', beforeUnloadHandlerRef.current);
+      beforeUnloadHandlerRef.current = null;
+    }
     window.close();
   }, []);
 
