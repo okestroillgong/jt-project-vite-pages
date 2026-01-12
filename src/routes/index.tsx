@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom';
+﻿import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import RootLayout from '@/layouts/RootLayout';
 import DashboardLayout from '@/layouts/DashboardLayout';
@@ -214,4 +214,4 @@ export const router = createBrowserRouter([
       },
     ],
   },
-]);
+], { basename: import.meta.env.BASE_URL });
