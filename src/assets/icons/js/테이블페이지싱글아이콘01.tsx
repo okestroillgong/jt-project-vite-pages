@@ -1,0 +1,15 @@
+import * as React from "react";
+import type { SVGProps } from "react";
+const Svg01 = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={24}
+    height={24}
+    fill="#1f1f1f"
+    viewBox="0 -960 960 960"
+    {...props}
+  >
+    <path d="M640-80 240-480l400-400 71 71-329 329 329 329z" />
+  </svg>
+);
+export default Svg01;
